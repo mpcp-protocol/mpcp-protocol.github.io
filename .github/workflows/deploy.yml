@@ -1,0 +1,67 @@
+# Deploy unified MPCP docs to https://mpcp-protocol.github.io/
+# Site structure: / (landing) | /spec | /reference
+name: Deploy Docs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [deploy-docs]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout org site
+        uses: actions/checkout@v4
+
+      - name: Checkout mpcp-spec
+        uses: actions/checkout@v4
+        with:
+          repository: mpcp-protocol/mpcp-spec
+          path: mpcp-spec
+
+      - name: Checkout mpcp-reference
+        uses: actions/checkout@v4
+        with:
+          repository: mpcp-protocol/mpcp-reference
+          path: mpcp-reference
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install MkDocs
+        run: pip install -r docs-requirements.txt
+
+      - name: Build spec
+        run: |
+          cd mpcp-spec
+          pip install -r docs-requirements.txt -q
+          mkdocs build --config-file mkdocs.yml --strict
+          mv site ../_site_spec
+
+      - name: Build reference
+        run: |
+          cd mpcp-reference
+          pip install -r docs-requirements.txt -q
+          mkdocs build --config-file mkdocs.yml --strict
+          mv site ../_site_reference
+
+      - name: Assemble site
+        run: |
+          mkdir -p site
+          cp index.html site/
+          cp -r _site_spec site/spec
+          cp -r _site_reference site/reference
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
