@@ -42,14 +42,12 @@ jobs:
       - name: Build spec
         run: |
           cd mpcp-spec
-          pip install -r docs-requirements.txt -q
           mkdocs build --config-file mkdocs.yml --strict
           mv site ../_site_spec
 
       - name: Build reference
         run: |
           cd mpcp-reference
-          pip install -r docs-requirements.txt -q
           mkdocs build --config-file mkdocs.yml --strict
           mv site ../_site_reference
 
