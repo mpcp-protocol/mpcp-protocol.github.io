@@ -13,6 +13,9 @@ Unified documentation site for the Machine Payment Control Protocol (MPCP).
 
 1. Create the `mpcp-protocol.github.io` repository in the mpcp-protocol organization.
 2. Push this content to `main`.
-3. GitHub Settings → Pages → Source: **GitHub Actions**
-4. Run the "Deploy Docs" workflow (runs on push to `main`, or manually).
-4. The deploy workflow builds both sites and publishes on push to `main` or via manual trigger.
+3. **Configure Pages** (critical for /spec and /reference to work):
+   - Repo **Settings** → **Pages**
+   - **Build and deployment** → **Source**: **Deploy from a branch**
+   - **Branch**: `gh-pages` (not `main`)
+   - **Folder**: `/ (root)`
+4. Run **Actions** → **Deploy Docs** (runs on push to `main`, or trigger manually).
