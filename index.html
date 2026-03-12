@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MPCP — Machine Payment Control Protocol</title>
-  <meta name="description" content="A protocol for verifiable machine-to-service payments. Bounded authorization, deterministic verification, settlement-agnostic.">
+  <title>Machine Payment Control Protocol (MPCP)</title>
+  <meta name="description" content="The authorization layer for machine commerce. Verifiable machine-to-service payments. Bounded authorization, deterministic verification, settlement-agnostic.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -99,10 +99,17 @@
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.2;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
-    header p {
-      font-size: 1.2rem;
+    header .tagline {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+    header .subtitle {
+      font-size: 1rem;
       color: var(--text-muted);
       line-height: 1.6;
     }
@@ -130,18 +137,42 @@
     }
     section p:last-child { margin-bottom: 0; }
 
-    .chain {
+    .chain-flow {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 1rem 1.25rem;
-      font-size: 0.875rem;
-      overflow-x: auto;
+      padding: 1.5rem 2rem;
       margin: 1rem 0;
+      text-align: center;
     }
-    .chain span { color: var(--text-muted); }
-    .chain .artifact { color: var(--accent); }
-    .chain .arrow { color: var(--text-muted); margin: 0 0.35rem; }
+    .chain-flow .step {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .chain-flow .arrow {
+      color: var(--accent-dim);
+      font-size: 1.25rem;
+      margin: 0.25rem 0;
+      line-height: 1;
+    }
+    .dive-in {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      color: var(--accent);
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .dive-in:hover {
+      color: var(--text);
+      background: rgba(56, 139, 253, 0.12);
+    }
 
     .bullets {
       list-style: none;
@@ -215,8 +246,9 @@
 
   <header>
     <span class="badge">Protocol v1.0</span>
-    <h1>Machine Payment Control Protocol</h1>
-    <p>Verifiable machine-to-service payments. Bounded authorization, deterministic verification, settlement-agnostic.</p>
+    <h1>Machine Payment Control Protocol (MPCP)</h1>
+    <p class="tagline">The authorization layer for machine commerce.</p>
+    <p class="subtitle">Verifiable machine-to-service payments. Bounded authorization, deterministic verification, settlement-agnostic.</p>
   </header>
 
   <main>
@@ -228,10 +260,19 @@
     <section>
       <h2>How MPCP works</h2>
       <p>A payment is accepted only if the recipient can verify a chain of signed artifacts. Each step narrows what the machine is allowed to do.</p>
-      <div class="chain">
-        <span class="artifact">Fleet Policy</span><span class="arrow">→</span><span class="artifact">PolicyGrant</span><span class="arrow">→</span><span class="artifact">SBA</span><span class="arrow">→</span><span class="artifact">SPA</span><span class="arrow">→</span><span class="artifact">SettlementIntent</span><span class="arrow">→</span><span>Settlement</span>
+      <div class="chain-flow">
+        <div class="step">Policy</div>
+        <div class="arrow">↓</div>
+        <div class="step">Budget Authorization</div>
+        <div class="arrow">↓</div>
+        <div class="step">Payment Authorization</div>
+        <div class="arrow">↓</div>
+        <div class="step">Settlement Intent</div>
+        <div class="arrow">↓</div>
+        <div class="step">Settlement</div>
       </div>
-      <p>Machines get pre-authorized spending envelopes (budgets). They can execute payments autonomously—as long as they stay within policy and budget bounds.</p>
+      <p>MPCP represents machine payments as a chain of signed authorization artifacts.</p>
+      <a href="/spec/architecture/reference-flow/" class="dive-in">Dive in → Reference flow</a>
     </section>
 
     <section>
