@@ -60,6 +60,7 @@ jobs:
         run: |
           mkdir -p site
           cp index.html site/
+          cp -r assets site/
           cp -r _site_spec site/spec
           cp -r _site_reference site/reference
           touch site/.nojekyll

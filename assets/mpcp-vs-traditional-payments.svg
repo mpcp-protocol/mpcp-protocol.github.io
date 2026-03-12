@@ -1,0 +1,109 @@
+<svg width="1400" height="700" viewBox="0 0 1400 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1400" y2="700" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="1" stop-color="#111B2E"/>
+    </linearGradient>
+
+    <linearGradient id="card" x1="0" y1="0" x2="500" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#141F36"/>
+      <stop offset="1" stop-color="#1C2A47"/>
+    </linearGradient>
+
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="700" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="700" y="70" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">
+    MPCP vs Traditional Payments
+  </text>
+  <text x="700" y="105" text-anchor="middle" fill="#AFC3E8" font-family="Inter, Arial, sans-serif" font-size="18">
+    Traditional systems execute payments. MPCP adds a verifiable authorization chain.
+  </text>
+
+  <!-- Left card -->
+  <rect x="90" y="150" width="560" height="470" rx="28" fill="url(#card)" stroke="#2A3A5E"/>
+  <text x="370" y="205" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">
+    Traditional Payment Flow
+  </text>
+  <text x="370" y="238" text-anchor="middle" fill="#9FB3D7" font-family="Inter, Arial, sans-serif" font-size="16">
+    Payment executes, but authorization logic is hidden or assumed
+  </text>
+
+  <!-- Left flow -->
+  <rect x="200" y="290" width="340" height="72" rx="18" fill="#10182B" stroke="#32466F"/>
+  <text x="370" y="334" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="600">
+    Payment Request
+  </text>
+
+  <path d="M370 370 L370 410" stroke="#6B86B5" stroke-width="4" stroke-linecap="round"/>
+
+  <rect x="200" y="420" width="340" height="72" rx="18" fill="#10182B" stroke="#32466F"/>
+  <text x="370" y="464" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="600">
+    Payment Executed
+  </text>
+
+  <text x="370" y="555" text-anchor="middle" fill="#FCA5A5" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="600">
+    Where did approval come from?
+  </text>
+  <text x="370" y="585" text-anchor="middle" fill="#FECACA" font-family="Inter, Arial, sans-serif" font-size="16">
+    Usually not portable, verifiable, or machine-native
+  </text>
+
+  <!-- Right card -->
+  <rect x="750" y="150" width="560" height="470" rx="28" fill="url(#card)" stroke="#2A3A5E"/>
+  <text x="1030" y="205" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">
+    MPCP Flow
+  </text>
+  <text x="1030" y="238" text-anchor="middle" fill="#9FB3D7" font-family="Inter, Arial, sans-serif" font-size="16">
+    Authorization is expressed as a signed, verifiable artifact chain
+  </text>
+
+  <!-- Right flow cards -->
+  <g filter="url(#glow)">
+    <rect x="870" y="275" width="320" height="56" rx="16" fill="#0F1A2D" stroke="#3B82F6"/>
+    <text x="1030" y="310" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="600">
+      PolicyGrant
+    </text>
+
+    <path d="M1030 335 L1030 360" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
+
+    <rect x="830" y="370" width="400" height="56" rx="16" fill="#0F1A2D" stroke="#3B82F6"/>
+    <text x="1030" y="405" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="600">
+      SignedBudgetAuthorization
+    </text>
+
+    <path d="M1030 430 L1030 455" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
+
+    <rect x="820" y="465" width="420" height="56" rx="16" fill="#0F1A2D" stroke="#22D3EE"/>
+    <text x="1030" y="500" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="600">
+      SignedPaymentAuthorization
+    </text>
+
+    <path d="M1030 525 L1030 550" stroke="url(#accent)" stroke-width="5" stroke-linecap="round"/>
+
+    <rect x="870" y="560" width="320" height="56" rx="16" fill="#0F1A2D" stroke="#22D3EE"/>
+    <text x="1030" y="595" text-anchor="middle" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="600">
+      Settlement
+    </text>
+  </g>
+
+  <!-- Bottom callout -->
+  <rect x="240" y="640" width="920" height="40" rx="14" fill="#0D1628" stroke="#2E426A"/>
+  <text x="700" y="666" text-anchor="middle" fill="#DDE7FF" font-family="Inter, Arial, sans-serif" font-size="18">
+    MPCP lets any verifier answer: “Was this machine actually allowed to make this payment?”
+  </text>
+</svg>

@@ -108,6 +108,19 @@
       letter-spacing: -0.01em;
     }
 
+    .diagram {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+      text-align: center;
+    }
+    .diagram img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
     /* Story sections */
     main {
       max-width: 720px;
@@ -243,6 +256,10 @@
     <h1>Machine Payment Control Protocol (MPCP)</h1>
     <p class="tagline">The authorization layer for machine commerce.</p>
   </header>
+
+  <div class="diagram">
+    <img src="/assets/mpcp-vs-traditional-payments.svg" alt="MPCP vs traditional payments" width="700" height="350">
+  </div>
 
   <main>
     <section>
