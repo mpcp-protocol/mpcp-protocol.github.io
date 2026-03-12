@@ -1,5 +1,7 @@
 # Deploy unified MPCP docs to https://mpcp-protocol.github.io/
 # Site structure: / (landing) | /spec | /reference
+#
+# Requires: Settings → Pages → Build and deployment → Source: GitHub Actions
 name: Deploy Docs
 
 on:
@@ -10,11 +12,18 @@ on:
     types: [deploy-docs]
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: pages
     steps:
       - name: Checkout org site
         uses: actions/checkout@v4
@@ -57,9 +66,18 @@ jobs:
           cp index.html site/
           cp -r _site_spec site/spec
           cp -r _site_reference site/reference
+          touch site/.nojekyll
+          # Verify structure
+          test -f site/spec/index.html || (echo "Missing site/spec/index.html" && exit 1)
+          test -f site/reference/index.html || (echo "Missing site/reference/index.html" && exit 1)
+          echo "Site structure OK:"
+          find site -name index.html | head -20
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
+        id: deployment
+        uses: actions/deploy-pages@v4
