@@ -256,10 +256,56 @@
     <h1>Machine Payment Control Protocol (MPCP)</h1>
     <p class="tagline">The authorization layer for machine commerce.</p>
   </header>
+  <section class="diagram">
+    <svg viewBox="0 0 900 420" width="100%" xmlns="http://www.w3.org/2000/svg">
+      <style>
+        .box { fill:#1a2332; stroke:#2d3a4d; stroke-width:1.5; rx:10; }
+        .label { fill:#e6edf3; font-family:'DM Sans',sans-serif; font-size:14px; text-anchor:middle; }
+        .title { fill:#8b9cb7; font-size:13px; }
+        .arrow { stroke:#58a6ff; stroke-width:2; marker-end:url(#arrowhead); }
+      </style>
 
-  <div class="diagram">
-    <img src="/assets/mpcp-vs-traditional-payments.svg" alt="MPCP vs traditional payments" width="700" height="350">
-  </div>
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="#58a6ff"/>
+        </marker>
+      </defs>
+
+      <!-- Traditional -->
+      <text x="225" y="40" class="label title">Traditional payment</text>
+      <rect x="120" y="80" width="210" height="55" class="box"/>
+      <text x="225" y="112" class="label">Payment request</text>
+
+      <line x1="225" y1="135" x2="225" y2="185" class="arrow"/>
+
+      <rect x="120" y="185" width="210" height="55" class="box"/>
+      <text x="225" y="217" class="label">Payment executed</text>
+
+      <!-- Divider -->
+      <line x1="450" y1="60" x2="450" y2="360" stroke="#2d3a4d"/>
+
+      <!-- MPCP -->
+      <text x="675" y="40" class="label title">MPCP authorization chain</text>
+
+      <rect x="560" y="70" width="230" height="45" class="box"/>
+      <text x="675" y="98" class="label">Policy</text>
+
+      <line x1="675" y1="115" x2="675" y2="155" class="arrow"/>
+
+      <rect x="560" y="155" width="230" height="45" class="box"/>
+      <text x="675" y="183" class="label">Budget Authorization</text>
+
+      <line x1="675" y1="200" x2="675" y2="240" class="arrow"/>
+
+      <rect x="560" y="240" width="230" height="45" class="box"/>
+      <text x="675" y="268" class="label">Payment Authorization</text>
+
+      <line x1="675" y1="285" x2="675" y2="325" class="arrow"/>
+
+      <rect x="560" y="325" width="230" height="45" class="box"/>
+      <text x="675" y="353" class="label">Settlement</text>
+    </svg>
+  </section>
 
   <main>
     <section>
@@ -282,6 +328,7 @@
         <div class="step">Settlement</div>
       </div>
       <p>MPCP represents machine payments as a chain of signed authorization artifacts.</p>
+      <p><strong>MPCP is to machine payments what OAuth is to API authorization.</strong></p>
       <a href="/spec/architecture/reference-flow/" class="dive-in">Dive in → Reference flow</a>
     </section>
 
