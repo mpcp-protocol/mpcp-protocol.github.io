@@ -257,7 +257,8 @@
     <p class="tagline">The authorization layer for machine commerce.</p>
   </header>
   <section class="diagram">
-    <svg viewBox="0 0 900 420" width="100%" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 900 420" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="diagram-title">
+      <title id="diagram-title">MPCP authorization chain vs traditional payment flow</title>
       <style>
         .box { fill:#1a2332; stroke:#2d3a4d; stroke-width:1.5; rx:10; }
         .label { fill:#e6edf3; font-family:'DM Sans',sans-serif; font-size:14px; text-anchor:middle; }
@@ -315,19 +316,7 @@
 
     <section>
       <h2>How MPCP works</h2>
-      <p>A payment is accepted only if the recipient can verify a chain of signed artifacts. Each step narrows what the machine is allowed to do.</p>
-      <div class="chain-flow">
-        <div class="step">Policy</div>
-        <div class="arrow">↓</div>
-        <div class="step">Budget Authorization</div>
-        <div class="arrow">↓</div>
-        <div class="step">Payment Authorization</div>
-        <div class="arrow">↓</div>
-        <div class="step">Settlement Intent</div>
-        <div class="arrow">↓</div>
-        <div class="step">Settlement</div>
-      </div>
-      <p>MPCP represents machine payments as a chain of signed authorization artifacts.</p>
+      <p>A payment is accepted only if the recipient can verify a chain of signed artifacts. Each step narrows what the machine is allowed to do. As shown above, MPCP flows from policy through budget and payment authorization to settlement.</p>
       <p><strong>MPCP is to machine payments what OAuth is to API authorization.</strong></p>
       <a href="/spec/architecture/reference-flow/" class="dive-in">View the end-to-end MPCP flow →</a>
     </section>
