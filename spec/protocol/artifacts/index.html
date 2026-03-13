@@ -332,6 +332,26 @@
     
     
       <li class="md-tabs__item">
+        <a href="../../profiles/lite-profile/" class="md-tabs__link">
+          
+  
+  
+  Profiles
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
         <a href="../../guides/build-a-machine-wallet/" class="md-tabs__link">
           
   
@@ -1210,6 +1230,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../key-resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Resolution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../anchoring/" class="md-nav__link">
         
   
@@ -1466,7 +1514,7 @@
   <span class="md-ellipsis">
     
   
-    Guides
+    Profiles
   
 
     
@@ -1479,6 +1527,123 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Profiles
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/lite-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lite Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/full-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1775,16 +1940,16 @@ Verification
 <p>The <strong>PolicyGrant</strong> is the result of policy evaluation at session entry. It defines the initial permission envelope:</p>
 <ul>
 <li><strong>allowedRails</strong> — Which payment rails (xrpl, evm, stripe, hosted) are permitted</li>
-<li><strong>allowedAssets</strong> — Which assets (IOU, ERC20, etc.) may be used</li>
+<li><strong>allowedAssets</strong> — Which assets may be used (array of <code>Asset</code> objects with <code>kind</code>, and kind-specific fields)</li>
 <li><strong>policyHash</strong> — Hash of the policy snapshot</li>
 <li><strong>expiresAt</strong> — Maximum validity for downstream artifacts</li>
 </ul>
-<p>The PolicyGrant is typically internal to the policy engine and may not be signed. Downstream artifacts (SBA, SPA) must reference the same <code>policyHash</code> and remain within these constraints.</p>
+<p>The PolicyGrant is signed by the policy authority; verifiers use <code>issuer</code> and <code>issuerKeyId</code> to resolve the policy authority public key. Downstream artifacts (SBA, SPA) must reference this PolicyGrant via <code>SBA.authorization.grantId</code> and remain within its constraints.</p>
 <hr />
 <h2 id="signedbudgetauthorization-sba">SignedBudgetAuthorization (SBA)</h2>
 <p>The <strong>SBA</strong> defines a signed spending envelope for a session or scope:</p>
 <ul>
-<li><strong>maxAmountMinor</strong> — Maximum spend in minor units (e.g., 3000 = $30.00)</li>
+<li><strong>maxAmountMinor</strong> — Maximum spend in the on-chain asset's atomic units (same denomination as <code>SPA.amount</code>). The session authority converts the fiat budget to on-chain units at SBA issuance time.</li>
 <li><strong>allowedRails</strong>, <strong>allowedAssets</strong> — Must be subsets of PolicyGrant</li>
 <li><strong>destinationAllowlist</strong> — Optional list of permitted destination addresses</li>
 <li><strong>budgetScope</strong> — SESSION, DAY, VEHICLE, or FLEET</li>
@@ -1816,8 +1981,8 @@ Verification
 <p>A verifier checks:</p>
 <ol>
 <li><strong>Schema</strong> — All artifacts are valid</li>
-<li><strong>Linkage</strong> — PolicyGrant → SBA → SPA are consistent (sessionId, policyHash, constraints)</li>
-<li><strong>Signatures</strong> — SBA and SPA signatures are valid</li>
+<li><strong>Linkage</strong> — <code>SBA.authorization.grantId</code> references a valid PolicyGrant; <code>SPA.authorization.budgetId</code> references the issuing SBA; constraint subsets are respected</li>
+<li><strong>Signatures</strong> — PolicyGrant, SBA, and SPA signatures are valid</li>
 <li><strong>Expiration</strong> — No artifact is expired</li>
 <li><strong>Settlement match</strong> — Executed settlement matches SPA (and intentHash if present)</li>
 </ol>

@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/PolicyGrant/">
+        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/profiles/full-profile/">
       
       
-        <link rel="prev" href="../anchoring/">
+        <link rel="prev" href="../lite-profile/">
       
       
-        <link rel="next" href="../SignedBudgetAuthorization/">
+        <link rel="next" href="../../guides/build-a-machine-wallet/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>PolicyGrant - MPCP Spec</title>
+        <title>Full Profile - MPCP Spec</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#policygrant" class="md-skip">
+        <a href="#full-profile-spa-intenthash-binding" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              PolicyGrant
+              Full Profile
             
           </span>
         </div>
@@ -306,13 +306,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../mpcp/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../protocol/mpcp/" class="md-tabs__link">
           
   
   
@@ -328,11 +326,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../profiles/lite-profile/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../lite-profile/" class="md-tabs__link">
           
   
   
@@ -934,31 +934,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -976,7 +973,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -994,7 +991,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mpcp/" class="md-nav__link">
+      <a href="../../protocol/mpcp/" class="md-nav__link">
         
   
   
@@ -1022,7 +1019,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../artifacts/" class="md-nav__link">
+      <a href="../../protocol/artifacts/" class="md-nav__link">
         
   
   
@@ -1050,7 +1047,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../hashing/" class="md-nav__link">
+      <a href="../../protocol/hashing/" class="md-nav__link">
         
   
   
@@ -1078,7 +1075,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../verification/" class="md-nav__link">
+      <a href="../../protocol/verification/" class="md-nav__link">
         
   
   
@@ -1106,7 +1103,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../key-resolution/" class="md-nav__link">
+      <a href="../../protocol/key-resolution/" class="md-nav__link">
         
   
   
@@ -1134,7 +1131,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../anchoring/" class="md-nav__link">
+      <a href="../../protocol/anchoring/" class="md-nav__link">
         
   
   
@@ -1142,6 +1139,294 @@
     
   
     Anchoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/PolicyGrant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PolicyGrant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/SignedBudgetAuthorization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SBA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/SignedPaymentAuthorization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SPA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/SettlementIntent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SettlementIntent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/SettlementIntentHash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SettlementIntentHash
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/FleetPolicyAuthorization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FleetPolicyAuthorization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/ArtifactBundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ArtifactBundle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profiles
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Profiles
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lite-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lite Profile
   
 
     
@@ -1178,7 +1463,7 @@
   <span class="md-ellipsis">
     
   
-    PolicyGrant
+    Full Profile
   
 
     
@@ -1196,7 +1481,7 @@
   <span class="md-ellipsis">
     
   
-    PolicyGrant
+    Full Profile
   
 
     
@@ -1222,10 +1507,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Purpose
+        Overview
       
     </span>
   </a>
@@ -1233,44 +1518,55 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
+  <a href="#when-to-use-the-full-profile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Problem
+        When to Use the Full Profile
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-lifecycle-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Lifecycle Context
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Structure
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Structure">
+    <nav class="md-nav" aria-label="When to Use the Full Profile">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#policygrant-payload" class="md-nav__link">
+  <a href="#open-settlement-environments" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PolicyGrant (payload)
+        Open Settlement Environments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispute-sensitive-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispute-Sensitive Deployments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-vendor-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Vendor Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audit-required-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audit-Required Environments
       
     </span>
   </a>
@@ -1283,10 +1579,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
+  <a href="#protection-provided" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example
+        Protection Provided
       
     </span>
   </a>
@@ -1294,10 +1590,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#policy-intersection-model" class="md-nav__link">
+  <a href="#spa-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Policy Intersection Model
+        SPA Structure
       
     </span>
   </a>
@@ -1305,10 +1601,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationship-to-sba" class="md-nav__link">
+  <a href="#verification-behavior" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship to SBA
+        Verification Behavior
       
     </span>
   </a>
@@ -1316,54 +1612,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationship-to-spa" class="md-nav__link">
+  <a href="#optional-intent-attestation-layer-ial" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship to SPA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#expiration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Expiration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-hashing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Hashing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#signing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Signing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
+        Optional: Intent Attestation Layer (IAL)
       
     </span>
   </a>
@@ -1385,291 +1637,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SignedBudgetAuthorization/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SBA
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SignedPaymentAuthorization/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SPA
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SettlementIntent/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SettlementIntent
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SettlementIntentHash/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SettlementIntentHash
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../FleetPolicyAuthorization/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    FleetPolicyAuthorization
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ArtifactBundle/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ArtifactBundle
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
-        
-          
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Profiles
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Profiles
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../profiles/lite-profile/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Lite Profile
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../profiles/full-profile/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Full Profile
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1908,10 +1875,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Purpose
+        Overview
       
     </span>
   </a>
@@ -1919,44 +1886,55 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
+  <a href="#when-to-use-the-full-profile" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Problem
+        When to Use the Full Profile
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-lifecycle-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Lifecycle Context
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Structure
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Structure">
+    <nav class="md-nav" aria-label="When to Use the Full Profile">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#policygrant-payload" class="md-nav__link">
+  <a href="#open-settlement-environments" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PolicyGrant (payload)
+        Open Settlement Environments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispute-sensitive-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispute-Sensitive Deployments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-vendor-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Vendor Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audit-required-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Audit-Required Environments
       
     </span>
   </a>
@@ -1969,10 +1947,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
+  <a href="#protection-provided" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example
+        Protection Provided
       
     </span>
   </a>
@@ -1980,10 +1958,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#policy-intersection-model" class="md-nav__link">
+  <a href="#spa-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Policy Intersection Model
+        SPA Structure
       
     </span>
   </a>
@@ -1991,10 +1969,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationship-to-sba" class="md-nav__link">
+  <a href="#verification-behavior" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship to SBA
+        Verification Behavior
       
     </span>
   </a>
@@ -2002,54 +1980,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationship-to-spa" class="md-nav__link">
+  <a href="#optional-intent-attestation-layer-ial" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship to SPA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#expiration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Expiration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-hashing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Hashing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#signing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Signing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
+        Optional: Intent Attestation Layer (IAL)
       
     </span>
   </a>
@@ -2087,248 +2021,101 @@
   
 
 
-<h1 id="policygrant">PolicyGrant</h1>
-<p>Artifact Type: MPCP:PolicyGrant</p>
-<p>Part of the <a href="../mpcp/">Machine Payment Control Protocol (MPCP)</a>.</p>
-<hr />
-<h2 id="purpose">Purpose</h2>
-<p>A <strong>PolicyGrant</strong> represents the result of a policy evaluation performed before a machine is allowed to initiate payment activity.</p>
-<p>The PolicyGrant defines the <strong>initial permission envelope</strong> for a session or payment scope. It constrains which rails, assets, and spending limits may later be authorized via MPCP artifacts such as:</p>
-<ul>
-<li><strong>SignedBudgetAuthorization (SBA)</strong></li>
-<li><strong>SignedPaymentAuthorization (SPA)</strong></li>
-</ul>
-<p>PolicyGrant is typically produced by a policy engine during an <strong>entry phase</strong> when a machine, vehicle, or agent attempts to access a service.</p>
-<p>The PolicyGrant is a <strong>signed artifact</strong>. It is signed by the policy authority; verifiers use <code>issuer</code> and <code>issuerKeyId</code> to resolve the policy authority public key for signature verification.</p>
-<hr />
-<h2 id="problem">Problem</h2>
-<p>In autonomous payment environments (vehicles, robots, AI agents), a system must determine <strong>whether payment activity is allowed before any transaction is authorized</strong>.</p>
-<p>Without a formal grant artifact:</p>
-<ul>
-<li>agents may bypass policy</li>
-<li>payment decisions may not be traceable to policy evaluation</li>
-<li>downstream authorizations cannot prove they were derived from policy</li>
-</ul>
-<p>PolicyGrant solves this by creating a <strong>verifiable policy snapshot</strong> that later artifacts must reference.</p>
-<hr />
-<h2 id="policy-lifecycle-context">Policy Lifecycle Context</h2>
-<p>Policy evaluation typically occurs in three phases:</p>
-<div class="highlight"><pre><span></span><code>PolicyGrant
-     ↓
-SignedBudgetAuthorization (SBA)
-     ↓
-SignedPaymentAuthorization (SPA)
-     ↓
-Settlement verification
+<h1 id="full-profile-spa-intenthash-binding">Full Profile — SPA + IntentHash Binding</h1>
+<p>Part of the <a href="../../protocol/mpcp/">Machine Payment Control Protocol (MPCP)</a>.</p>
+<h2 id="overview">Overview</h2>
+<p>The <strong>Full profile</strong> is an MPCP deployment configuration in which the <code>intentHash</code> field is required in the SignedPaymentAuthorization (SPA).</p>
+<p>The <code>intentHash</code> is the SHA-256 hash of the canonical settlement intent payload, computed as:</p>
+<div class="highlight"><pre><span></span><code>intentHash = SHA256(&quot;MPCP:SettlementIntent:1.0:&quot; || canonicalJson(canonicalPayload))
 </code></pre></div>
-<p>PolicyGrant establishes the <strong>upper policy boundary</strong> that subsequent artifacts must respect.</p>
-<p>For example:</p>
-<ul>
-<li>allowed rails</li>
-<li>allowed assets</li>
-<li>spending caps</li>
-<li>policy expiration</li>
-</ul>
-<p>Downstream artifacts must be <strong>subsets of the PolicyGrant constraints</strong>.</p>
+<p>This binds the SPA to a specific, deterministic description of the settlement transaction. Mutation of any field in the canonical payload — destination, amount, asset, memo, or other fields — invalidates the authorization binding and causes verification to fail.</p>
 <hr />
-<h2 id="structure">Structure</h2>
-<h3 id="policygrant-payload">PolicyGrant (payload)</h3>
+<h2 id="when-to-use-the-full-profile">When to Use the Full Profile</h2>
+<p>The Full profile is appropriate when one or more of the following conditions apply:</p>
+<h3 id="open-settlement-environments">Open Settlement Environments</h3>
+<p>Multiple vendors, operators, or intermediaries participate in the settlement pipeline. Without <code>intentHash</code> binding, a party in the middle could substitute or modify settlement instructions without invalidating the authorization.</p>
+<h3 id="dispute-sensitive-deployments">Dispute-Sensitive Deployments</h3>
+<p>When payment disputes require cryptographic proof that the executed transaction matches the authorized intent, the <code>intentHash</code> provides an irrefutable binding between the SPA and the settlement. Combined with optional Intent Attestation Layer (IAL) anchoring, the commitment can be proven to have existed prior to settlement.</p>
+<h3 id="multi-vendor-infrastructure">Multi-Vendor Infrastructure</h3>
+<p>A fleet operator, infrastructure operator, and payment service are distinct parties. Each stage of the pipeline is operated independently, increasing the surface area for substitution attacks. <code>intentHash</code> ensures that the settlement intent issued by one party cannot be modified by another.</p>
+<h3 id="audit-required-environments">Audit-Required Environments</h3>
+<p>Regulatory or contractual requirements demand a complete audit trail linking each payment authorization to the specific settlement transaction parameters, including fields beyond rail/asset/amount/destination.</p>
+<hr />
+<h2 id="protection-provided">Protection Provided</h2>
 <table>
 <thead>
 <tr>
-<th>Field</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
+<th>Check</th>
+<th>Protected</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>version</td>
-<td>string</td>
-<td>yes</td>
-<td>MPCP semantic version (e.g. "1.0")</td>
+<td>Rail</td>
+<td>Yes — SPA.rail checked against executed transaction</td>
 </tr>
 <tr>
-<td>grantId</td>
-<td>string</td>
-<td>yes</td>
-<td>Unique identifier for the grant</td>
+<td>Asset</td>
+<td>Yes — SPA.asset checked against executed transaction</td>
 </tr>
 <tr>
-<td>policyHash</td>
-<td>string</td>
-<td>yes</td>
-<td>SHA-256 hash of the canonical policy document from which this grant was issued. Computed as <code>SHA256("MPCP:Policy:&lt;version&gt;:" \|\| canonicalJson(policyDocument))</code>. Downstream artifacts (SBA, SPA) MUST carry the same value.</td>
+<td>Amount</td>
+<td>Yes — SPA.amount checked against executed transaction</td>
 </tr>
 <tr>
-<td>subjectId</td>
-<td>string</td>
-<td>yes</td>
-<td>Identifier of the entity receiving the grant (vehicle, agent, wallet, etc.)</td>
+<td>Destination</td>
+<td>Yes — SPA.destination checked against executed transaction</td>
 </tr>
 <tr>
-<td>operatorId</td>
-<td>string</td>
-<td>optional</td>
-<td>Service operator identifier</td>
+<td>Memo / metadata</td>
+<td>Yes — included in canonical payload, mutation invalidates intentHash</td>
 </tr>
 <tr>
-<td>scope</td>
-<td>string</td>
-<td>yes</td>
-<td>Scope of the grant (SESSION, VEHICLE, FLEET, etc.)</td>
-</tr>
-<tr>
-<td>allowedRails</td>
-<td>Rail[]</td>
-<td>yes</td>
-<td>Payment rails permitted by policy</td>
-</tr>
-<tr>
-<td>allowedAssets</td>
-<td>Asset[]</td>
-<td>conditional</td>
-<td>Allowed assets for on-chain rails</td>
-</tr>
-<tr>
-<td>maxSpend</td>
-<td>object</td>
-<td>optional</td>
-<td>Spending caps defined by policy</td>
-</tr>
-<tr>
-<td>expiresAt</td>
-<td>string</td>
-<td>yes</td>
-<td>ISO 8601 expiration timestamp</td>
-</tr>
-<tr>
-<td>requireApproval</td>
-<td>boolean</td>
-<td>optional</td>
-<td>Indicates that further approval is required before payment</td>
-</tr>
-<tr>
-<td>reasons</td>
-<td>string[]</td>
-<td>optional</td>
-<td>Policy evaluation reasons</td>
-</tr>
-<tr>
-<td>issuer</td>
-<td>string</td>
-<td>yes</td>
-<td>Identifier for the policy authority (e.g. DID, domain, or registry ID). Verifiers use this to resolve the signing key.</td>
-</tr>
-<tr>
-<td>issuerKeyId</td>
-<td>string</td>
-<td>yes</td>
-<td>Identifies the specific key used to sign (for deployments with multiple keys per issuer).</td>
-</tr>
-<tr>
-<td>signature</td>
-<td>string</td>
-<td>yes</td>
-<td>Cryptographic signature over the canonical JSON of the grant payload (all fields except <code>signature</code>).</td>
+<td>Full payload mutation</td>
+<td>Yes — any deviation from the canonical intent fails verification</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="example">Example</h2>
+<h2 id="spa-structure">SPA Structure</h2>
+<p>A Full profile SPA includes <code>intentHash</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_7ab3&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9f3a0d...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;subjectId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vehicle_1284&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;operatorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator_12&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;stripe&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">}],</span>
-<span class="w">  </span><span class="nt">&quot;maxSpend&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;perTxMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5000&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;perSessionMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20000&quot;</span>
+<span class="w">  </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec_123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a1b2c3...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;quoteId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quote_789&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;e3b0c44298fc1c149afbf4c8996fb924...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;requireApproval&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;reasons&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;OK&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:operator.example.com&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
+<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:payments.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payment-auth-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64...&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <hr />
-<h2 id="policy-intersection-model">Policy Intersection Model</h2>
-<p>PolicyGrant may represent the intersection of multiple policy sources.</p>
-<p>Example policy layers:</p>
-<ul>
-<li>operator policy</li>
-<li>fleet policy</li>
-<li>user policy</li>
-<li>regulatory policy</li>
-</ul>
-<p>The effective policy becomes:</p>
-<div class="highlight"><pre><span></span><code>effectivePolicy =
-    operatorPolicy
- ∩  fleetPolicy
- ∩  userPolicy
- ∩  regulatoryPolicy
+<h2 id="verification-behavior">Verification Behavior</h2>
+<p>Step 3 of the MPCP verification algorithm (intent binding) is executed when <code>intentHash</code> is present.</p>
+<p>The verifier reconstructs the canonical payload from the settlement intent and confirms:</p>
+<div class="highlight"><pre><span></span><code>SHA256(&quot;MPCP:SettlementIntent:1.0:&quot; || canonicalJson(canonicalPayload)) == SPA.intentHash
 </code></pre></div>
-<p>The PolicyGrant stores the <strong>resulting effective constraints</strong>.</p>
+<p>If the hashes do not match, verification fails and the settlement is rejected.</p>
 <hr />
-<h2 id="relationship-to-sba">Relationship to SBA</h2>
-<p>A <strong>SignedBudgetAuthorization</strong> must always be a subset of the PolicyGrant.</p>
-<p>For example:</p>
-<div class="highlight"><pre><span></span><code>SBA.allowedRails ⊆ PolicyGrant.allowedRails
-SBA.allowedAssets ⊆ PolicyGrant.allowedAssets
-SBA.maxAmount ≤ PolicyGrant.maxSpend
-</code></pre></div>
-<p>The SBA must reference the same <strong>policyHash</strong> used to produce the PolicyGrant.</p>
-<hr />
-<h2 id="relationship-to-spa">Relationship to SPA</h2>
-<p>A <strong>SignedPaymentAuthorization</strong> must ultimately derive from a policy decision that was allowed by the PolicyGrant.</p>
-<p>Therefore:</p>
-<div class="highlight"><pre><span></span><code>SPA.rail ∈ PolicyGrant.allowedRails
-SPA.asset ∈ PolicyGrant.allowedAssets
-SPA.amount ≤ PolicyGrant.maxSpend
-</code></pre></div>
-<hr />
-<h2 id="expiration">Expiration</h2>
-<p>PolicyGrant defines the <strong>maximum validity window</strong> for downstream artifacts.</p>
-<p>Implementations MUST ensure:</p>
-<ul>
-<li>SBA expiration does not exceed PolicyGrant expiration</li>
-<li>SPA expiration does not exceed PolicyGrant expiration</li>
-</ul>
-<hr />
-<h2 id="policy-hashing">Policy Hashing</h2>
-<p><code>policyHash</code> is the SHA-256 hash of the canonical policy document from which the PolicyGrant was issued.</p>
-<p>The policy document is the structured representation of the rules evaluated to produce the grant (operator policy, fleet policy, regulatory constraints, etc.). It MUST be serialized using MPCP canonical JSON before hashing.</p>
-<p>Computation:</p>
-<div class="highlight"><pre><span></span><code>policyHash = SHA256(&quot;MPCP:Policy:&lt;version&gt;:&quot; || canonicalJson(policyDocument))
-</code></pre></div>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code>policyHash = SHA256(&quot;MPCP:Policy:1.0:&quot; || &#39;{&quot;allowedAssets&quot;:[...],&quot;allowedRails&quot;:[...],...}&#39;)
-</code></pre></div>
-<p>The <code>policyHash</code> is not a hash of the PolicyGrant artifact itself — it is a hash of the <strong>source policy</strong> that the grant was derived from.</p>
-<p>Downstream artifacts (SBA and SPA) MUST carry the same <code>policyHash</code>. During settlement verification, the verifier checks that <code>PolicyGrant.policyHash</code>, <code>SBA.policyHash</code>, and <code>SPA.policyHash</code> are all equal, confirming the entire authorization chain derives from the same policy snapshot.</p>
-<hr />
-<h2 id="signing">Signing</h2>
-<p>PolicyGrant MUST be cryptographically signed. The policy authority signs the grant; verifiers resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> via the HTTPS well-known endpoint or pre-configured keys. See <a href="../key-resolution/">Key Resolution</a>.</p>
-<p>The signed payload is the canonical JSON of all grant fields except <code>signature</code>:</p>
-<div class="highlight"><pre><span></span><code>hash = SHA256(&quot;MPCP:PolicyGrant:&lt;version&gt;:&quot; || canonicalJson(grantPayload))
-signature = sign(hash, policyAuthorityPrivateKey)
-</code></pre></div>
-<p>If signature verification fails, the verifier MUST reject the grant.</p>
-<hr />
-<h2 id="summary">Summary</h2>
-<p>PolicyGrant establishes the <strong>policy boundary</strong> for machine payments.</p>
-<p>It ensures that downstream artifacts (SBA and SPA) are always derived from a <strong>validated policy evaluation</strong>.</p>
+<h2 id="optional-intent-attestation-layer-ial">Optional: Intent Attestation Layer (IAL)</h2>
+<p>Full profile deployments may additionally publish the <code>intentHash</code> to the Intent Attestation Layer (IAL) before settlement execution. This creates a timestamped, tamper-evident public record that the commitment existed prior to the transaction, enabling third-party dispute resolution.</p>
+<p>See <a href="../../protocol/anchoring/">Anchoring</a> for the IAL integration specification.</p>
 <hr />
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../../architecture/reference-flow/">MPCP Reference Flow — EV Charging</a> — Demonstrates how PolicyGrant is used during runtime authorization.</li>
+<li><a href="../lite-profile/">Lite Profile</a> — SPA-only settlement binding</li>
+<li><a href="../../protocol/SignedPaymentAuthorization/">SignedPaymentAuthorization</a></li>
+<li><a href="../../protocol/SettlementIntentHash/">SettlementIntentHash</a></li>
+<li><a href="../../protocol/anchoring/">Anchoring</a></li>
 </ul>
 
 

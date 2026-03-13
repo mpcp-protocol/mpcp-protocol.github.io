@@ -332,6 +332,26 @@
     
     
       <li class="md-tabs__item">
+        <a href="../../profiles/lite-profile/" class="md-tabs__link">
+          
+  
+  
+  Profiles
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
         <a href="../../guides/build-a-machine-wallet/" class="md-tabs__link">
           
   
@@ -1166,6 +1186,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../protocol/key-resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Resolution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../protocol/anchoring/" class="md-nav__link">
         
   
@@ -1422,7 +1470,7 @@
   <span class="md-ellipsis">
     
   
-    Guides
+    Profiles
   
 
     
@@ -1435,6 +1483,123 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Profiles
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/lite-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lite Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/full-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1669,7 +1834,7 @@
 
 
 <h1 id="mpcp-authorization-chain">MPCP Authorization Chain</h1>
-<p>The <strong>authorization chain</strong> is the core visual model for MPCP. Each step produces a verifiable artifact that constrains the next. Machines spend within bounds established upstream—no per-transaction approval required.</p>
+<p>The <strong>authorization chain</strong> is the core visual model for MPCP. Each step produces a verifiable artifact that constrains the next. PolicyGrant, SignedBudgetAuthorization, and SignedPaymentAuthorization are cryptographically signed; verifiers validate all three signatures before accepting settlement. Machines spend within bounds established upstream—no per-transaction approval required.</p>
 <div class="highlight"><pre><span></span><code>PolicyGrant
 ↓
 SignedBudgetAuthorization

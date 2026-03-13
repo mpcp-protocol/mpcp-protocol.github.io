@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/PolicyGrant/">
+        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/key-resolution/">
       
       
-        <link rel="prev" href="../anchoring/">
+        <link rel="prev" href="../verification/">
       
       
-        <link rel="next" href="../SignedBudgetAuthorization/">
+        <link rel="next" href="../anchoring/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>PolicyGrant - MPCP Spec</title>
+        <title>Key Resolution - MPCP Spec</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#policygrant" class="md-skip">
+        <a href="#key-resolution" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              PolicyGrant
+              Key Resolution
             
           </span>
         </div>
@@ -1103,10 +1103,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../key-resolution/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Resolution
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1122,6 +1149,192 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#canonical-key-format-jwk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Canonical Key Format: JWK
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Canonical Key Format: JWK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ed25519-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ed25519 (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secp256k1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        secp256k1
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#https-well-known-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPS Well-Known Endpoint
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTPS Well-Known Endpoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deriving-the-url-from-issuer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deriving the URL from issuer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-set-document-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Set Document Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-response-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP Response Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolution Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pre-configured-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Configured Keys
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#did-and-verifiable-credentials-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DID and Verifiable Credentials (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Codes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1159,37 +1372,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    PolicyGrant
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../PolicyGrant/" class="md-nav__link">
         
   
   
@@ -1205,186 +1391,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Purpose
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Problem
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-lifecycle-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Lifecycle Context
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Structure
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Structure">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#policygrant-payload" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PolicyGrant (payload)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-intersection-model" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Intersection Model
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#relationship-to-sba" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Relationship to SBA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#relationship-to-spa" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Relationship to SPA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#expiration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Expiration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-hashing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Hashing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#signing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Signing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See Also
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1908,10 +1914,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Purpose
+        Overview
       
     </span>
   </a>
@@ -1919,44 +1925,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
+  <a href="#canonical-key-format-jwk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Problem
+        Canonical Key Format: JWK
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-lifecycle-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Lifecycle Context
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Structure
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Structure">
+    <nav class="md-nav" aria-label="Canonical Key Format: JWK">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#policygrant-payload" class="md-nav__link">
+  <a href="#ed25519-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PolicyGrant (payload)
+        Ed25519 (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secp256k1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        secp256k1
       
     </span>
   </a>
@@ -1969,10 +1964,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
+  <a href="#https-well-known-endpoint" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example
+        HTTPS Well-Known Endpoint
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTPS Well-Known Endpoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deriving-the-url-from-issuer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deriving the URL from issuer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-set-document-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Set Document Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-response-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP Response Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolution Algorithm
       
     </span>
   </a>
@@ -1980,10 +2036,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#policy-intersection-model" class="md-nav__link">
+  <a href="#pre-configured-keys" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Policy Intersection Model
+        Pre-Configured Keys
       
     </span>
   </a>
@@ -1991,10 +2047,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationship-to-sba" class="md-nav__link">
+  <a href="#did-and-verifiable-credentials-optional" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship to SBA
+        DID and Verifiable Credentials (Optional)
       
     </span>
   </a>
@@ -2002,54 +2058,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationship-to-spa" class="md-nav__link">
+  <a href="#error-codes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship to SPA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#expiration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Expiration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-hashing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Hashing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#signing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Signing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
+        Error Codes
       
     </span>
   </a>
@@ -2087,248 +2099,219 @@
   
 
 
-<h1 id="policygrant">PolicyGrant</h1>
-<p>Artifact Type: MPCP:PolicyGrant</p>
+<h1 id="key-resolution">Key Resolution</h1>
 <p>Part of the <a href="../mpcp/">Machine Payment Control Protocol (MPCP)</a>.</p>
-<hr />
-<h2 id="purpose">Purpose</h2>
-<p>A <strong>PolicyGrant</strong> represents the result of a policy evaluation performed before a machine is allowed to initiate payment activity.</p>
-<p>The PolicyGrant defines the <strong>initial permission envelope</strong> for a session or payment scope. It constrains which rails, assets, and spending limits may later be authorized via MPCP artifacts such as:</p>
+<h2 id="overview">Overview</h2>
+<p>MPCP artifacts carry two fields that identify the signing authority:</p>
 <ul>
-<li><strong>SignedBudgetAuthorization (SBA)</strong></li>
-<li><strong>SignedPaymentAuthorization (SPA)</strong></li>
+<li><code>issuer</code> — identifies the authority (domain, HTTPS URL, or DID)</li>
+<li><code>issuerKeyId</code> — selects the specific key within that authority's key set</li>
 </ul>
-<p>PolicyGrant is typically produced by a policy engine during an <strong>entry phase</strong> when a machine, vehicle, or agent attempts to access a service.</p>
-<p>The PolicyGrant is a <strong>signed artifact</strong>. It is signed by the policy authority; verifiers use <code>issuer</code> and <code>issuerKeyId</code> to resolve the policy authority public key for signature verification.</p>
+<p>Verifiers use these two fields to retrieve the public key required to validate the artifact signature.</p>
+<p>MPCP defines <strong>HTTPS well-known</strong> as the baseline key resolution mechanism. All conforming implementations MUST support it. DID resolution and Verifiable Credentials are optional higher-level mechanisms that deployments MAY use in addition.</p>
 <hr />
-<h2 id="problem">Problem</h2>
-<p>In autonomous payment environments (vehicles, robots, AI agents), a system must determine <strong>whether payment activity is allowed before any transaction is authorized</strong>.</p>
-<p>Without a formal grant artifact:</p>
-<ul>
-<li>agents may bypass policy</li>
-<li>payment decisions may not be traceable to policy evaluation</li>
-<li>downstream authorizations cannot prove they were derived from policy</li>
-</ul>
-<p>PolicyGrant solves this by creating a <strong>verifiable policy snapshot</strong> that later artifacts must reference.</p>
-<hr />
-<h2 id="policy-lifecycle-context">Policy Lifecycle Context</h2>
-<p>Policy evaluation typically occurs in three phases:</p>
-<div class="highlight"><pre><span></span><code>PolicyGrant
-     ↓
-SignedBudgetAuthorization (SBA)
-     ↓
-SignedPaymentAuthorization (SPA)
-     ↓
-Settlement verification
+<h2 id="canonical-key-format-jwk">Canonical Key Format: JWK</h2>
+<p>MPCP uses <strong>JSON Web Key (JWK)</strong> format (RFC 7517) as the canonical representation for public keys.</p>
+<p>All key set documents MUST express public keys as JWK objects. Verifiers MUST accept keys in JWK format.</p>
+<h3 id="ed25519-recommended">Ed25519 (recommended)</h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-32-byte-public-key&quot;</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>PolicyGrant establishes the <strong>upper policy boundary</strong> that subsequent artifacts must respect.</p>
-<p>For example:</p>
-<ul>
-<li>allowed rails</li>
-<li>allowed assets</li>
-<li>spending caps</li>
-<li>policy expiration</li>
-</ul>
-<p>Downstream artifacts must be <strong>subsets of the PolicyGrant constraints</strong>.</p>
-<hr />
-<h2 id="structure">Structure</h2>
-<h3 id="policygrant-payload">PolicyGrant (payload)</h3>
+<h3 id="secp256k1">secp256k1</h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payment-auth-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EC&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secp256k1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-x-coordinate&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-y-coordinate&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Required JWK fields for MPCP keys:</p>
 <table>
 <thead>
 <tr>
 <th>Field</th>
-<th>Type</th>
-<th>Required</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>version</td>
-<td>string</td>
-<td>yes</td>
-<td>MPCP semantic version (e.g. "1.0")</td>
+<td><code>kid</code></td>
+<td>Key identifier. MUST match <code>issuerKeyId</code> in the artifact.</td>
 </tr>
 <tr>
-<td>grantId</td>
-<td>string</td>
-<td>yes</td>
-<td>Unique identifier for the grant</td>
+<td><code>use</code></td>
+<td>MUST be <code>"sig"</code>.</td>
 </tr>
 <tr>
-<td>policyHash</td>
-<td>string</td>
-<td>yes</td>
-<td>SHA-256 hash of the canonical policy document from which this grant was issued. Computed as <code>SHA256("MPCP:Policy:&lt;version&gt;:" \|\| canonicalJson(policyDocument))</code>. Downstream artifacts (SBA, SPA) MUST carry the same value.</td>
+<td><code>kty</code></td>
+<td>Key type. <code>"OKP"</code> for Ed25519; <code>"EC"</code> for secp256k1.</td>
 </tr>
 <tr>
-<td>subjectId</td>
-<td>string</td>
-<td>yes</td>
-<td>Identifier of the entity receiving the grant (vehicle, agent, wallet, etc.)</td>
+<td><code>crv</code></td>
+<td>Curve. <code>"Ed25519"</code> or <code>"secp256k1"</code>.</td>
 </tr>
 <tr>
-<td>operatorId</td>
-<td>string</td>
-<td>optional</td>
-<td>Service operator identifier</td>
+<td><code>x</code></td>
+<td>Public key material (base64url-encoded).</td>
 </tr>
 <tr>
-<td>scope</td>
-<td>string</td>
-<td>yes</td>
-<td>Scope of the grant (SESSION, VEHICLE, FLEET, etc.)</td>
+<td><code>y</code></td>
+<td>y-coordinate for EC keys (base64url-encoded).</td>
+</tr>
+</tbody>
+</table>
+<p>Private key material (<code>d</code>) MUST NOT be present in key set documents.</p>
+<hr />
+<h2 id="https-well-known-endpoint">HTTPS Well-Known Endpoint</h2>
+<h3 id="endpoint">Endpoint</h3>
+<div class="highlight"><pre><span></span><code>GET https://{issuer-domain}/.well-known/mpcp-keys.json
+</code></pre></div>
+<p>The endpoint MUST be served over HTTPS. Verifiers MUST validate the TLS certificate. Plaintext HTTP MUST NOT be used.</p>
+<h3 id="deriving-the-url-from-issuer">Deriving the URL from <code>issuer</code></h3>
+<table>
+<thead>
+<tr>
+<th><code>issuer</code> format</th>
+<th>Derived URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bare domain: <code>operator.example.com</code></td>
+<td><code>https://operator.example.com/.well-known/mpcp-keys.json</code></td>
 </tr>
 <tr>
-<td>allowedRails</td>
-<td>Rail[]</td>
-<td>yes</td>
-<td>Payment rails permitted by policy</td>
+<td>HTTPS URL: <code>https://operator.example.com</code></td>
+<td><code>https://operator.example.com/.well-known/mpcp-keys.json</code></td>
 </tr>
 <tr>
-<td>allowedAssets</td>
-<td>Asset[]</td>
-<td>conditional</td>
-<td>Allowed assets for on-chain rails</td>
+<td><code>did:web:operator.example.com</code></td>
+<td><code>https://operator.example.com/.well-known/mpcp-keys.json</code></td>
 </tr>
 <tr>
-<td>maxSpend</td>
-<td>object</td>
-<td>optional</td>
-<td>Spending caps defined by policy</td>
+<td><code>did:web:operator.example.com:path:to:key</code></td>
+<td><code>https://operator.example.com/path/to/key/.well-known/mpcp-keys.json</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-set-document-format">Key Set Document Format</h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;keys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-2&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EC&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secp256k1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The document is a plain JSON object. The <code>keys</code> array contains one or more JWK entries. An authority MAY publish multiple keys to support key rotation.</p>
+<h3 id="http-response-requirements">HTTP Response Requirements</h3>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content-Type</td>
+<td><code>application/json</code></td>
 </tr>
 <tr>
-<td>expiresAt</td>
-<td>string</td>
-<td>yes</td>
-<td>ISO 8601 expiration timestamp</td>
+<td>Status</td>
+<td><code>200 OK</code> for valid responses</td>
 </tr>
 <tr>
-<td>requireApproval</td>
-<td>boolean</td>
-<td>optional</td>
-<td>Indicates that further approval is required before payment</td>
+<td>Encoding</td>
+<td>UTF-8</td>
+</tr>
+</tbody>
+</table>
+<p>Verifiers SHOULD cache key set responses according to standard HTTP cache semantics (<code>Cache-Control</code>, <code>ETag</code>). Verifiers MUST revalidate cached responses before use when they have expired.</p>
+<hr />
+<h2 id="resolution-algorithm">Resolution Algorithm</h2>
+<div class="highlight"><pre><span></span><code>function resolvePublicKey(issuer, issuerKeyId):
+    url = deriveKeySetUrl(issuer)
+    keySetDoc = httpGet(url)               # HTTPS required; TLS validated
+    keys = parseKeySet(keySetDoc)
+    jwk = keys.find(k =&gt; k.kid == issuerKeyId)
+    if jwk is null:
+        raise KEY_NOT_FOUND
+    return jwk
+</code></pre></div>
+<p>If the well-known endpoint is unreachable and no pre-configured key is available, the verifier MUST fail the signature check and reject the artifact.</p>
+<hr />
+<h2 id="pre-configured-keys">Pre-Configured Keys</h2>
+<p>Implementations MAY pre-configure keys from trusted sources in lieu of or in addition to well-known lookups.</p>
+<p>Pre-configured keys are identified by <code>issuer</code> + <code>issuerKeyId</code> and expressed as JWK objects. When a pre-configured entry matches the artifact, the verifier uses it directly without fetching the well-known endpoint.</p>
+<p>This supports:</p>
+<ul>
+<li>offline and air-gapped machine wallets</li>
+<li>embedded deployments where network access is unavailable</li>
+<li>pinned deployments where key mutation must be prevented</li>
+</ul>
+<p>Pre-configured keys MUST still be expressed in JWK format.</p>
+<hr />
+<h2 id="did-and-verifiable-credentials-optional">DID and Verifiable Credentials (Optional)</h2>
+<p>Deployments MAY use decentralized identifiers (DIDs) or Verifiable Credentials (VCs) as a higher-level key binding mechanism.</p>
+<p>When the <code>issuer</code> field carries a <code>did:</code> URI other than <code>did:web:</code>, verifiers MAY use DID resolution to retrieve the key material. Resolved key material MUST still be expressed and validated as JWK.</p>
+<p>VC-based key discovery is outside the core protocol.</p>
+<p>DID resolution and VC verification are never required for MPCP compliance. Implementations that support only HTTPS well-known key resolution are fully conformant.</p>
+<hr />
+<h2 id="error-codes">Error Codes</h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KEY_NOT_FOUND</code></td>
+<td><code>issuerKeyId</code> not present in the resolved key set</td>
 </tr>
 <tr>
-<td>reasons</td>
-<td>string[]</td>
-<td>optional</td>
-<td>Policy evaluation reasons</td>
+<td><code>KEY_SET_FETCH_FAILED</code></td>
+<td>Well-known endpoint unreachable or returned non-200</td>
 </tr>
 <tr>
-<td>issuer</td>
-<td>string</td>
-<td>yes</td>
-<td>Identifier for the policy authority (e.g. DID, domain, or registry ID). Verifiers use this to resolve the signing key.</td>
+<td><code>KEY_SET_INVALID</code></td>
+<td>Key set document could not be parsed</td>
 </tr>
 <tr>
-<td>issuerKeyId</td>
-<td>string</td>
-<td>yes</td>
-<td>Identifies the specific key used to sign (for deployments with multiple keys per issuer).</td>
-</tr>
-<tr>
-<td>signature</td>
-<td>string</td>
-<td>yes</td>
-<td>Cryptographic signature over the canonical JSON of the grant payload (all fields except <code>signature</code>).</td>
+<td><code>KEY_FORMAT_INVALID</code></td>
+<td>Key entry is not a valid JWK</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="example">Example</h2>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_7ab3&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9f3a0d...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;subjectId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vehicle_1284&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;operatorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator_12&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;stripe&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">}],</span>
-<span class="w">  </span><span class="nt">&quot;maxSpend&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;perTxMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5000&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;perSessionMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20000&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;requireApproval&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;reasons&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;OK&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:operator.example.com&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<hr />
-<h2 id="policy-intersection-model">Policy Intersection Model</h2>
-<p>PolicyGrant may represent the intersection of multiple policy sources.</p>
-<p>Example policy layers:</p>
-<ul>
-<li>operator policy</li>
-<li>fleet policy</li>
-<li>user policy</li>
-<li>regulatory policy</li>
-</ul>
-<p>The effective policy becomes:</p>
-<div class="highlight"><pre><span></span><code>effectivePolicy =
-    operatorPolicy
- ∩  fleetPolicy
- ∩  userPolicy
- ∩  regulatoryPolicy
-</code></pre></div>
-<p>The PolicyGrant stores the <strong>resulting effective constraints</strong>.</p>
-<hr />
-<h2 id="relationship-to-sba">Relationship to SBA</h2>
-<p>A <strong>SignedBudgetAuthorization</strong> must always be a subset of the PolicyGrant.</p>
-<p>For example:</p>
-<div class="highlight"><pre><span></span><code>SBA.allowedRails ⊆ PolicyGrant.allowedRails
-SBA.allowedAssets ⊆ PolicyGrant.allowedAssets
-SBA.maxAmount ≤ PolicyGrant.maxSpend
-</code></pre></div>
-<p>The SBA must reference the same <strong>policyHash</strong> used to produce the PolicyGrant.</p>
-<hr />
-<h2 id="relationship-to-spa">Relationship to SPA</h2>
-<p>A <strong>SignedPaymentAuthorization</strong> must ultimately derive from a policy decision that was allowed by the PolicyGrant.</p>
-<p>Therefore:</p>
-<div class="highlight"><pre><span></span><code>SPA.rail ∈ PolicyGrant.allowedRails
-SPA.asset ∈ PolicyGrant.allowedAssets
-SPA.amount ≤ PolicyGrant.maxSpend
-</code></pre></div>
-<hr />
-<h2 id="expiration">Expiration</h2>
-<p>PolicyGrant defines the <strong>maximum validity window</strong> for downstream artifacts.</p>
-<p>Implementations MUST ensure:</p>
-<ul>
-<li>SBA expiration does not exceed PolicyGrant expiration</li>
-<li>SPA expiration does not exceed PolicyGrant expiration</li>
-</ul>
-<hr />
-<h2 id="policy-hashing">Policy Hashing</h2>
-<p><code>policyHash</code> is the SHA-256 hash of the canonical policy document from which the PolicyGrant was issued.</p>
-<p>The policy document is the structured representation of the rules evaluated to produce the grant (operator policy, fleet policy, regulatory constraints, etc.). It MUST be serialized using MPCP canonical JSON before hashing.</p>
-<p>Computation:</p>
-<div class="highlight"><pre><span></span><code>policyHash = SHA256(&quot;MPCP:Policy:&lt;version&gt;:&quot; || canonicalJson(policyDocument))
-</code></pre></div>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code>policyHash = SHA256(&quot;MPCP:Policy:1.0:&quot; || &#39;{&quot;allowedAssets&quot;:[...],&quot;allowedRails&quot;:[...],...}&#39;)
-</code></pre></div>
-<p>The <code>policyHash</code> is not a hash of the PolicyGrant artifact itself — it is a hash of the <strong>source policy</strong> that the grant was derived from.</p>
-<p>Downstream artifacts (SBA and SPA) MUST carry the same <code>policyHash</code>. During settlement verification, the verifier checks that <code>PolicyGrant.policyHash</code>, <code>SBA.policyHash</code>, and <code>SPA.policyHash</code> are all equal, confirming the entire authorization chain derives from the same policy snapshot.</p>
-<hr />
-<h2 id="signing">Signing</h2>
-<p>PolicyGrant MUST be cryptographically signed. The policy authority signs the grant; verifiers resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> via the HTTPS well-known endpoint or pre-configured keys. See <a href="../key-resolution/">Key Resolution</a>.</p>
-<p>The signed payload is the canonical JSON of all grant fields except <code>signature</code>:</p>
-<div class="highlight"><pre><span></span><code>hash = SHA256(&quot;MPCP:PolicyGrant:&lt;version&gt;:&quot; || canonicalJson(grantPayload))
-signature = sign(hash, policyAuthorityPrivateKey)
-</code></pre></div>
-<p>If signature verification fails, the verifier MUST reject the grant.</p>
-<hr />
-<h2 id="summary">Summary</h2>
-<p>PolicyGrant establishes the <strong>policy boundary</strong> for machine payments.</p>
-<p>It ensures that downstream artifacts (SBA and SPA) are always derived from a <strong>validated policy evaluation</strong>.</p>
-<hr />
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../../architecture/reference-flow/">MPCP Reference Flow — EV Charging</a> — Demonstrates how PolicyGrant is used during runtime authorization.</li>
+<li><a href="../mpcp/#signature-schemes">Signature Schemes</a></li>
+<li><a href="../PolicyGrant/">PolicyGrant</a></li>
+<li><a href="../SignedBudgetAuthorization/">SignedBudgetAuthorization</a></li>
+<li><a href="../SignedPaymentAuthorization/">SignedPaymentAuthorization</a></li>
 </ul>
 
 

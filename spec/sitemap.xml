@@ -65,6 +65,14 @@
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
+         <loc>https://mpcp-protocol.github.io/spec/profiles/full-profile/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://mpcp-protocol.github.io/spec/profiles/lite-profile/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
          <loc>https://mpcp-protocol.github.io/spec/protocol/ArtifactBundle/</loc>
          <lastmod>2026-03-13</lastmod>
     </url>
@@ -102,6 +110,10 @@
     </url>
     <url>
          <loc>https://mpcp-protocol.github.io/spec/protocol/hashing/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://mpcp-protocol.github.io/spec/protocol/key-resolution/</loc>
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>

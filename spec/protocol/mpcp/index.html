@@ -332,6 +332,26 @@
     
     
       <li class="md-tabs__item">
+        <a href="../../profiles/lite-profile/" class="md-tabs__link">
+          
+  
+  
+  Profiles
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
         <a href="../../guides/build-a-machine-wallet/" class="md-tabs__link">
           
   
@@ -1144,6 +1164,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../key-resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Resolution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../anchoring/" class="md-nav__link">
         
   
@@ -1400,7 +1448,7 @@
   <span class="md-ellipsis">
     
   
-    Guides
+    Profiles
   
 
     
@@ -1413,6 +1461,123 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Profiles
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/lite-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lite Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/full-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1675,6 +1840,126 @@
 <h3 id="optional-public-attestation">Optional Public Attestation</h3>
 <p>Intent commitments can optionally be anchored to a public ledger for additional audit guarantees.</p>
 <hr />
+<h2 id="identity-and-credentials">Identity and Credentials</h2>
+<p>MPCP verification is identity-agnostic.</p>
+<p>The protocol verifies authorization through cryptographic signatures on MPCP artifacts
+(PolicyGrant → SignedBudgetAuthorization → SignedPaymentAuthorization → SettlementIntent).</p>
+<p>Public keys are distributed via <strong>HTTPS well-known endpoints</strong> — the baseline mechanism all conforming implementations MUST support. Keys are expressed as <strong>JWK</strong> (JSON Web Key, RFC 7517).</p>
+<p>Deployments MAY additionally associate MPCP keys with decentralized identifiers (DIDs) or Verifiable Credentials (VCs), but this is never required for MPCP compliance.</p>
+<p>See <a href="../key-resolution/">Key Resolution</a> for the full specification.</p>
+<hr />
+<h2 id="artifact-issuance-and-signature-verification">Artifact Issuance and Signature Verification</h2>
+<p>Each MPCP artifact is created and signed by a specific authority responsible for that stage of the authorization pipeline.</p>
+<p>The protocol requires that every artifact signature be independently verifiable using the public key of the issuing authority.</p>
+<p>This ensures that authorization can be validated without contacting the original issuer.</p>
+<h3 id="artifact-authority-model">Artifact Authority Model</h3>
+<p>The MPCP artifact pipeline assigns responsibility for creation and signing as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>Created By</th>
+<th>Signed By</th>
+<th>Verified By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PolicyGrant</td>
+<td>Policy engine / operator system</td>
+<td>Policy authority key</td>
+<td>Machine wallet / verifier</td>
+</tr>
+<tr>
+<td>SignedBudgetAuthorization (SBA)</td>
+<td>Session authority (fleet or operator backend)</td>
+<td>Budget authorization key</td>
+<td>Machine wallet / verifier</td>
+</tr>
+<tr>
+<td>SignedPaymentAuthorization (SPA)</td>
+<td>Payment decision service</td>
+<td>Payment authorization key</td>
+<td>Machine wallet / verifier</td>
+</tr>
+<tr>
+<td>SettlementIntent</td>
+<td>Wallet or payment execution service</td>
+<td>(not signed — canonical payload)</td>
+<td>Verifier</td>
+</tr>
+<tr>
+<td>IntentCommitment (optional)</td>
+<td>Attestation service</td>
+<td>(not signed — hash-derived artifact; may be anchored or attested externally)</td>
+<td>External verifiers</td>
+</tr>
+</tbody>
+</table>
+<p>Each artifact constrains the parameters of the next stage in the protocol.</p>
+<h3 id="authority-domains">Authority Domains</h3>
+<p>MPCP separates authority across multiple domains to reduce risk and improve auditability.</p>
+<p>Typical deployments may use the following signing authorities:</p>
+<table>
+<thead>
+<tr>
+<th>Authority</th>
+<th>Example Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Policy authority</td>
+<td>fleet operator or infrastructure provider</td>
+</tr>
+<tr>
+<td>Budget authority</td>
+<td>fleet backend or session controller</td>
+</tr>
+<tr>
+<td>Payment authorization authority</td>
+<td>charging station operator or payment service</td>
+</tr>
+<tr>
+<td>Wallet key</td>
+<td>machine wallet or embedded secure element</td>
+</tr>
+</tbody>
+</table>
+<p>No single key is required to control the entire payment pipeline.</p>
+<h3 id="signature-verification-requirements">Signature Verification Requirements</h3>
+<p>Implementations MUST verify signatures for the following artifacts:</p>
+<ul>
+<li>PolicyGrant</li>
+<li>SignedBudgetAuthorization</li>
+<li>SignedPaymentAuthorization</li>
+</ul>
+<p>Signature verification MUST confirm:</p>
+<ul>
+<li>payload integrity</li>
+<li>signature validity</li>
+<li>that the signer is an authorized issuer for the artifact</li>
+</ul>
+<p>Public keys MUST be retrievable as JWK objects via the issuer's HTTPS well-known endpoint:</p>
+<div class="highlight"><pre><span></span><code>GET https://{issuer-domain}/.well-known/mpcp-keys.json
+</code></pre></div>
+<p>The verifier looks up the entry where <code>kid</code> equals <code>issuerKeyId</code>. Implementations MAY also use pre-configured (pinned) keys in JWK format, which is the recommended approach for offline and air-gapped deployments.</p>
+<p>DID resolution and Verifiable Credentials are optional and outside the core verification requirement.</p>
+<p>See <a href="../key-resolution/">Key Resolution</a> for the full resolution algorithm, key set document format, and error codes.</p>
+<h3 id="verification-chain">Verification Chain</h3>
+<p>The authorization chain verified during settlement is:</p>
+<div class="highlight"><pre><span></span><code>PolicyGrant.signature
+↓
+SignedBudgetAuthorization.signature
+↓
+SignedPaymentAuthorization.signature
+↓
+SettlementIntentHash
+↓
+Settlement Transaction
+</code></pre></div>
+<p>Each stage constrains the next stage and ensures that settlement parameters cannot be modified without invalidating the authorization chain.</p>
+<hr />
 <h1 id="protocol-versioning-compatibility">Protocol Versioning &amp; Compatibility</h1>
 <h2 id="version-field">Version Field</h2>
 <p>All MPCP artifacts SHOULD include a semantic version string in the <code>version</code> field.</p>
@@ -1773,93 +2058,101 @@ In MPCP, every settlement must be authorized by a deterministic chain of artifac
 </ul>
 <h3 id="hash-domain-separation">Hash Domain Separation</h3>
 <p>Hashes MUST include the MPCP domain prefix.</p>
-<p>Example (SettlementIntent uses a canonical payload — subset of fields, not the full artifact; see <a href="../SettlementIntentHash/">SettlementIntentHash.md</a>):</p>
+<p>Example (SettlementIntent uses a <a href="#canonical-hash-payload">canonical hash payload</a> — subset of fields defining settlement semantics):</p>
 <div class="highlight"><pre><span></span><code>SHA256(&quot;MPCP:SettlementIntent:1.0:&quot; || canonical_json(canonicalPayload))
 </code></pre></div>
 <hr />
 <h2 id="protocol-artifacts">Protocol Artifacts</h2>
 <p>The MPCP pipeline produces a series of structured artifacts. Each artifact constrains the next stage of the protocol and can be independently verified.</p>
-<h3 id="policygrant">PolicyGrant</h3>
-<p>The <strong>PolicyGrant</strong> represents the admission of a machine into a controlled payment context.</p>
+<h3 id="policygrant-signed-by-policy-authority">PolicyGrant (signed by policy authority)</h3>
+<p>The <strong>PolicyGrant</strong> represents the admission of a machine into a controlled payment context. It is signed by the policy authority; verifiers use <code>issuer</code> and <code>issuerKeyId</code> to resolve the policy authority public key.</p>
 <p>Example structure:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_abc123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;vehicleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;veh_001&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;subjectId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;veh_001&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;operatorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator_42&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;lotId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lot_7&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;RLUSD&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">}],</span>
 <span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256(...)&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>The PolicyGrant defines the operational scope in which further authorizations may be issued.</p>
-<hr />
-<h3 id="signedbudgetauthorization-sba">SignedBudgetAuthorization (SBA)</h3>
-<p>The <strong>SignedBudgetAuthorization (SBA)</strong> establishes the maximum spending envelope available to the machine.</p>
-<p>Example structure:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_abc123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;scopeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;budgetScope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;minorUnit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;maxAmountMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3000&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;RLUSD&quot;</span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:operator.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The SBA ensures that spending remains within defined limits.</p>
+<p>The PolicyGrant defines the operational scope in which further authorizations may be issued. <strong>Who signed:</strong> policy authority (identified by <code>issuer</code>). <strong>Which key:</strong> <code>issuerKeyId</code> selects the signing key. <strong>Verification:</strong> resolve <code>policyAuthorityPublicKey</code> from <code>issuer</code> + <code>issuerKeyId</code> (config, DID, or registry), then verify <code>signature</code> over the canonical payload (all fields except <code>signature</code>).</p>
 <hr />
-<h3 id="signedpaymentauthorization-spa">SignedPaymentAuthorization (SPA)</h3>
-<p>The <strong>SignedPaymentAuthorization (SPA)</strong> authorizes a specific settlement transaction.</p>
+<h3 id="signedbudgetauthorization-sba-signed-by-budget-authority">SignedBudgetAuthorization (SBA) (signed by budget authority)</h3>
+<p>The <strong>SignedBudgetAuthorization (SBA)</strong> establishes the maximum spending envelope available to the machine. It is signed by the budget (session) authority; verifiers use SBA issuer fields or deployment configuration to resolve the budget authority public key.</p>
 <p>Example structure:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec_123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span>
+<span class="w">  </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_abc123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;vehicleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;veh_001&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a1b2c3...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;scopeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;budgetScope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;minorUnit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;maxAmountMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;30000000&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">}],</span>
+<span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256(...)&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:fleet.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget-auth-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The SBA ensures that spending remains within defined limits. Verification uses <code>budgetAuthorizationPublicKey</code> (resolved from issuer fields or config).</p>
+<hr />
+<h3 id="signedpaymentauthorization-spa-signed-by-payment-authorization-authority">SignedPaymentAuthorization (SPA) (signed by payment authorization authority)</h3>
+<p>The <strong>SignedPaymentAuthorization (SPA)</strong> authorizes a specific settlement transaction. It is signed by the payment authorization authority; verifiers use <code>issuer</code> and <code>issuerKeyId</code> to resolve the payment authorization public key.</p>
+<p>Example structure:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec_123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a1b2c3...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;quoteId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quote_789&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256(...)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:payments.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payment-auth-key-1&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>The SPA binds the authorized payment parameters and optionally includes an <code>intentHash</code> to bind the authorization to a canonical settlement intent.</p>
 <hr />
-<h3 id="settlementintent">SettlementIntent</h3>
-<p>A <strong>SettlementIntent</strong> describes the canonical form of the transaction that the machine wallet must execute.</p>
+<h3 id="settlementintent-not-signed-canonical-payload">SettlementIntent (not signed — canonical payload)</h3>
+<p>A <strong>SettlementIntent</strong> describes the canonical form of the transaction that the machine wallet must execute. It is not signed; verification uses the <code>intentHash</code> binding in the SPA.</p>
 <p>Example structure:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;memo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mpcp&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec_123&quot;</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;referenceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quote_17&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T13:55:00Z&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>This structure is used to compute the <code>intentHash</code>.</p>
 <hr />
-<h3 id="intentcommitment">IntentCommitment</h3>
-<p>An <strong>IntentCommitment</strong> represents the hashed commitment of the settlement intent.</p>
+<h3 id="intentcommitment-hash-derived-not-signed">IntentCommitment (hash-derived; not signed)</h3>
+<p>An <strong>IntentCommitment</strong> represents the hashed commitment of the settlement intent. It is not a signed artifact; any attestation or anchor signature applies to the batch or ledger inclusion, not the commitment object itself.</p>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code>commitment = SHA256(&quot;MPCP:SettlementIntent:1.0:&quot; || canonical_json(canonicalPayload))
 </code></pre></div>
@@ -1881,23 +2174,24 @@ IntentCommitment (hash of SettlementIntent)
 <h3 id="relationship-rules">Relationship Rules</h3>
 <p><strong>PolicyGrant → SBA</strong></p>
 <ul>
-<li><code>SBA.grantId</code> MUST reference a valid <code>PolicyGrant.grantId</code></li>
+<li><code>SBA.authorization.grantId</code> MUST reference a valid <code>PolicyGrant.grantId</code></li>
 <li>the SBA must respect the rail, asset, and policy constraints of the grant</li>
 </ul>
 <p><strong>SBA → SPA</strong></p>
 <ul>
-<li><code>SPA.budgetId</code> MUST reference the issuing SBA</li>
-<li><code>SPA.amount</code> MUST be ≤ <code>SBA.maxAmountMinor</code></li>
-<li><code>SPA.rail</code> MUST be included in <code>SBA.allowedRails</code></li>
+<li><code>SPA.authorization.budgetId</code> MUST reference the issuing SBA</li>
+<li><code>SPA.authorization.amount</code> MUST be ≤ <code>SBA.authorization.maxAmountMinor</code></li>
+<li><code>SPA.authorization.rail</code> MUST be included in <code>SBA.authorization.allowedRails</code></li>
 </ul>
+<p>The <code>maxAmountMinor</code> limit is cumulative across all SPAs within the scope and is expressed in the <strong>on-chain asset's atomic units</strong> — the same denomination as <code>SPA.authorization.amount</code>. The session authority converts the fiat budget to on-chain units at SBA issuance time. Verifiers apply this check statelessly against the current payment with no currency conversion required. See <a href="../SignedBudgetAuthorization/#stateless-verification-model">SignedBudgetAuthorization</a> for the full model.</p>
 <p><strong>SPA → SettlementIntent</strong></p>
 <ul>
 <li>the settlement intent must match the payment parameters authorized in the SPA</li>
-<li>if present, <code>SPA.intentHash</code> MUST equal:</li>
+<li>if present, <code>SPA.authorization.intentHash</code> MUST equal:</li>
 </ul>
 <div class="highlight"><pre><span></span><code>SHA256(&quot;MPCP:SettlementIntent:1.0:&quot; || canonical_json(canonicalPayload))
 </code></pre></div>
-<p>(canonicalPayload = subset of intent fields defining settlement semantics; see <a href="../SettlementIntentHash/">SettlementIntentHash.md</a>)</p>
+<p>(canonicalPayload = <a href="#canonical-hash-payload">canonical hash payload</a> — subset of intent fields defining settlement semantics)</p>
 <p><strong>SettlementIntent → IntentCommitment</strong></p>
 <ul>
 <li>the commitment is derived deterministically from the canonical intent</li>
@@ -1908,6 +2202,8 @@ IntentCommitment (hash of SettlementIntent)
 <h1 id="settlement-verification">Settlement Verification</h1>
 <p>Before accepting settlement, the system verifies:</p>
 <ul>
+<li>PolicyGrant signature validity</li>
+<li>SBA signature validity</li>
 <li>SPA signature validity</li>
 <li>policy hash consistency</li>
 <li>asset match</li>
@@ -1919,47 +2215,60 @@ IntentCommitment (hash of SettlementIntent)
 <hr />
 <h2 id="verification-algorithm">Verification Algorithm</h2>
 <p>An MPCP verifier MUST perform the following steps before accepting settlement.</p>
-<h3 id="step-1-verify-spa-signature">Step 1 — Verify SPA Signature</h3>
-<p>Verify the cryptographic signature on the <strong>SignedPaymentAuthorization (SPA)</strong>.</p>
-<div class="highlight"><pre><span></span><code>verify_signature(spa.signature, spa.payload, policyAuthorityPublicKey)
+<h3 id="step-0-verify-authorization-artifact-signatures">Step 0 — Verify Authorization Artifact Signatures</h3>
+<p>Verify the cryptographic signatures on all signed authorization artifacts.</p>
+<p>Each artifact uses domain-separated hashing. The signed payload differs by artifact structure:</p>
+<ul>
+<li><strong>PolicyGrant</strong> (flat structure) — Resolve using <code>grant.issuer</code> and <code>grant.issuerKeyId</code>. Signed payload: <code>SHA256("MPCP:PolicyGrant:1.0:" || canonicalJson(grantPayload))</code> where <code>grantPayload</code> is all grant fields except <code>signature</code>.</li>
+<li><strong>SignedBudgetAuthorization (SBA)</strong> (envelope structure) — Resolve using <code>sba.issuer</code> and <code>sba.issuerKeyId</code>. Signed payload: <code>SHA256("MPCP:SBA:1.0:" || canonicalJson(sba.authorization))</code> — the inner <code>authorization</code> object only.</li>
+<li><strong>SignedPaymentAuthorization (SPA)</strong> (envelope structure) — Resolve using <code>spa.issuer</code> and <code>spa.issuerKeyId</code>. Signed payload: <code>SHA256("MPCP:SPA:1.0:" || canonicalJson(spa.authorization))</code> — the inner <code>authorization</code> object only.</li>
+</ul>
+<p>Resolve the public key (as JWK) for each authority using the HTTPS well-known endpoint or pre-configured keys. See <a href="../key-resolution/">Key Resolution</a> for the full algorithm.</p>
+<div class="highlight"><pre><span></span><code>verify_signature(grant.signature, SHA256(&quot;MPCP:PolicyGrant:1.0:&quot; || canonicalJson(grantPayload)), policyAuthorityPublicKey)
+verify_signature(sba.signature,   SHA256(&quot;MPCP:SBA:1.0:&quot;         || canonicalJson(sba.authorization)), budgetAuthorizationPublicKey)
+verify_signature(spa.signature,   SHA256(&quot;MPCP:SPA:1.0:&quot;         || canonicalJson(spa.authorization)), paymentAuthorizationPublicKey)
 </code></pre></div>
-<p>If signature verification fails → <strong>reject settlement</strong>.</p>
+<p>If any signature verification fails → <strong>reject settlement</strong>.</p>
 <hr />
-<h3 id="step-2-verify-grant-and-budget-lineage">Step 2 — Verify Grant and Budget Lineage</h3>
+<h3 id="step-1-verify-grant-and-budget-lineage">Step 1 — Verify Grant and Budget Lineage</h3>
 <p>Ensure that the authorization chain is valid.</p>
-<div class="highlight"><pre><span></span><code>spa.budgetId → SignedBudgetAuthorization
-sba.grantId  → PolicyGrant
+<div class="highlight"><pre><span></span><code>spa.authorization.budgetId → SignedBudgetAuthorization
+sba.authorization.grantId  → PolicyGrant
 </code></pre></div>
 <p>Verification rules:</p>
 <ul>
-<li><code>SPA.budgetId</code> MUST reference an existing SBA</li>
-<li><code>SBA.grantId</code> MUST reference an existing PolicyGrant</li>
+<li><code>SPA.authorization.budgetId</code> MUST reference an existing SBA</li>
+<li><code>SBA.authorization.grantId</code> MUST reference an existing PolicyGrant</li>
 <li>artifacts MUST NOT be expired</li>
 </ul>
 <p>If lineage is invalid → <strong>reject settlement</strong>.</p>
 <hr />
-<h3 id="step-3-verify-policy-constraints">Step 3 — Verify Policy Constraints</h3>
+<h3 id="step-2-verify-policy-constraints">Step 2 — Verify Policy Constraints</h3>
 <p>Confirm the settlement parameters match the authorized constraints.</p>
 <p>Checks include:</p>
 <ul>
-<li>rail match</li>
-<li>asset match</li>
+<li>rail match: <code>SPA.rail ∈ SBA.allowedRails</code></li>
+<li>asset match: <code>SPA.asset ∈ SBA.allowedAssets</code> — <code>kind</code> and all kind-specific fields must match exactly. See <a href="#asset">Asset Matching</a>.</li>
 <li>destination match</li>
-<li>amount ≤ authorized limit</li>
-<li>policyHash consistency</li>
+<li>amount ≤ authorized limit (<code>SPA.amount ≤ SBA.maxAmountMinor</code>) — both values are in the on-chain asset's atomic units; no currency conversion is required at verification time</li>
+<li>policyHash consistency: the verifier confirms <code>PolicyGrant.policyHash</code> matches the expected policy for this deployment context. Because the chain is linked by ID references (<code>SPA.authorization.budgetId → SBA</code>, <code>SBA.authorization.grantId → PolicyGrant</code>), <code>policyHash</code> is the single authoritative value carried on the PolicyGrant. A verifier MAY recompute it as <code>SHA256("MPCP:Policy:&lt;version&gt;:" || canonicalJson(policyDocument))</code> when the policy document is available.</li>
 </ul>
+<p><strong>Budget verification is stateless.</strong> The verifier checks only that the current payment does not exceed the authorized envelope. The session authority is responsible for tracking cumulative spending across the scope and only issuing SPAs within the remaining budget. Verifiers MUST NOT maintain a ledger of prior session payments.</p>
 <p>If any constraint fails → <strong>reject settlement</strong>.</p>
 <hr />
-<h3 id="step-4-verify-intent-binding-optional">Step 4 — Verify Intent Binding (Optional)</h3>
-<p>If the SPA contains an <code>intentHash</code>, the verifier must reconstruct the canonical payload (subset of intent fields) and compare hashes.</p>
+<h3 id="step-3-verify-intent-binding-conditional">Step 3 — Verify Intent Binding (conditional)</h3>
+<p>This step applies only when <code>SPA.intentHash</code> is present.</p>
+<p>If the SPA contains an <code>intentHash</code>, the verifier MUST reconstruct the canonical payload (subset of intent fields) and compare hashes.</p>
 <div class="highlight"><pre><span></span><code>computedHash = SHA256(&quot;MPCP:SettlementIntent:1.0:&quot; || canonical_json(canonicalPayload))
 </code></pre></div>
 <p>Verification rule:</p>
 <div class="highlight"><pre><span></span><code>computedHash == SPA.intentHash
 </code></pre></div>
 <p>If mismatch → <strong>reject settlement</strong>.</p>
+<p><strong>When <code>intentHash</code> is absent</strong>, this step is skipped. Settlement verification proceeds on the SPA-bound fields only (rail, asset, amount, destination). This is the Lite profile. Fields outside the SPA — such as memo content or ancillary metadata — are not cryptographically bound in this mode.</p>
+<p>See <a href="#deployment-profiles">Deployment Profiles</a> for guidance on when each mode is appropriate.</p>
 <hr />
-<h3 id="step-5-verify-expiration">Step 5 — Verify Expiration</h3>
+<h3 id="step-4-verify-expiration">Step 4 — Verify Expiration</h3>
 <p>Check expiration fields:</p>
 <ul>
 <li><code>PolicyGrant.expiresAt</code></li>
@@ -1968,7 +2277,7 @@ sba.grantId  → PolicyGrant
 </ul>
 <p>If any artifact is expired → <strong>reject settlement</strong>.</p>
 <hr />
-<h3 id="step-6-verify-settlement-transaction">Step 6 — Verify Settlement Transaction</h3>
+<h3 id="step-5-verify-settlement-transaction">Step 5 — Verify Settlement Transaction</h3>
 <p>Extract parameters from the executed settlement transaction and confirm they match the SPA.</p>
 <p>Checks include:</p>
 <ul>
@@ -1979,7 +2288,7 @@ sba.grantId  → PolicyGrant
 </ul>
 <p>If settlement parameters differ from SPA → <strong>reject settlement</strong>.</p>
 <hr />
-<h3 id="step-7-accept-settlement">Step 7 — Accept Settlement</h3>
+<h3 id="step-6-accept-settlement">Step 6 — Accept Settlement</h3>
 <p>If all verification steps succeed:</p>
 <div class="highlight"><pre><span></span><code>accept settlement
 record session close
@@ -2001,7 +2310,7 @@ emit settlement event
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code>MPCP:SettlementIntent:1.0:{&quot;amount&quot;:&quot;19440000&quot;,&quot;destination&quot;:&quot;rDest...&quot;,&quot;rail&quot;:&quot;xrpl&quot;}
 </code></pre></div>
-<p>Hash computation therefore becomes (canonicalPayload = subset of intent fields; see <a href="../SettlementIntentHash/">SettlementIntentHash.md</a>):</p>
+<p>Hash computation therefore becomes (canonicalPayload = <a href="#canonical-hash-payload">canonical hash payload</a> — subset of intent fields):</p>
 <div class="highlight"><pre><span></span><code>intentHash = SHA256(&quot;MPCP:SettlementIntent:1.0:&quot; || canonical_json(canonicalPayload))
 </code></pre></div>
 <p>This ensures:</p>
@@ -2012,7 +2321,7 @@ emit settlement event
 </ul>
 <p>Implementations MUST apply the same domain prefix rules when generating and verifying hashes.</p>
 <p>The version component in the domain prefix MUST use the same semantic version string carried in the artifact, for example <code>1.0</code>, <code>1.1</code>, or <code>2.0</code>. This keeps hashing behavior aligned with MPCP version negotiation and prevents ambiguity between artifact formats.</p>
-<p>To ensure deterministic hashing across systems, MPCP defines a <strong>canonical JSON encoding</strong> used when computing hashes such as <code>intentHash</code>.</p>
+<p>To ensure deterministic hashing across systems, MPCP defines a <strong>canonical JSON encoding</strong> used when computing hashes such as <code>intentHash</code>. The <code>intentHash</code> is the serialized field name that carries the hash of the canonical SettlementIntent payload; this document refers to that value conceptually as the SettlementIntentHash.</p>
 <p>All implementations MUST apply the same canonicalization rules before hashing.</p>
 <p>Canonicalization rules:</p>
 <ol>
@@ -2033,8 +2342,68 @@ emit settlement event
 <p>Canonical form:</p>
 <div class="highlight"><pre><span></span><code>{&quot;amount&quot;:&quot;19440000&quot;,&quot;destination&quot;:&quot;rDest...&quot;,&quot;rail&quot;:&quot;xrpl&quot;}
 </code></pre></div>
-<p>Hash computation (canonicalPayload excludes metadata such as createdAt):</p>
+<p>Hash computation (see <a href="#canonical-hash-payload">Canonical Hash Payload</a> — excludes metadata such as <code>createdAt</code>):</p>
 <div class="highlight"><pre><span></span><code>intentHash = SHA256(&quot;MPCP:SettlementIntent:1.0:&quot; || canonical_json(canonicalPayload))
+</code></pre></div>
+<h2 id="canonical-hash-payload">Canonical Hash Payload</h2>
+<p>The <code>canonicalPayload</code> used for <code>intentHash</code> computation is a defined subset of the SettlementIntent fields — only those fields that define settlement semantics.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Included</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>version</td>
+<td>yes</td>
+<td>always present</td>
+</tr>
+<tr>
+<td>rail</td>
+<td>yes</td>
+<td>always present</td>
+</tr>
+<tr>
+<td>asset</td>
+<td>if present</td>
+<td>omit when absent</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>yes</td>
+<td>always present</td>
+</tr>
+<tr>
+<td>destination</td>
+<td>if present</td>
+<td>omit when absent</td>
+</tr>
+<tr>
+<td>referenceId</td>
+<td>if present</td>
+<td>omit when absent</td>
+</tr>
+<tr>
+<td>createdAt</td>
+<td><strong>no</strong></td>
+<td>metadata — excluded from hash</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USDC&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Canonical form (keys sorted, no whitespace):</p>
+<div class="highlight"><pre><span></span><code>{&quot;amount&quot;:&quot;19440000&quot;,&quot;asset&quot;:{&quot;currency&quot;:&quot;USDC&quot;,&quot;issuer&quot;:&quot;rIssuer...&quot;,&quot;kind&quot;:&quot;IOU&quot;},&quot;destination&quot;:&quot;rDest...&quot;,&quot;rail&quot;:&quot;xrpl&quot;,&quot;version&quot;:&quot;1.0&quot;}
 </code></pre></div>
 <hr />
 <h1 id="signature-schemes">Signature Schemes</h1>
@@ -2056,10 +2425,8 @@ emit settlement event
 <li>many EVM chains</li>
 </ul>
 <p>Useful when authorization artifacts must be verified by smart contracts.</p>
-<h3 id="xrpl-native-signatures">XRPL Native Signatures</h3>
-<p>For XRPL-integrated environments, SPA artifacts may be signed using XRPL-compatible keypairs.</p>
-<p>Implementations MAY also support XRPL multisign accounts for fleet-level authorization control.</p>
-<p>Signature verification MUST validate:</p>
+<h3 id="verification-requirements">Verification Requirements</h3>
+<p>Regardless of scheme, signature verification MUST validate:</p>
 <ul>
 <li>payload integrity</li>
 <li>signer identity</li>
@@ -2068,14 +2435,19 @@ emit settlement event
 <hr />
 <h1 id="replay-protection">Replay Protection</h1>
 <p>MPCP must prevent the reuse of authorization artifacts across multiple settlements.</p>
-<p>The following replay protections MUST be implemented.</p>
+<p>Replay protection is enforced through <strong>decision ID uniqueness</strong>, optional <strong>intent hash binding</strong>, and <strong>transaction binding</strong>. Each mechanism is owned by the appropriate layer — issuer, verifier, or operator backend — consistent with the stateless verifier model.</p>
 <h3 id="decision-id-uniqueness">Decision ID Uniqueness</h3>
 <p>Each <strong>SPA</strong> contains a <code>decisionId</code>.</p>
-<p>Rules:</p>
-<ul>
-<li><code>decisionId</code> MUST be globally unique</li>
-<li>verifiers MUST reject reuse of a previously consumed <code>decisionId</code></li>
-</ul>
+<h4 id="uniqueness-scope">Uniqueness Scope</h4>
+<p><code>decisionId</code> uniqueness is scoped to the <strong>SPA issuer namespace</strong>. The replay key is:</p>
+<div class="highlight"><pre><span></span><code>(spa.issuer, spa.decisionId)
+</code></pre></div>
+<p>Two SPAs issued by different authorities may carry the same <code>decisionId</code> string without conflict.</p>
+<h4 id="issuance-guarantee">Issuance Guarantee</h4>
+<p>The SPA issuer MUST never issue two SPAs with the same <code>(issuer, decisionId)</code> pair. This is an <strong>issuer-side guarantee</strong>. It does not require verifiers to maintain a consumed-decisionId ledger.</p>
+<h4 id="consumption-semantics">Consumption Semantics</h4>
+<p>A <code>decisionId</code> is considered consumed when its associated settlement is accepted by the operator backend. The operator backend SHOULD record <code>(issuer, decisionId, settlementTxId)</code> at settlement acceptance to prevent the same SPA from being applied to a second settlement.</p>
+<p>Verifiers MUST NOT be required to maintain a consumed-decisionId ledger. Replay enforcement at the decisionId level is the joint responsibility of the SPA issuer (preventing duplicate issuance) and the operator backend (preventing duplicate settlement acceptance).</p>
 <h3 id="intent-hash-binding">Intent Hash Binding</h3>
 <p>When present, the <code>intentHash</code> binds the SPA to a specific settlement intent.</p>
 <p>This prevents mutation of:</p>
@@ -2085,15 +2457,16 @@ emit settlement event
 <li>asset</li>
 <li>memo fields</li>
 </ul>
+<p>See <a href="#deployment-profiles">Deployment Profiles</a> for when <code>intentHash</code> is required vs. optional.</p>
 <h3 id="transaction-binding">Transaction Binding</h3>
-<p>Implementations SHOULD record the settlement transaction identifier.</p>
+<p>After settlement execution, the operator backend SHOULD record the settlement transaction identifier against the <code>decisionId</code>.</p>
 <p>Examples:</p>
 <ul>
 <li>XRPL <code>txHash</code></li>
 <li>Ethereum <code>transactionHash</code></li>
 <li>Lightning payment hash</li>
 </ul>
-<p>Once a transaction hash is associated with an SPA, the authorization MUST NOT be reused.</p>
+<p>Once a transaction identifier is recorded against a <code>(issuer, decisionId)</code> pair, the operator backend MUST NOT accept a second settlement for the same pair.</p>
 <hr />
 <h1 id="threat-model">Threat Model</h1>
 <p>The MPCP protocol is designed to mitigate the following threats.</p>
@@ -2104,18 +2477,18 @@ emit settlement event
 <li>SPA amounts are bounded by the SBA</li>
 </ul>
 <h3 id="transaction-mutation">Transaction Mutation</h3>
-<p>An attacker modifying settlement parameters will invalidate:</p>
-<ul>
-<li>intent hashes</li>
-<li>asset checks</li>
-<li>destination checks</li>
-</ul>
+<p>Protection against settlement parameter mutation depends on the deployment profile.</p>
+<p><strong>When <code>intentHash</code> is present (Full profile):</strong>
+Mutation of any field in the canonical settlement payload (destination, amount, asset, memo, etc.) will invalidate the intent hash binding. The SPA cannot be used to settle a transaction that differs from the committed intent.</p>
+<p><strong>When <code>intentHash</code> is omitted (Lite profile):</strong>
+Protection is limited to the settlement fields explicitly carried in the SPA and checked during settlement verification (rail, asset, amount, destination). Fields outside the SPA — such as memo content or ancillary metadata — are not cryptographically bound.</p>
+<p>Lite profile is appropriate for closed-loop infrastructure, rails that natively bind settlement parameters, or high-volume micropayment environments where minimizing payload size is a design goal. See <a href="#deployment-profiles">Deployment Profiles</a>.</p>
 <h3 id="replay-attacks">Replay Attacks</h3>
 <p>Expired or previously used authorizations cannot be reused due to:</p>
 <ul>
-<li>expiration checks</li>
-<li>decisionId uniqueness</li>
-<li>transaction binding</li>
+<li>expiration checks on all artifacts (verifier-enforced, stateless)</li>
+<li><code>(issuer, decisionId)</code> uniqueness guaranteed by the SPA issuer at issuance time</li>
+<li><code>(issuer, decisionId, settlementTxId)</code> binding recorded by the operator backend at settlement acceptance</li>
 </ul>
 <h3 id="policy-bypass">Policy Bypass</h3>
 <p>Machines cannot bypass policy constraints because every authorization chain must derive from:</p>
@@ -2126,55 +2499,184 @@ emit settlement event
 <hr />
 <p>These sections define the core interoperability rules required for MPCP implementations across different systems and settlement rails.</p>
 <hr />
+<h1 id="deployment-profiles">Deployment Profiles</h1>
+<p>MPCP defines two deployment profiles that differ in how deeply the settlement intent is cryptographically bound.</p>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th><code>intentHash</code></th>
+<th>Binding scope</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lite</td>
+<td>omitted</td>
+<td>SPA-bound fields only (rail, asset, amount, destination)</td>
+<td>Closed-loop infrastructure; rails with native parameter binding; high-volume micropayments</td>
+</tr>
+<tr>
+<td>Full</td>
+<td>required</td>
+<td>Full canonical settlement payload</td>
+<td>Open settlement; multi-vendor; dispute-sensitive; audit-required</td>
+</tr>
+</tbody>
+</table>
+<p>Both profiles use the complete MPCP authorization chain (PolicyGrant → SBA → SPA). The difference is whether the SPA also commits to a canonical settlement intent.</p>
+<p>See <a href="../../profiles/lite-profile/">Lite Profile</a> and <a href="../../profiles/full-profile/">Full Profile</a> for detailed guidance.</p>
+<hr />
 <h1 id="wire-formats">Wire Formats</h1>
 <p>This section defines the canonical wire-format expectations for MPCP artifacts.</p>
 <p>All artifacts SHOULD be represented as UTF-8 JSON documents using the canonical JSON rules defined above when used for hashing or signing.</p>
+<h2 id="shared-types">Shared Types</h2>
+<h3 id="asset">Asset</h3>
+<p>An <code>Asset</code> is a discriminated union object that fully identifies a payment asset by kind. String-only asset references are not valid — structured <code>Asset</code> objects MUST be used in all <code>allowedAssets</code> arrays and <code>asset</code> fields throughout the protocol.</p>
+<p>The <code>kind</code> field is the discriminator. Three variants are defined:</p>
+<p><strong>XRPL IOU</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kind</code></td>
+<td><code>"IOU"</code></td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td><code>currency</code></td>
+<td>string</td>
+<td>Currency code (e.g. <code>"RLUSD"</code>, <code>"USDC"</code>)</td>
+</tr>
+<tr>
+<td><code>issuer</code></td>
+<td>string</td>
+<td>XRPL issuer address</td>
+</tr>
+</tbody>
+</table>
+<p><strong>XRP (native)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kind</code></td>
+<td><code>"XRP"</code></td>
+<td>Discriminator</td>
+</tr>
+</tbody>
+</table>
+<p><strong>EVM ERC-20</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kind</code></td>
+<td><code>"ERC20"</code></td>
+<td>Discriminator</td>
+</tr>
+<tr>
+<td><code>chainId</code></td>
+<td>number</td>
+<td>EVM chain ID (e.g. <code>1</code> for Ethereum mainnet)</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td>string</td>
+<td>ERC-20 contract address</td>
+</tr>
+</tbody>
+</table>
+<p>Examples:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;XRP&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ERC20&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;chainId&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0xContractAddress...&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<h4 id="asset-matching">Asset Matching</h4>
+<p>Two <code>Asset</code> objects match when their <code>kind</code> is equal and all kind-specific fields match exactly.</p>
+<p>The <code>∈</code> operator used in artifact relationship rules (<code>SPA.asset ∈ SBA.allowedAssets</code>) means: at least one entry in <code>allowedAssets</code> matches <code>SPA.asset</code> using the rules above.</p>
+<hr />
 <h2 id="policygrant-wire-format">PolicyGrant Wire Format</h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_abc123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;vehicleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;veh_001&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;subjectId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;veh_001&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;operatorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator_42&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;lotId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lot_7&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;RLUSD&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">}],</span>
 <span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256(...)&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span>
+<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:operator.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
+<ul>
+<li><code>issuer</code> — Identifier for the policy authority (e.g. DID, domain, or registry ID). Verifiers use this to resolve the signing key.</li>
+<li><code>issuerKeyId</code> — Identifies the specific key used to sign (for deployments with multiple keys per issuer).</li>
+<li><code>signature</code> — Cryptographic signature over the canonical JSON of the grant payload (all fields except <code>signature</code>).</li>
+</ul>
 <h2 id="signedbudgetauthorization-wire-format">SignedBudgetAuthorization Wire Format</h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_abc123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;scopeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;budgetScope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;minorUnit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;maxAmountMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3000&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;RLUSD&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_abc123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;vehicleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;veh_001&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a1b2c3...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;scopeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;budgetScope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;minorUnit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;maxAmountMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;30000000&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">}],</span>
+<span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:fleet.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget-auth-key-1&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="signedpaymentauthorization-wire-format">SignedPaymentAuthorization Wire Format</h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec_123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span>
+<span class="w">  </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec_123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a1b2c3...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;quoteId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quote_789&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256(...)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256(...)&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:payments.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payment-auth-key-1&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2182,27 +2684,20 @@ emit settlement event
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;memo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mpcp&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec_123&quot;</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDest...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;referenceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quote_17&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T13:55:00Z&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="intentcommitment-wire-format">IntentCommitment Wire Format</h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256(...)&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;batchId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;batch_001&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;merkleRoot&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256(...)&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;anchorNetwork&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hedera-hcs&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;anchorReference&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;topic:0.0.12345/sequence:678&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;consensusTimestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:05Z&quot;</span>
+<span class="w">  </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256(...)&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>The IntentCommitment carries only the hash-derived commitment. Anchor metadata (network reference, consensus timestamp, Merkle proof, etc.) is stored separately in the <code>ledgerAnchor</code> field of an ArtifactBundle. See <a href="../anchoring/">anchoring.md</a> for the ledger anchor record structure.</p>
 <h2 id="artifact-bundle">Artifact Bundle</h2>
 <p>An <strong>artifact bundle</strong> packages complete payment verification data (policyGrant, sba, spa, settlement, optional settlementIntent and ledgerAnchor) into a single JSON object for exchange between systems. See <a href="../ArtifactBundle/">ArtifactBundle.md</a> for the canonical format and schema.</p>
 <hr />
@@ -2218,12 +2713,16 @@ emit settlement event
 </thead>
 <tbody>
 <tr>
-<td>SPA_SIGNATURE_INVALID</td>
-<td>SPA signature verification failed</td>
+<td>POLICY_GRANT_SIGNATURE_INVALID</td>
+<td>PolicyGrant signature verification failed</td>
 </tr>
 <tr>
 <td>SBA_SIGNATURE_INVALID</td>
 <td>SBA signature verification failed</td>
+</tr>
+<tr>
+<td>SPA_SIGNATURE_INVALID</td>
+<td>SPA signature verification failed</td>
 </tr>
 <tr>
 <td>POLICY_GRANT_NOT_FOUND</td>
@@ -2284,30 +2783,34 @@ emit settlement event
 <h1 id="reference-verification-pseudocode">Reference Verification Pseudocode</h1>
 <p>The following pseudocode illustrates a minimal verifier implementation.</p>
 <div class="highlight"><pre><span></span><code>function verifySettlement(grant, sba, spa, settlementTx):
-    verifySignature(spa)
+    verifySignature(grant, policyAuthorityPublicKey)
+    verifySignature(sba, budgetAuthorizationPublicKey)
+    verifySignature(spa, paymentAuthorizationPublicKey)
     verifyLineage(grant, sba, spa)
     verifyNotExpired(grant, sba, spa)
     verifyPolicyHash(grant, spa)
     verifyBudgetConstraints(sba, spa)
     verifySettlementFields(spa, settlementTx)
 
-    if spa.intentHash is present:
-        canonicalPayload = extractCanonicalPayload(settlementTx)  # subset of fields, not full artifact
+    if spa.authorization.intentHash is present:
+        canonicalPayload = extractCanonicalPayload(settlementTx)  # see §Canonical Hash Payload
         computedHash = sha256(&quot;MPCP:SettlementIntent:1.0:&quot; || canonical_json(canonicalPayload))
-        assert computedHash == spa.intentHash
+        assert computedHash == spa.authorization.intentHash
 
-    assert decisionIdNotConsumed(spa.decisionId)
-    assert txIdNotConsumed(settlementTx.id)
+    # The following checks and writes are operator backend responsibilities,
+    # not verifier state. The verifier itself remains stateless.
+    assert operatorBackend.decisionIdNotConsumed(spa.issuer, spa.authorization.decisionId)
+    assert operatorBackend.txIdNotConsumed(settlementTx.id)
 
-    markDecisionConsumed(spa.decisionId)
-    bindTransaction(spa.decisionId, settlementTx.id)
+    operatorBackend.markDecisionConsumed(spa.issuer, spa.authorization.decisionId)
+    operatorBackend.bindTransaction(spa.issuer, spa.authorization.decisionId, settlementTx.id)
     acceptSettlement()
 </code></pre></div>
-<p>This pseudocode is illustrative only. Production systems may split verification across multiple services.</p>
+<p>This pseudocode is illustrative only. The verifier checks signatures, lineage, constraints, and expiration statelessly. The <code>operatorBackend</code> calls represent state managed by the deployment's settlement system, not by the verifier.</p>
 <hr />
 <h1 id="state-machine">State Machine</h1>
 <p>MPCP authorization and settlement artifacts move through a small set of states.</p>
-<h2 id="policygrant_1">PolicyGrant</h2>
+<h2 id="policygrant">PolicyGrant</h2>
 <div class="highlight"><pre><span></span><code>ISSUED → EXPIRED
 </code></pre></div>
 <h2 id="signedbudgetauthorization">SignedBudgetAuthorization</h2>
@@ -2324,12 +2827,12 @@ PENDING → REJECTED
 </code></pre></div>
 <h2 id="state-machine-rules">State Machine Rules</h2>
 <ul>
-<li>A consumed SPA MUST NOT be reused.</li>
-<li>An expired grant, SBA, or SPA MUST NOT authorize settlement.</li>
-<li>A verified settlement MUST bind to exactly one <code>decisionId</code>.</li>
+<li>A consumed SPA MUST NOT be reused. Enforcement: the operator backend tracks <code>(issuer, decisionId)</code> consumption at settlement acceptance.</li>
+<li>An expired grant, SBA, or SPA MUST NOT authorize settlement. Enforcement: the verifier checks <code>expiresAt</code> statelessly.</li>
+<li>A verified settlement MUST bind to exactly one <code>(issuer, decisionId)</code>. Enforcement: the operator backend records the binding.</li>
 <li>A rejected settlement MUST NOT advance the session to a closed state.</li>
 </ul>
-<p>This state model keeps MPCP deterministic and makes replay protection enforceable.</p>
+<p>This state model keeps MPCP deterministic and makes replay protection enforceable without requiring shared state in the verifier.</p>
 <hr />
 <h1 id="optional-intent-attestation">Optional Intent Attestation</h1>
 <p>To enhance auditability, MPCP can publish hashed commitments of payment intents to a public attestation layer.</p>
@@ -2413,8 +2916,7 @@ SettlementIntent
 <li>geographic restrictions</li>
 </ul>
 <p>During settlement verification, implementations MUST ensure that all MPCP artifacts remain compliant with the constraints imposed by the FleetPolicyAuthorization artifact.</p>
-<p>The full extension specification is defined in:</p>
-<p><code>doc/Protocol/FleetPolicyAuthorization.md</code></p>
+<p>The full extension specification is defined in <a href="../FleetPolicyAuthorization/">FleetPolicyAuthorization.md</a>.</p>
 <h1 id="future-extensions">Future Extensions</h1>
 <p>Possible extensions include:</p>
 <ul>

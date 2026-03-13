@@ -332,6 +332,26 @@
     
     
       <li class="md-tabs__item">
+        <a href="../../profiles/lite-profile/" class="md-tabs__link">
+          
+  
+  
+  Profiles
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
         <a href="../../guides/build-a-machine-wallet/" class="md-tabs__link">
           
   
@@ -1086,6 +1106,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../key-resolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Key Resolution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../anchoring/" class="md-nav__link">
         
   
@@ -1494,7 +1542,7 @@
   <span class="md-ellipsis">
     
   
-    Guides
+    Profiles
   
 
     
@@ -1507,6 +1555,123 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Profiles
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/lite-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lite Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/full-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1850,7 +2015,7 @@
 <td>decisionId</td>
 <td>string</td>
 <td>yes</td>
-<td>Payment policy decision identifier</td>
+<td>Payment policy decision identifier. Uniqueness is scoped to the issuer namespace — the replay key is <code>(issuer, decisionId)</code>. The SPA issuer MUST never issue two SPAs with the same <code>(issuer, decisionId)</code> pair.</td>
 </tr>
 <tr>
 <td>sessionId</td>
@@ -1862,7 +2027,13 @@
 <td>policyHash</td>
 <td>string</td>
 <td>yes</td>
-<td>Hash of the policy</td>
+<td>SHA-256 hash of the canonical policy document under which this payment was authorized. Computed as <code>SHA256("MPCP:Policy:&lt;version&gt;:" \|\| canonicalJson(policyDocument))</code>.</td>
+</tr>
+<tr>
+<td>budgetId</td>
+<td>string</td>
+<td>yes</td>
+<td>References the <code>SBA.authorization.budgetId</code> that authorized the spending envelope for this payment. Verifiers use this to resolve the SBA and confirm policy chain linkage.</td>
 </tr>
 <tr>
 <td>quoteId</td>
@@ -1898,7 +2069,7 @@
 <td>intentHash</td>
 <td>string</td>
 <td>no</td>
-<td>SHA256 hex of canonical settlement intent (optional)</td>
+<td>SHA256 hex of the canonical settlement intent payload. When present (Full profile), mutation of any canonical payload field invalidates the authorization binding. When omitted (Lite profile), protection is limited to the settlement fields explicitly carried in the SPA. See <a href="../../profiles/lite-profile/">Deployment Profiles</a>.</td>
 </tr>
 <tr>
 <td>expiresAt</td>
@@ -1924,14 +2095,19 @@
 <td>The payment payload</td>
 </tr>
 <tr>
+<td>issuer</td>
+<td>string</td>
+<td>Identifier for the payment authorization authority (e.g. DID, domain, or registry ID). Verifiers use this to resolve the signing key.</td>
+</tr>
+<tr>
+<td>issuerKeyId</td>
+<td>string</td>
+<td>Identifies the specific key used to sign (alias: <code>keyId</code> retained for backward compatibility)</td>
+</tr>
+<tr>
 <td>signature</td>
 <td>string</td>
 <td>Base64-encoded signature over SHA256("MPCP:SPA:1.0:"</td>
-</tr>
-<tr>
-<td>keyId</td>
-<td>string</td>
-<td>Signing key identifier for verification</td>
 </tr>
 </tbody>
 </table>
@@ -1943,6 +2119,7 @@
 <span class="w">    </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec_123&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a1b2c3...&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;quoteId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quote_789&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USDC&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">},</span>
@@ -1951,8 +2128,9 @@
 <span class="w">    </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;keyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mpcp-spa-signing-key-1&quot;</span>
+<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:payments.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payment-auth-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64...&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <hr />
@@ -2011,7 +2189,7 @@
 <p>This prevents cross‑artifact and cross‑protocol hash collisions.</p>
 <p>A verifier MUST:</p>
 <ol>
-<li>Validate the signature over SHA256("MPCP:SPA:<version>:" || canonicalJson(authorization)) using the public key for <code>keyId</code></li>
+<li>Resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> (or <code>keyId</code> if present) via the HTTPS well-known endpoint or pre-configured keys (see <a href="../key-resolution/">Key Resolution</a>), then validate the signature over SHA256("MPCP:SPA:<version>:" || canonicalJson(authorization))</li>
 <li>Check <code>expiresAt</code> has not passed</li>
 <li>When verifying against a SettlementResult: ensure decisionId, rail, amount, destination, and asset match</li>
 <li>If <code>intentHash</code> is present: verify it equals <code>computeIntentHash(settlementIntent)</code> for the provided intent</li>
