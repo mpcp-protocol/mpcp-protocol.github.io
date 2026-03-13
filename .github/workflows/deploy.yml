@@ -52,7 +52,7 @@ jobs:
       - name: Build reference
         run: |
           cd mpcp-reference
-          mkdocs build --config-file mkdocs.yml --strict
+          mkdocs build --config-file mkdocs.unified.yml --strict
           mv site ../_site_reference
 
       - name: Assemble site
