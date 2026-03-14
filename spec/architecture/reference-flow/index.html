@@ -1909,6 +1909,11 @@ Allowed charging hours:
 <td>Settlement rail</td>
 <td>Confirms payment execution</td>
 </tr>
+<tr>
+<td>Intent Anchor <em>(optional)</em></td>
+<td>Charging Operator Backend</td>
+<td>Anchors <code>intentHash</code> to public ledger for tamper-evident audit</td>
+</tr>
 </tbody>
 </table>
 <p>These artifacts form the <strong>authorization chain</strong>.</p>
@@ -2310,6 +2315,34 @@ vehicle_wallet → ChargeNet account
 <li>marks the authorization consumed</li>
 <li>stores the audit bundle</li>
 </ul>
+<hr />
+<h2 id="tsession-end35s-intent-attestation-optional">T+Session End+35s — Intent Attestation <em>(optional)</em></h2>
+<p>The charging operator backend optionally anchors the <code>intentHash</code> to a public ledger for a tamper-evident audit trail.</p>
+<p>Example using Hedera Consensus Service (HCS):</p>
+<div class="highlight"><pre><span></span><code>intentHash + decisionId
+        ↓
+HCS topic submission
+        ↓
+consensus timestamp + sequence number
+        ↓
+anchor reference stored in audit bundle
+</code></pre></div>
+<p>The anchor record stored alongside the audit bundle:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256ofSettlementIntent...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;ledger&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hedera-hcs&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;topicId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0.12345&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;sequenceNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;consensusTimestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T14:31:45Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The anchor provides:</p>
+<ul>
+<li><strong>tamper detection</strong> — any modification to the settlement parameters invalidates the <code>intentHash</code></li>
+<li><strong>public auditability</strong> — the anchor is visible on the public ledger to any third party</li>
+<li><strong>dispute protection</strong> — proves the authorized intent was committed before settlement executed</li>
+</ul>
+<p>Intent anchoring is <strong>optional</strong> and does not block or affect the payment flow. Settlement and verification are complete without it.</p>
 <hr />
 <h1 id="data-storage-model">Data Storage Model</h1>
 <h2 id="fleet-backend-stores">Fleet Backend Stores</h2>
