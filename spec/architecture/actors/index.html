@@ -722,6 +722,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/why-mpcp-for-agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why MPCP for Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -896,6 +924,17 @@
     <span class="md-ellipsis">
       
         Vehicle Wallet (Machine Wallet)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI Agent
       
     </span>
   </a>
@@ -1592,6 +1631,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/human-agent-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Human-Agent Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1847,6 +1914,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ai-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI Agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#service-provider" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1945,6 +2023,54 @@
 <p>The wallet is the MPCP actor that signs SignedBudgetAuthorization and SignedPaymentAuthorization.</p>
 <blockquote>
 <p><strong>Note on Vehicle Identity:</strong> The <code>vehicleId</code> field in SBA artifacts is self-reported by the wallet. Production deployments SHOULD establish vehicle attestation via device key binding (e.g., a hardware-backed key whose public key is registered with the fleet operator). Without attestation, <code>vehicleId</code> cannot be cryptographically verified and is informational only.</p>
+</blockquote>
+<h2 id="ai-agent">AI Agent</h2>
+<p>An AI agent acting under human authorization, using MPCP to bound its spending authority.</p>
+<p><strong>Receives:</strong> PolicyGrant signed by a human principal (DID key)</p>
+<p><strong>Responsibilities:</strong></p>
+<ul>
+<li>Receives a PolicyGrant from a human principal (DID-signed) and acts as its spending subject</li>
+<li>Acts as <strong>session authority</strong> — creates and signs SBAs (typically with TRIP scope)</li>
+<li>Acts as <strong>payment decision service</strong> — enforces <code>allowedPurposes</code> and signs SPAs</li>
+<li>Maintains cumulative spend counter across all sessions in the trip/project</li>
+<li>SHOULD check <code>revocationEndpoint</code> before signing each SPA (agents are online by design)</li>
+</ul>
+<p><strong>Contrast with Vehicle Wallet:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Vehicle Wallet</th>
+<th>AI Agent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Policy authority</td>
+<td>Fleet operator</td>
+<td>Human (DID)</td>
+</tr>
+<tr>
+<td>Connectivity</td>
+<td>Offline-capable</td>
+<td>Online by design</td>
+</tr>
+<tr>
+<td>Revocation</td>
+<td>Not applicable</td>
+<td>SHOULD check before each payment</td>
+</tr>
+<tr>
+<td>Budget scope</td>
+<td>SESSION / DAY</td>
+<td>TRIP (multi-day)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong> Travel booking agent, subscription manager, event budget agent.</p>
+<blockquote>
+<p>The <code>vehicleId</code> field in SBA artifacts is used for agent identity (e.g. <code>"ai-trip-planner-v2"</code>).
+Agent attestation follows the same key binding recommendations as vehicle wallets.</p>
 </blockquote>
 <h2 id="service-provider">Service Provider</h2>
 <p>The entity that receives payment for a service (parking, charging, tolls).</p>

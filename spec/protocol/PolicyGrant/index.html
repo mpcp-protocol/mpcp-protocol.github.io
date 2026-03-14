@@ -722,6 +722,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/why-mpcp-for-agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why MPCP for Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1410,6 +1438,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#revocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revocation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Revocation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revocationendpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        revocationEndpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1712,6 +1768,34 @@
     
   
     Full Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/human-agent-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Human-Agent Profile
   
 
     
@@ -2146,6 +2230,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#revocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revocation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Revocation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revocationendpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        revocationEndpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2333,6 +2445,18 @@ Settlement verification
 <td>yes</td>
 <td>Cryptographic signature over the canonical JSON of the grant payload (all fields except <code>signature</code>).</td>
 </tr>
+<tr>
+<td>revocationEndpoint</td>
+<td>string</td>
+<td>optional</td>
+<td>URL of the human/operator wallet's revocation service. If present, merchants SHOULD check this before accepting payment. See <strong>Revocation</strong> section below.</td>
+</tr>
+<tr>
+<td>allowedPurposes</td>
+<td>string[]</td>
+<td>optional</td>
+<td>Merchant category allowlist (e.g. <code>["travel:hotel", "travel:flight"]</code>). Semantic metadata — enforced by the agent, not by the MPCP verifier. Appears in the audit trail.</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -2457,6 +2581,31 @@ signature = sign(hash, policyAuthorityPrivateKey)
 <p>If signature verification fails, the verifier MUST reject the grant.</p>
 <h3 id="key-resolution">Key Resolution</h3>
 <p>Verifiers resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> via the HTTPS well-known endpoint or pre-configured keys. See <a href="../key-resolution/">Key Resolution</a>.</p>
+<hr />
+<h2 id="revocation">Revocation</h2>
+<h3 id="revocationendpoint"><code>revocationEndpoint</code></h3>
+<p>If the <code>revocationEndpoint</code> field is present, verifiers and service providers SHOULD check
+whether the grant has been revoked before accepting a payment.</p>
+<p><strong>Endpoint contract:</strong></p>
+<div class="highlight"><pre><span></span><code>GET {revocationEndpoint}?grantId={grantId}
+Response: { &quot;revoked&quot;: boolean, &quot;revokedAt&quot;: &quot;ISO8601&quot; }
+</code></pre></div>
+<p><strong>Verifier behavior:</strong> The MPCP verifier pipeline does <strong>not</strong> call <code>revocationEndpoint</code> — it
+remains stateless and synchronous. Callers MUST perform the check as a separate step using
+<code>checkRevocation()</code> from the SDK.</p>
+<p><strong>Merchant responsibility:</strong> Merchants with a <code>revocationEndpoint</code> in the grant SHOULD call
+it before accepting payment. If the endpoint is unreachable, the merchant makes a risk-based
+decision based on deployment context (see <a href="../../profiles/human-agent-profile/">Human-to-Agent Profile</a>
+for guidance on offline exceptions).</p>
+<p><strong>Reference implementation:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="p">,</span><span class="w"> </span><span class="nx">revokedAt</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="p">(</span>
+<span class="w">  </span><span class="nx">grant</span><span class="p">.</span><span class="nx">revocationEndpoint</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">grant</span><span class="p">.</span><span class="nx">grantId</span><span class="p">,</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">timeoutMs</span><span class="o">:</span><span class="w"> </span><span class="mf">3000</span><span class="w"> </span><span class="p">}</span>
+<span class="p">);</span>
+</code></pre></div>
 <hr />
 <h2 id="summary">Summary</h2>
 <p>PolicyGrant establishes the <strong>policy boundary</strong> for machine payments.</p>

@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/overview/comparison-with-agent-protocols/">
+        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/overview/why-mpcp-for-agents/">
       
       
-        <link rel="prev" href="../design-goals/">
+        <link rel="prev" href="../comparison-with-agent-protocols/">
       
       
-        <link rel="next" href="../why-mpcp-for-agents/">
+        <link rel="next" href="../../architecture/system-model/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Comparison - MPCP Spec</title>
+        <title>Why MPCP for Agents - MPCP Spec</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#comparison-with-agent-protocols" class="md-skip">
+        <a href="#why-mpcp-for-ai-agent-spending" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Comparison
+              Why MPCP for Agents
             
           </span>
         </div>
@@ -701,6 +701,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../comparison-with-agent-protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Comparison
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -720,7 +748,7 @@
   <span class="md-ellipsis">
     
   
-    Comparison
+    Why MPCP for Agents
   
 
     
@@ -738,7 +766,7 @@
   <span class="md-ellipsis">
     
   
-    Comparison
+    Why MPCP for Agents
   
 
     
@@ -764,10 +792,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
+  <a href="#the-delegation-chain" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Summary
+        The delegation chain
       
     </span>
   </a>
@@ -775,10 +803,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#x402-protocol" class="md-nav__link">
+  <a href="#what-mpcp-adds-that-agent-protocols-dont" class="md-nav__link">
     <span class="md-ellipsis">
       
-        x402 Protocol
+        What MPCP adds that agent protocols don't
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What MPCP adds that agent protocols don&#39;t">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-authorized-spending-envelopes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-authorized spending envelopes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cryptographic-spending-bounds-not-just-policy-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cryptographic spending bounds, not just policy text
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#human-revocation-mid-delegation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Human revocation mid-delegation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merchant-category-filter-with-auditability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merchant category filter with auditability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-mpcp-complements-mcp-and-acp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How MPCP complements MCP and ACP
       
     </span>
   </a>
@@ -786,54 +875,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ap2-agent-payments-protocol" class="md-nav__link">
+  <a href="#when-to-use-mpcp-for-agent-spending" class="md-nav__link">
     <span class="md-ellipsis">
       
-        AP2 (Agent Payments Protocol)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#acp-agent-communication-protocol" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ACP (Agent Communication Protocol)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tapc-task-and-payment-coordination" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        TAPC (Task and Payment Coordination)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#human-to-agent-delegation-with-mpcp" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Human-to-Agent Delegation with MPCP
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#when-to-use-mpcp" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        When to Use MPCP
+        When to use MPCP for agent spending
       
     </span>
   </a>
@@ -855,34 +900,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../why-mpcp-for-agents/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Why MPCP for Agents
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1892,10 +1909,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
+  <a href="#the-delegation-chain" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Summary
+        The delegation chain
       
     </span>
   </a>
@@ -1903,10 +1920,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#x402-protocol" class="md-nav__link">
+  <a href="#what-mpcp-adds-that-agent-protocols-dont" class="md-nav__link">
     <span class="md-ellipsis">
       
-        x402 Protocol
+        What MPCP adds that agent protocols don't
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What MPCP adds that agent protocols don&#39;t">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-authorized-spending-envelopes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-authorized spending envelopes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cryptographic-spending-bounds-not-just-policy-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cryptographic spending bounds, not just policy text
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#human-revocation-mid-delegation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Human revocation mid-delegation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merchant-category-filter-with-auditability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merchant category filter with auditability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-mpcp-complements-mcp-and-acp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How MPCP complements MCP and ACP
       
     </span>
   </a>
@@ -1914,54 +1992,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ap2-agent-payments-protocol" class="md-nav__link">
+  <a href="#when-to-use-mpcp-for-agent-spending" class="md-nav__link">
     <span class="md-ellipsis">
       
-        AP2 (Agent Payments Protocol)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#acp-agent-communication-protocol" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ACP (Agent Communication Protocol)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tapc-task-and-payment-coordination" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        TAPC (Task and Payment Coordination)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#human-to-agent-delegation-with-mpcp" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Human-to-Agent Delegation with MPCP
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#when-to-use-mpcp" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        When to Use MPCP
+        When to use MPCP for agent spending
       
     </span>
   </a>
@@ -1999,204 +2033,119 @@
   
 
 
-<h1 id="comparison-with-agent-protocols">Comparison with Agent Protocols</h1>
-<p>MPCP is one of several protocols emerging for machine and agent payments. This page explains how
-MPCP differs from <strong>x402</strong>, <strong>AP2</strong>, <strong>ACP</strong>, <strong>TAPC</strong>, and related approaches — and covers why
-MPCP is the right authorization layer for human-to-agent spending delegation.</p>
-<h2 id="summary">Summary</h2>
+<h1 id="why-mpcp-for-ai-agent-spending">Why MPCP for AI Agent Spending</h1>
+<p>When a human delegates spending authority to an AI agent, three things must be true:</p>
+<ol>
+<li><strong>The human's intent is cryptographically bound</strong> — the agent can't exceed the budget or
+   spend on categories the human didn't approve</li>
+<li><strong>Merchants can verify the authorization without calling the human</strong> — offline-capable,
+   stateless verification at the point of payment</li>
+<li><strong>The human can cancel</strong> — revocation that propagates to merchants</li>
+</ol>
+<p>MPCP provides all three. The human signs a PolicyGrant with their DID key; the agent pre-loads
+a signed budget authorization; merchants verify the full chain (PolicyGrant → SBA → SPA →
+Settlement) locally, with an optional online revocation check.</p>
+<hr />
+<h2 id="the-delegation-chain">The delegation chain</h2>
+<p>MPCP's authorization chain maps directly onto human-to-agent spending delegation:</p>
+<div class="highlight"><pre><span></span><code>Fleet (machine) profile:
+  Fleet Operator (DID) → PolicyGrant → Vehicle Wallet → SBA → SPA → Settlement
+
+Human-to-agent profile:
+  Human (DID)          → PolicyGrant → AI Agent        → SBA → SPA → Settlement
+</code></pre></div>
+<p>Both profiles use the <strong>same MPCP artifacts and the same verifier</strong>. The difference is in who
+signs the PolicyGrant (a human with a DID key) and what the agent does with it (books hotels,
+not charges EVs).</p>
+<hr />
+<h2 id="what-mpcp-adds-that-agent-protocols-dont">What MPCP adds that agent protocols don't</h2>
+<h3 id="pre-authorized-spending-envelopes">Pre-authorized spending envelopes</h3>
+<p>Most agent protocols (AP2, TAPC) require online mandate exchange at payment time: the user signs
+a cart or intent, the agent presents it to the merchant, the merchant verifies it live.</p>
+<p>MPCP works differently: the human signs <em>once</em> (the PolicyGrant), and the agent pre-loads a
+signed budget (SBA). The merchant verifies the chain locally, with no round-trip to the human.</p>
+<p><strong>Result:</strong> the agent can complete payments even when the human is unavailable or offline. The
+spending is still bounded — the agent cannot exceed <code>maxAmountMinor</code> or pay outside
+<code>allowedPurposes</code>.</p>
+<h3 id="cryptographic-spending-bounds-not-just-policy-text">Cryptographic spending bounds, not just policy text</h3>
+<p>The SBA is a <em>signed</em> artifact specifying the exact maximum spend in atomic units. Merchants
+verify the signature and the budget math independently. There is no "trust the agent" step.</p>
+<div class="highlight"><pre><span></span><code>SBA.maxAmountMinor = &quot;80000&quot;   (USD cents → $800.00)
+SBA.budgetScope    = &quot;TRIP&quot;    (covers the full Paris trip)
+SBA.expiresAt      = &quot;2026-04-13T23:59:59Z&quot;
+</code></pre></div>
+<p>The agent cannot forge a larger SBA — it doesn't hold the SBA signing key (that belongs to
+the session authority, which the human or a human-controlled service provisions).</p>
+<h3 id="human-revocation-mid-delegation">Human revocation mid-delegation</h3>
+<div class="highlight"><pre><span></span><code>GET {revocationEndpoint}?grantId={grantId}
+Response: { &quot;revoked&quot;: boolean, &quot;revokedAt&quot;: &quot;ISO8601&quot; }
+</code></pre></div>
+<p>Alice can cancel her AI trip planner's budget at any time. Merchants who check the
+revocation endpoint before processing payment will refuse. The MPCP verifier stays stateless —
+revocation is a separate online check the merchant makes using <code>checkRevocation()</code>.</p>
+<h3 id="merchant-category-filter-with-auditability">Merchant category filter with auditability</h3>
+<p><code>allowedPurposes</code> documents the human's intent in the signed PolicyGrant:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;allowedPurposes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;travel:hotel&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;travel:flight&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;travel:transport&quot;</span><span class="p">]</span>
+</code></pre></div>
+<p>The agent enforces this filter — it refuses to sign an SPA for a restaurant booking because
+<code>travel:dining</code> is not in the list. The merchant sees the <code>allowedPurposes</code> field in the
+PolicyGrant during verification and can confirm the payment category was permitted.</p>
+<hr />
+<h2 id="how-mpcp-complements-mcp-and-acp">How MPCP complements MCP and ACP</h2>
+<p>MCP and ACP define <strong>what the agent does</strong> (tool calls, task exchange). MPCP bounds <strong>how
+much the agent can spend</strong> while doing it.</p>
+<p>A travel agent powered by MCP tools might:</p>
+<div class="highlight"><pre><span></span><code>MCP tool call:    search_hotels(&quot;Paris&quot;, dates)   → returns options
+MCP tool call:    book_hotel(&quot;Mercure Paris&quot;)      → initiates booking
+MPCP payment:     SPA signed for $250             → bounded by Alice&#39;s $800 PolicyGrant
+</code></pre></div>
+<p>The protocols are additive. An agent runtime can use MCP for task execution and MPCP for
+payment authorization simultaneously. MPCP does not replace MCP or ACP — it adds the
+cryptographic spending layer on top.</p>
+<hr />
+<h2 id="when-to-use-mpcp-for-agent-spending">When to use MPCP for agent spending</h2>
 <table>
 <thead>
 <tr>
-<th></th>
-<th>MPCP</th>
-<th>x402</th>
-<th>AP2</th>
-<th>ACP</th>
-<th>TAPC</th>
+<th>Situation</th>
+<th>MPCP fit</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Primary use case</strong></td>
-<td>Physical machines + AI agents; bounded budget delegation</td>
-<td>API access, pay-per-request</td>
-<td>Agent commerce; mandate-based</td>
-<td>Agent-to-agent communication</td>
-<td>Agent payment negotiation</td>
+<td>Agent books travel across multiple days</td>
+<td>TRIP scope SBA covers the whole trip</td>
 </tr>
 <tr>
-<td><strong>Authorization model</strong></td>
-<td>Pre-authorized budgets; spend within envelope</td>
-<td>Per-request payment</td>
-<td>Verifiable mandates (Cart, Intent)</td>
-<td>Task/capability negotiation</td>
-<td>Payment protocol inside agent tasks</td>
+<td>Human needs to cancel mid-delegation</td>
+<td><code>revocationEndpoint</code> → <code>checkRevocation()</code></td>
 </tr>
 <tr>
-<td><strong>Offline</strong></td>
-<td>Yes — pre-loaded chain, local verification</td>
-<td>No — HTTP round-trip</td>
-<td>No — online mandate exchange</td>
-<td>No</td>
-<td>No</td>
+<td>Agent should only pay for certain categories</td>
+<td><code>allowedPurposes</code> filter</td>
 </tr>
 <tr>
-<td><strong>Settlement rails</strong></td>
-<td>Any (XRPL, EVM, Stripe, hosted)</td>
-<td>Stablecoins (USDC, EURC)</td>
-<td>Cards, x402</td>
-<td>Rail-agnostic (unspecified)</td>
-<td>Unspecified</td>
+<td>Merchant needs offline-capable verification</td>
+<td>PolicyGrant + SBA chain verifies locally</td>
 </tr>
 <tr>
-<td><strong>Approval flow</strong></td>
-<td>Budget granted upstream; agent spends within bounds</td>
-<td>Pay per API call</td>
-<td>User signs Cart or Intent mandate</td>
-<td>Capability exchange</td>
-<td>Payment negotiation</td>
+<td>Agent spending must be auditable</td>
+<td>Full artifact bundle per payment, signed chain</td>
 </tr>
 <tr>
-<td><strong>Human revocation</strong></td>
-<td>Yes — <code>revocationEndpoint</code></td>
-<td>No</td>
-<td>Yes (mandate expiry)</td>
-<td>N/A</td>
-<td>N/A</td>
-</tr>
-<tr>
-<td><strong>Focus</strong></td>
-<td>Bounded autonomy, verification, auditability</td>
-<td>Micropayments, no API keys</td>
-<td>Accountability, authenticity, user control</td>
-<td>Agent interoperability</td>
-<td>Agent payment flows</td>
+<td>Human uses a DID key (not a service account)</td>
+<td><code>issuer</code> = DID, standard key resolution</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="x402-protocol">x402 Protocol</h2>
-<p><strong>x402</strong> embeds payment into HTTP using the 402 "Payment Required" status code. An agent sends a
-request; the server responds with 402 and payment instructions; the agent pays; the server verifies
-and serves the response.</p>
-<p><strong>How MPCP differs:</strong></p>
-<ol>
-<li>
-<p><strong>Per-request vs pre-authorized</strong> — x402 is pay-per-call. MPCP uses pre-authorized budgets: you
-   grant a spending envelope (e.g., $800 for a Paris trip) and the agent spends within it across
-   multiple sessions. MPCP is designed for <strong>multi-payment sessions</strong>, not per-request API access.</p>
-</li>
-<li>
-<p><strong>Online-only vs offline-capable</strong> — x402 requires an HTTP round-trip at payment time. MPCP
-   allows payments when the network is unavailable. A vehicle in an underground garage, or an agent
-   operating in a low-connectivity environment, can sign payments locally.</p>
-</li>
-<li>
-<p><strong>Physical machines vs API consumers</strong> — x402 optimizes for agents paying for API access.
-   MPCP optimizes for <strong>machines and agents</strong> paying for bounded real-world services — parking,
-   charging, hotel bookings, transport — often in environments where connectivity is intermittent.</p>
-</li>
-<li>
-<p><strong>Stablecoins vs rail-agnostic</strong> — x402 is built around stablecoins on specific chains. MPCP
-   defines the authorization chain; the settlement rail is a pluggable backend.</p>
-</li>
-</ol>
-<hr />
-<h2 id="ap2-agent-payments-protocol">AP2 (Agent Payments Protocol)</h2>
-<p><strong>AP2</strong> extends Agent2Agent (A2A) and Model Context Protocol (MCP) with payment capabilities. It
-uses Verifiable Digital Credentials (VDCs): Payment Mandate, Cart Mandate, and Intent Mandate.</p>
-<p><strong>How MPCP differs:</strong></p>
-<ol>
-<li>
-<p><strong>Architecture</strong> — AP2 is mandate-based: the user signs a Cart (human-present) or Intent
-   (human-not-present) mandate, exchanged with merchants at payment time. MPCP is pipeline-based:
-   Policy → Grant → Budget → Payment → Verification. MPCP focuses on <strong>cryptographically bounded
-   spending envelopes</strong> that the agent can use without further online mandate exchange.</p>
-</li>
-<li>
-<p><strong>Offline and physical machines</strong> — AP2 assumes online mandate exchange. MPCP supports offline
-   payment: the machine holds PolicyGrant + SBA onboard and signs payments when disconnected.</p>
-</li>
-<li>
-<p><strong>Cards vs multi-rail</strong> — AP2's initial focus is card payments, with x402 for crypto. MPCP is
-   rail-agnostic from the start: XRPL, EVM, Stripe, hosted.</p>
-</li>
-<li>
-<p><strong>Scope</strong> — AP2 addresses accountability, authenticity, and authorization across agent commerce.
-   MPCP addresses <strong>bounded spending</strong> in policy-defined sessions. Different problems, complementary
-   potential.</p>
-</li>
-</ol>
-<hr />
-<h2 id="acp-agent-communication-protocol">ACP (Agent Communication Protocol)</h2>
-<p><strong>ACP</strong> (from BeeAI/IBM) is a REST-based protocol for agent-to-agent communication. It defines
-how agents discover each other, exchange tasks, stream results, and coordinate work.</p>
-<p><strong>Relationship to MPCP:</strong></p>
-<p>ACP defines <em>what</em> the agent does (task exchange, capability discovery). MPCP bounds <em>how much</em>
-the agent can spend while doing it. They operate at different layers and are complementary:</p>
-<div class="highlight"><pre><span></span><code>ACP:  Agent A → sends task → Agent B
-MPCP: Agent B → spends $X  → within human-granted budget
-</code></pre></div>
-<p>MPCP sits <strong>above</strong> ACP as the spending authorization layer. An ACP agent executing a paid task
-can carry an MPCP PolicyGrant to prove its spending authority to the service provider.</p>
-<hr />
-<h2 id="tapc-task-and-payment-coordination">TAPC (Task and Payment Coordination)</h2>
-<p><strong>TAPC</strong> (emerging) defines how payment negotiation is embedded inside agent task flows. It
-addresses payment initiation, confirmation, and receipt within agent-to-agent or agent-to-service
-interactions.</p>
-<p><strong>Relationship to MPCP:</strong></p>
-<p>TAPC handles payment <em>negotiation and initiation</em>. MPCP handles <em>authorization and verification</em>
-of the spending that results. They are complementary layers:</p>
-<div class="highlight"><pre><span></span><code>TAPC: Agent negotiates price with service → initiates payment
-MPCP: PolicyGrant → SBA → SPA bounds what that payment can be
-</code></pre></div>
-<p>MPCP provides the cryptographic guarantees (bounded budget, signed chain, offline verification)
-that a TAPC payment flow can leverage. The merchant verifies the MPCP chain independently of the
-TAPC negotiation.</p>
-<hr />
-<h2 id="human-to-agent-delegation-with-mpcp">Human-to-Agent Delegation with MPCP</h2>
-<p>See <strong><a href="../why-mpcp-for-agents/">Why MPCP for AI Agent Spending</a></strong> for a dedicated explanation of:</p>
-<ul>
-<li>Why pre-authorized budgets fit human-to-agent delegation better than per-transaction mandates</li>
-<li>How MPCP complements MCP and ACP (task protocols + spending bounds)</li>
-<li>Key differentiators vs AP2 for multi-day trips</li>
-<li>When to use MPCP for agent spending</li>
-</ul>
-<hr />
-<h2 id="when-to-use-mpcp">When to Use MPCP</h2>
-<p>Use MPCP when:</p>
-<ul>
-<li>Machines or AI agents need to spend autonomously within policy limits</li>
-<li>Payments may work <strong>offline</strong> (vehicles in garages, agents in low-connectivity environments)</li>
-<li>You need <strong>pre-authorized budgets</strong> (session/trip spending envelopes) rather than per-request payment</li>
-<li>You want <strong>any settlement rail</strong> (XRPL, EVM, Stripe, hosted) with a single authorization model</li>
-<li>The human needs to <strong>revoke</strong> the agent's spending authority mid-delegation</li>
-<li>Verification and auditability of the authorization chain matter</li>
-</ul>
-<p>Consider x402 when:</p>
-<ul>
-<li>You need pay-per-request API access payments</li>
-<li>Stablecoin micropayments fit your use case</li>
-<li>Online HTTP flow is acceptable</li>
-</ul>
-<p>Consider AP2 when:</p>
-<ul>
-<li>You are building agent commerce on A2A/MCP</li>
-<li>Card payments and mandate-based flows are primary</li>
-<li>Human-present vs human-not-present transaction types are central</li>
-</ul>
-<p>Use MPCP + ACP/MCP together when:</p>
-<ul>
-<li>You want task execution (ACP/MCP) with cryptographically bounded spending (MPCP)</li>
-<li>Your agent runtime needs to prove spending authority to service providers</li>
-</ul>
-<hr />
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../../profiles/human-agent-profile/">Human-to-Agent Delegation Profile</a></li>
-<li><a href="../what-is-mpcp/">What is MPCP?</a></li>
-<li><a href="../problem/">The Problem</a></li>
-<li><a href="../../protocol/artifacts/">Protocol: Artifacts</a></li>
+<li><a href="../../profiles/human-agent-profile/">Human-to-Agent Delegation Profile</a> — full deployment guide</li>
+<li><a href="../comparison-with-agent-protocols/">Comparison with Agent Protocols</a> — x402, AP2, ACP, TAPC</li>
+<li><a href="../../protocol/PolicyGrant/">PolicyGrant</a> — <code>revocationEndpoint</code>, <code>allowedPurposes</code> fields</li>
+<li><a href="../../protocol/SignedBudgetAuthorization/">SignedBudgetAuthorization</a> — TRIP scope</li>
+<li><a href="../../architecture/actors/">Actors</a> — AI Agent actor</li>
 </ul>
 
 
