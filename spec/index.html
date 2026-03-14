@@ -952,14 +952,42 @@
   
   
     <li class="md-nav__item">
-      <a href="architecture/reference-flow/" class="md-nav__link">
+      <a href="architecture/fleet-ev-reference-flow/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Reference Flow
+    Reference Flow (Fleet EV)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/human-agent-reference-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Flow (Human-Agent)
   
 
     
@@ -1892,12 +1920,12 @@
 <p>A machine payment is accepted only if the recipient can verify a chain of signed artifacts:</p>
 <p><strong><a href="protocol/FleetPolicyAuthorization/">Fleet Policy</a> → <a href="protocol/PolicyGrant/">PolicyGrant</a> → <a href="protocol/SignedBudgetAuthorization/">SignedBudgetAuthorization</a> → <a href="protocol/SignedPaymentAuthorization/">SignedPaymentAuthorization</a> → <a href="protocol/SettlementIntent/">SettlementIntent</a> → Settlement</strong></p>
 <p>Each step narrows what the machine is allowed to do.</p>
-<p>→ <a href="architecture/reference-flow/">See the full reference flow</a></p>
+<p>→ <a href="architecture/fleet-ev-reference-flow/">See the full reference flow</a></p>
 <p>MPCP is not a settlement rail — it is the authorization layer above settlement.</p>
 <h2 id="specification-contents">Specification Contents</h2>
 <ul>
 <li><strong>Overview</strong> — <a href="overview/what-is-mpcp/">What is MPCP</a>, <a href="overview/problem-statement/">Problem Statement</a>, <a href="overview/design-goals/">Design Goals</a></li>
-<li><strong>Architecture</strong> — <a href="architecture/authorization-chain/">Authorization Chain</a>, <a href="architecture/system-model/">System Model</a>, <a href="architecture/actors/">Actors</a>, <a href="architecture/reference-flow/">Reference Flow</a></li>
+<li><strong>Architecture</strong> — <a href="architecture/authorization-chain/">Authorization Chain</a>, <a href="architecture/system-model/">System Model</a>, <a href="architecture/actors/">Actors</a>, <a href="architecture/fleet-ev-reference-flow/">Reference Flow</a></li>
 <li><strong>Protocol</strong> — <a href="protocol/mpcp/">MPCP Spec</a>, <a href="protocol/artifacts/">Artifacts</a>, and artifact definitions (PolicyGrant, SBA, SPA, SettlementIntent, etc.)</li>
 <li><strong>Guides</strong> — <a href="guides/build-a-machine-wallet/">Build a Machine Wallet</a>, <a href="guides/fleet-payments/">Fleet Payments</a>, <a href="guides/dispute-resolution/">Dispute Resolution</a></li>
 <li><strong>Diagrams</strong> — <a href="diagrams/">Visual reference</a></li>
