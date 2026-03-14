@@ -2494,8 +2494,21 @@ Protection is limited to the settlement fields explicitly carried in the SPA and
 <p>Machines cannot bypass policy constraints because every authorization chain must derive from:</p>
 <div class="highlight"><pre><span></span><code>PolicyGrant → SBA → SPA
 </code></pre></div>
+<h3 id="cumulative-budget-overspend">Cumulative Budget Overspend</h3>
+<p>The MPCP verifier is stateless and checks only that the current SPA amount does not exceed <code>SBA.maxAmountMinor</code>. It does not track prior payments in the session.</p>
+<p><strong>Session authority responsibility:</strong> The session authority MUST maintain a running total of amounts spent within the budget scope and MUST only issue new SPAs within the remaining authorized envelope.</p>
+<p>The reference implementation exposes <code>cumulativeSpentMinor</code> in <code>SettlementVerificationContext</code> so callers can pass the running total to the verifier for an accurate cumulative check:</p>
+<div class="highlight"><pre><span></span><code>if (cumulativeSpentMinor + currentPayment &gt; maxAmountMinor) → budget_exceeded
+</code></pre></div>
+<p>In offline or air-gapped deployments, the session authority cannot contact the verifier in real time. In these environments, cumulative enforcement relies on trusted wallet hardware maintaining the spending counter locally.</p>
 <h3 id="settlement-tampering">Settlement Tampering</h3>
 <p>Verification ensures that executed settlement transactions match authorized parameters before the session is finalized.</p>
+<hr />
+<h1 id="known-limitations">Known Limitations</h1>
+<h2 id="grant-revocation">Grant Revocation</h2>
+<p>MPCP does not define a revocation mechanism for PolicyGrants or SBAs. Once issued, an artifact remains valid until its <code>expiresAt</code> timestamp passes.</p>
+<p><strong>Mitigation:</strong> Issue short-lived grants (recommended: &lt; 15 minutes for high-risk sessions). In scenarios where immediate revocation is required, the session authority should decline to issue new SPAs; the current grant will expire naturally.</p>
+<p><strong>Future work:</strong> A <code>revocationEndpoint</code> extension may be defined in a future protocol version to support real-time revocation checks by verifiers.</p>
 <hr />
 <p>These sections define the core interoperability rules required for MPCP implementations across different systems and settlement rails.</p>
 <hr />

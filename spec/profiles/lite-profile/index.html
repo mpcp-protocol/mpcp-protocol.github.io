@@ -1584,6 +1584,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backend-substitution-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend Substitution Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memo-and-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memo and Metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1969,6 +2008,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backend-substitution-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backend Substitution Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memo-and-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memo and Metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2090,6 +2168,17 @@
 <hr />
 <h2 id="verification-behavior">Verification Behavior</h2>
 <p>Step 3 of the MPCP verification algorithm (intent binding) is skipped when <code>intentHash</code> is absent. All other verification steps apply in full.</p>
+<p>The verification report will include:</p>
+<div class="highlight"><pre><span></span><code>Hash binding: NOT CHECKED (Lite Profile — intentHash absent)
+</code></pre></div>
+<p>The <code>hashBindingChecked</code> field in <code>VerificationReport</code> will be <code>false</code> when <code>intentHash</code> is absent.</p>
+<hr />
+<h2 id="security-considerations">Security Considerations</h2>
+<h3 id="backend-substitution-risk">Backend Substitution Risk</h3>
+<p>In Lite Profile deployments, a compromised backend can substitute payment amounts or destinations <strong>between policy authorization and settlement execution</strong> without invalidating the cryptographic chain. Only the fields explicitly carried in the SPA (rail, asset, amount, destination) are protected.</p>
+<p>Deployments that cannot tolerate this risk MUST use the Full Profile with <code>intentHash</code> binding.</p>
+<h3 id="memo-and-metadata">Memo and Metadata</h3>
+<p>Fields outside the SPA — memo content, ancillary metadata, extended transaction fields — receive no cryptographic protection in Lite Profile. If these fields affect business outcomes, use the Full Profile.</p>
 <hr />
 <h2 id="see-also">See Also</h2>
 <ul>

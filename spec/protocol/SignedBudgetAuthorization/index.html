@@ -1322,6 +1322,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cumulative-enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cumulative Enforcement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1936,6 +1947,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cumulative-enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cumulative Enforcement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2209,6 +2231,18 @@
 <p>Both values are in the <strong>on-chain asset's atomic units</strong> — the comparison is a direct numeric check with no currency conversion required. The session authority is responsible for converting the fiat budget into on-chain units at SBA issuance time, using the exchange rate and asset precision applicable at that moment.</p>
 <p>This confirms the current payment fits within the authorized envelope. The session authority's signature on each SPA is the cryptographic attestation that cumulative spending remains within bounds — the verifier trusts this by validating the signature.</p>
 <p>Verifiers MUST NOT attempt to track or reconstruct cumulative session spending.</p>
+<h2 id="cumulative-enforcement">Cumulative Enforcement</h2>
+<p>To enable accurate cumulative budget enforcement within a session, callers MAY pass the running total of prior spending to the verifier via <code>cumulativeSpentMinor</code>.</p>
+<p>When provided, the verifier applies:</p>
+<div class="highlight"><pre><span></span><code>cumulativeSpentMinor + currentPayment &lt;= maxAmountMinor
+</code></pre></div>
+<p>instead of the bare single-payment check. This allows a stateless verifier to correctly reject payments that would exceed the cumulative budget even if each individual payment would fit.</p>
+<p><strong>Session authority responsibility:</strong>
+- MUST track cumulative spending per scope (SESSION, DAY, VEHICLE, FLEET)
+- MUST pass <code>cumulativeSpentMinor</code> to the verifier for correct enforcement
+- MUST NOT issue new SPAs when cumulative spending would exceed <code>maxAmountMinor</code></p>
+<p><strong>Offline trust assumption:</strong>
+In offline or air-gapped environments (e.g., vehicles without real-time connectivity), cumulative enforcement relies on the session authority (typically the vehicle wallet) maintaining the spending counter in trusted local storage. The verifier cannot independently verify the counter's accuracy in offline mode; this is an accepted trust assumption for offline deployments.</p>
 <h2 id="example">Example</h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>

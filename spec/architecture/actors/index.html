@@ -1943,6 +1943,9 @@
 <li>Executes settlement transactions</li>
 </ul>
 <p>The wallet is the MPCP actor that signs SignedBudgetAuthorization and SignedPaymentAuthorization.</p>
+<blockquote>
+<p><strong>Note on Vehicle Identity:</strong> The <code>vehicleId</code> field in SBA artifacts is self-reported by the wallet. Production deployments SHOULD establish vehicle attestation via device key binding (e.g., a hardware-backed key whose public key is registered with the fleet operator). Without attestation, <code>vehicleId</code> cannot be cryptographically verified and is informational only.</p>
+</blockquote>
 <h2 id="service-provider">Service Provider</h2>
 <p>The entity that receives payment for a service (parking, charging, tolls).</p>
 <p><strong>Responsibilities:</strong></p>

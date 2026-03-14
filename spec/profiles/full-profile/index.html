@@ -1623,6 +1623,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#full-profile-security-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Profile Security Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Full Profile Security Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policygrant-signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PolicyGrant Signing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policyhash-length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        policyHash Length
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spa-nonce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPA Nonce
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1991,6 +2041,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#full-profile-security-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Profile Security Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Full Profile Security Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policygrant-signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PolicyGrant Signing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#policyhash-length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        policyHash Length
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spa-nonce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPA Nonce
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2109,6 +2209,18 @@
 <h2 id="optional-intent-attestation-layer-ial">Optional: Intent Attestation Layer (IAL)</h2>
 <p>Full profile deployments may additionally publish the <code>intentHash</code> to the Intent Attestation Layer (IAL) before settlement execution. This creates a timestamped, tamper-evident public record that the commitment existed prior to the transaction, enabling third-party dispute resolution.</p>
 <p>See <a href="../../protocol/anchoring/">Anchoring</a> for the IAL integration specification.</p>
+<hr />
+<h2 id="full-profile-security-requirements">Full Profile Security Requirements</h2>
+<h3 id="policygrant-signing">PolicyGrant Signing</h3>
+<p>In Full Profile deployments, PolicyGrants MUST be signed by the policy authority. Configure <code>MPCP_POLICY_GRANT_SIGNING_PUBLIC_KEY_PEM</code> on the verifier; unsigned grants will be rejected.</p>
+<h3 id="policyhash-length">policyHash Length</h3>
+<p><code>policyHash</code> MUST be a full SHA-256 hash (64 lowercase hex characters), computed as:</p>
+<div class="highlight"><pre><span></span><code>policyHash = SHA256(&quot;MPCP:Policy:1.0:&quot; || canonicalJson(policyDocument))
+</code></pre></div>
+<p>Short or truncated hashes are rejected in Full Profile deployments. The minimum accepted length is 12 hex characters; the full SHA-256 output (64 chars) is strongly recommended.</p>
+<h3 id="spa-nonce">SPA Nonce</h3>
+<p>The <code>nonce</code> field SHOULD be present in Full Profile SPAs. The reference implementation auto-generates a UUID nonce on every <code>createSignedPaymentAuthorization()</code> call.</p>
+<p>Recipients SHOULD record nonces to detect and reject replayed SPAs within the same session. The verifier itself does not track nonces (stateless model); nonce uniqueness enforcement is the responsibility of the session authority.</p>
 <hr />
 <h2 id="see-also">See Also</h2>
 <ul>

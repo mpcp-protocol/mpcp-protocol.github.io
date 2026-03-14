@@ -1349,13 +1349,63 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#signing" class="md-nav__link">
+  <a href="#signing-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Signing
+        Signing Requirements
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Signing Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#domain-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Hash
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reference-implementation-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference Implementation — Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforcement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Resolution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2035,13 +2085,63 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#signing" class="md-nav__link">
+  <a href="#signing-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Signing
+        Signing Requirements
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Signing Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#domain-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Hash
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reference-implementation-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference Implementation — Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enforcement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Resolution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2314,13 +2414,49 @@ SPA.amount ≤ PolicyGrant.maxSpend
 <p>The <code>policyHash</code> is not a hash of the PolicyGrant artifact itself — it is a hash of the <strong>source policy</strong> that the grant was derived from.</p>
 <p>Downstream artifacts (SBA and SPA) MUST carry the same <code>policyHash</code>. During settlement verification, the verifier checks that <code>PolicyGrant.policyHash</code>, <code>SBA.policyHash</code>, and <code>SPA.policyHash</code> are all equal, confirming the entire authorization chain derives from the same policy snapshot.</p>
 <hr />
-<h2 id="signing">Signing</h2>
-<p>PolicyGrant MUST be cryptographically signed. The policy authority signs the grant; verifiers resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> via the HTTPS well-known endpoint or pre-configured keys. See <a href="../key-resolution/">Key Resolution</a>.</p>
-<p>The signed payload is the canonical JSON of all grant fields except <code>signature</code>:</p>
-<div class="highlight"><pre><span></span><code>hash = SHA256(&quot;MPCP:PolicyGrant:&lt;version&gt;:&quot; || canonicalJson(grantPayload))
+<h2 id="signing-requirements">Signing Requirements</h2>
+<p>PolicyGrant MUST be cryptographically signed by the policy authority. Verifiers that have a public key configured MUST verify the signature and MUST reject unsigned grants.</p>
+<h3 id="domain-hash">Domain Hash</h3>
+<p>The signed payload uses domain-separated hashing:</p>
+<div class="highlight"><pre><span></span><code>hash = SHA256(&quot;MPCP:PolicyGrant:1.0:&quot; || canonicalJson(grantPayload))
 signature = sign(hash, policyAuthorityPrivateKey)
 </code></pre></div>
+<p>where <code>grantPayload</code> is all grant fields except <code>signature</code>, serialized as canonical JSON.</p>
+<h3 id="reference-implementation-environment-variables">Reference Implementation — Environment Variables</h3>
+<p>The reference implementation (<code>policyGrant.ts</code>) exposes signing and verification via environment variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MPCP_POLICY_GRANT_SIGNING_PRIVATE_KEY_PEM</code></td>
+<td>Private key for signing PolicyGrants</td>
+</tr>
+<tr>
+<td><code>MPCP_POLICY_GRANT_SIGNING_PUBLIC_KEY_PEM</code></td>
+<td>Public key for verifying PolicyGrant signatures. When set, unsigned grants are rejected.</td>
+</tr>
+<tr>
+<td><code>MPCP_POLICY_GRANT_SIGNING_KEY_ID</code></td>
+<td>Key identifier (default: <code>mpcp-policy-grant-signing-key-1</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Functions:
+- <code>createSignedPolicyGrant(grant)</code> — signs the grant, returns <code>SignedPolicyGrant</code>
+- <code>verifyPolicyGrantSignature(envelope)</code> — verifies the signature</p>
+<h3 id="enforcement">Enforcement</h3>
+<p>If <code>MPCP_POLICY_GRANT_SIGNING_PUBLIC_KEY_PEM</code> is set:
+- Grants without <code>issuerKeyId</code> and <code>signature</code> are rejected with <code>invalid_policy_grant_signature</code>
+- Grants with an invalid signature are rejected with <code>invalid_policy_grant_signature</code></p>
+<p>If the env var is not set, signature verification is skipped (backward-compatible mode for environments using pre-validated grants).</p>
 <p>If signature verification fails, the verifier MUST reject the grant.</p>
+<h3 id="key-resolution">Key Resolution</h3>
+<p>Verifiers resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> via the HTTPS well-known endpoint or pre-configured keys. See <a href="../key-resolution/">Key Resolution</a>.</p>
 <hr />
 <h2 id="summary">Summary</h2>
 <p>PolicyGrant establishes the <strong>policy boundary</strong> for machine payments.</p>
