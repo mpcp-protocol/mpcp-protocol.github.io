@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/key-resolution/">
+        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/policy-anchoring/">
       
       
-        <link rel="prev" href="../verification/">
+        <link rel="prev" href="../anchoring/">
       
       
-        <link rel="next" href="../anchoring/">
+        <link rel="next" href="../PolicyGrant/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Key Resolution - MPCP Spec</title>
+        <title>Policy Anchoring - MPCP Spec</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#key-resolution" class="md-skip">
+        <a href="#policy-anchoring" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Key Resolution
+              Policy Anchoring
             
           </span>
         </div>
@@ -1131,37 +1131,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Key Resolution
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../key-resolution/" class="md-nav__link">
         
   
   
@@ -1177,264 +1150,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#canonical-key-format-jwk" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Canonical Key Format: JWK
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Canonical Key Format: JWK">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ed25519-recommended" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Ed25519 (recommended)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#secp256k1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        secp256k1
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#https-well-known-endpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        HTTPS Well-Known Endpoint
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="HTTPS Well-Known Endpoint">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#endpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Endpoint
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#deriving-the-url-from-issuer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Deriving the URL from issuer
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#key-set-document-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Set Document Format
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#http-response-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        HTTP Response Requirements
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resolution-algorithm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Resolution Algorithm
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pre-configured-keys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pre-Configured Keys
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#did-and-verifiable-credentials-optional" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        DID and Verifiable Credentials (Optional)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#didxrpl-did-resolution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        did:xrpl DID Resolution
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="did:xrpl DID Resolution">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#did-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        DID Format
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#network-rpc-defaults" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Network RPC Defaults
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#resolution-algorithm_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Resolution Algorithm
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference-implementation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference Implementation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#error-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Codes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-codes_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Error Codes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See Also
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1472,10 +1187,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../policy-anchoring/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Anchoring
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1491,6 +1233,342 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#privacy-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Privacy Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Privacy Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xrpl-note-on-permissioned-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XRPL note on "permissioned topics"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anchorref-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        anchorRef Field
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="anchorRef Field">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Formats
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hcs-policy-anchoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HCS Policy Anchoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HCS Policy Anchoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hcs-message-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HCS Message Formats
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reference-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-via-mirror-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification via Mirror Node
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xrpl-nft-backed-policygrant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XRPL NFT-Backed PolicyGrant
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="XRPL NFT-Backed PolicyGrant">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encrypted-xrpl-flow-preparation-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encrypted XRPL flow (preparation step)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipfs-store-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IPFS store interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revocation-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revocation check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-to-revocationendpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison to revocationEndpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#off-chain-document-custody" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Off-Chain Document Custody
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#didxrpl-key-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        did:xrpl Key Resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hcs-topic-visibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HCS Topic Visibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption-key-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encryption Key Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nft-burn-finality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NFT Burn Finality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#immutability-and-gdpr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immutability and GDPR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#offline-merchants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Merchants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2081,33 +2159,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#canonical-key-format-jwk" class="md-nav__link">
+  <a href="#privacy-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Canonical Key Format: JWK
+        Privacy Model
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Canonical Key Format: JWK">
+    <nav class="md-nav" aria-label="Privacy Model">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ed25519-recommended" class="md-nav__link">
+  <a href="#xrpl-note-on-permissioned-topics" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Ed25519 (recommended)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#secp256k1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        secp256k1
+        XRPL note on "permissioned topics"
       
     </span>
   </a>
@@ -2120,55 +2187,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#https-well-known-endpoint" class="md-nav__link">
+  <a href="#anchorref-field" class="md-nav__link">
     <span class="md-ellipsis">
       
-        HTTPS Well-Known Endpoint
+        anchorRef Field
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="HTTPS Well-Known Endpoint">
+    <nav class="md-nav" aria-label="anchorRef Field">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#endpoint" class="md-nav__link">
+  <a href="#formats" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Endpoint
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#deriving-the-url-from-issuer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Deriving the URL from issuer
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#key-set-document-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Set Document Format
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#http-response-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        HTTP Response Requirements
+        Formats
       
     </span>
   </a>
@@ -2181,55 +2215,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#resolution-algorithm" class="md-nav__link">
+  <a href="#hcs-policy-anchoring" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Resolution Algorithm
+        HCS Policy Anchoring
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pre-configured-keys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pre-Configured Keys
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#did-and-verifiable-credentials-optional" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        DID and Verifiable Credentials (Optional)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#didxrpl-did-resolution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        did:xrpl DID Resolution
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="did:xrpl DID Resolution">
+    <nav class="md-nav" aria-label="HCS Policy Anchoring">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#did-format" class="md-nav__link">
+  <a href="#flow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DID Format
+        Flow
       
     </span>
   </a>
@@ -2237,10 +2238,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#network-rpc-defaults" class="md-nav__link">
+  <a href="#hcs-message-formats" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Network RPC Defaults
+        HCS Message Formats
       
     </span>
   </a>
@@ -2248,10 +2249,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#resolution-algorithm_1" class="md-nav__link">
+  <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Resolution Algorithm
+        Environment Variables
       
     </span>
   </a>
@@ -2270,10 +2271,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#error-codes" class="md-nav__link">
+  <a href="#verification-via-mirror-node" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Error Codes
+        Verification via Mirror Node
       
     </span>
   </a>
@@ -2286,13 +2287,168 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#error-codes_1" class="md-nav__link">
+  <a href="#xrpl-nft-backed-policygrant" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Error Codes
+        XRPL NFT-Backed PolicyGrant
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="XRPL NFT-Backed PolicyGrant">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encrypted-xrpl-flow-preparation-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encrypted XRPL flow (preparation step)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ipfs-store-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IPFS store interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revocation-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revocation check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparison-to-revocationendpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparison to revocationEndpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#off-chain-document-custody" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Off-Chain Document Custody
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#didxrpl-key-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        did:xrpl Key Resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hcs-topic-visibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HCS Topic Visibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption-key-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Encryption Key Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nft-burn-finality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NFT Burn Finality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#immutability-and-gdpr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immutability and GDPR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#offline-merchants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Merchants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2327,331 +2483,326 @@
   
 
 
-<h1 id="key-resolution">Key Resolution</h1>
+<h1 id="policy-anchoring">Policy Anchoring</h1>
 <p>Part of the <a href="../mpcp/">Machine Payment Control Protocol (MPCP)</a>.</p>
+<hr />
 <h2 id="overview">Overview</h2>
-<p>MPCP artifacts carry two fields that identify the signing authority:</p>
-<ul>
-<li><code>issuer</code> — identifies the authority (domain, HTTPS URL, or DID)</li>
-<li><code>issuerKeyId</code> — selects the specific key within that authority's key set</li>
-</ul>
-<p>Verifiers use these two fields to retrieve the public key required to validate the artifact signature.</p>
-<p>MPCP defines <strong>HTTPS well-known</strong> as the baseline key resolution mechanism. All conforming implementations MUST support it. DID resolution and Verifiable Credentials are optional higher-level mechanisms that deployments MAY use in addition.</p>
-<hr />
-<h2 id="canonical-key-format-jwk">Canonical Key Format: JWK</h2>
-<p>MPCP uses <strong>JSON Web Key (JWK)</strong> format (RFC 7517) as the canonical representation for public keys.</p>
-<p>All key set documents MUST express public keys as JWK objects. Verifiers MUST accept keys in JWK format.</p>
-<h3 id="ed25519-recommended">Ed25519 (recommended)</h3>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-32-byte-public-key&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="secp256k1">secp256k1</h3>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payment-auth-key-1&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EC&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secp256k1&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-x-coordinate&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-y-coordinate&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Required JWK fields for MPCP keys:</p>
+<p>MPCP supports <strong>on-chain policy anchoring</strong> — recording a commitment to a PolicyGrant's source
+policy document on a distributed ledger to create a tamper-evident, third-party-auditable trail.</p>
+<p>This is distinct from <a href="../anchoring/">Intent Anchoring</a>, which records settlement intent hashes
+for dispute resolution. Policy anchoring records the <strong>policy authorization itself</strong>, enabling
+audit of what constraints were in force when a grant was issued.</p>
+<p>Two anchoring patterns are defined:</p>
 <table>
 <thead>
 <tr>
-<th>Field</th>
-<th>Description</th>
+<th>Pattern</th>
+<th>When to use</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>kid</code></td>
-<td>Key identifier. MUST match <code>issuerKeyId</code> in the artifact.</td>
+<td><strong>HCS Policy Anchoring</strong></td>
+<td>Institutional deployments requiring audit trails; any third party can verify the policy hash</td>
 </tr>
 <tr>
-<td><code>use</code></td>
-<td>MUST be <code>"sig"</code>.</td>
-</tr>
-<tr>
-<td><code>kty</code></td>
-<td>Key type. <code>"OKP"</code> for Ed25519; <code>"EC"</code> for secp256k1.</td>
-</tr>
-<tr>
-<td><code>crv</code></td>
-<td>Curve. <code>"Ed25519"</code> or <code>"secp256k1"</code>.</td>
-</tr>
-<tr>
-<td><code>x</code></td>
-<td>Public key material (base64url-encoded).</td>
-</tr>
-<tr>
-<td><code>y</code></td>
-<td>y-coordinate for EC keys (base64url-encoded).</td>
+<td><strong>XRPL NFT-Backed PolicyGrant</strong></td>
+<td>Consumer deployments without a hosted revocation service; burn the NFT to revoke</td>
 </tr>
 </tbody>
 </table>
-<p>Private key material (<code>d</code>) MUST NOT be present in key set documents.</p>
 <hr />
-<h2 id="https-well-known-endpoint">HTTPS Well-Known Endpoint</h2>
-<h3 id="endpoint">Endpoint</h3>
-<div class="highlight"><pre><span></span><code>GET https://{issuer-domain}/.well-known/mpcp-keys.json
-</code></pre></div>
-<p>The endpoint MUST be served over HTTPS. Verifiers MUST validate the TLS certificate. Plaintext HTTP MUST NOT be used.</p>
-<h3 id="deriving-the-url-from-issuer">Deriving the URL from <code>issuer</code></h3>
+<h2 id="privacy-model">Privacy Model</h2>
+<p>Policy documents may contain sensitive fields: <code>subjectId</code> (identity), <code>allowedPurposes</code>
+(behavioural/health/travel categories), spending limits, and <code>revocationEndpoint</code> (service
+provider). Publishing these fields to a public, immutable ledger creates a GDPR right-to-erasure
+conflict.</p>
+<p>MPCP defines three <code>submitMode</code> values:</p>
 <table>
 <thead>
 <tr>
-<th><code>issuer</code> format</th>
-<th>Derived URL</th>
+<th><code>submitMode</code></th>
+<th>What goes on-chain</th>
+<th>Privacy</th>
+<th>Rails</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Bare domain: <code>operator.example.com</code></td>
-<td><code>https://operator.example.com/.well-known/mpcp-keys.json</code></td>
+<td><code>"hash-only"</code></td>
+<td><code>policyHash</code> only</td>
+<td>GDPR-safe; document never on-chain</td>
+<td>HCS, XRPL</td>
 </tr>
 <tr>
-<td>HTTPS URL: <code>https://operator.example.com</code></td>
-<td><code>https://operator.example.com/.well-known/mpcp-keys.json</code></td>
+<td><code>"full-document"</code></td>
+<td>Full document in message body</td>
+<td>Caller asserts doc is PII-free</td>
+<td>HCS only</td>
 </tr>
 <tr>
-<td><code>did:web:operator.example.com</code></td>
-<td><code>https://operator.example.com/.well-known/mpcp-keys.json</code></td>
-</tr>
-<tr>
-<td><code>did:web:operator.example.com:path:to:key</code></td>
-<td><code>https://operator.example.com/path/to/key/.well-known/mpcp-keys.json</code></td>
+<td><code>"encrypted"</code></td>
+<td>AES-256-GCM ciphertext</td>
+<td>Key shared out-of-band with auditors</td>
+<td>HCS, XRPL</td>
 </tr>
 </tbody>
 </table>
-<h3 id="key-set-document-format">Key Set Document Format</h3>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;keys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-2&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EC&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secp256k1&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>The document is a plain JSON object. The <code>keys</code> array contains one or more JWK entries. An authority MAY publish multiple keys to support key rotation.</p>
-<h3 id="http-response-requirements">HTTP Response Requirements</h3>
+<p><strong><code>"hash-only"</code> is the default.</strong> The on-chain <code>policyHash</code> is sufficient for audit — any auditor
+who receives the full document from the Service (which acts as custodian) can verify it against
+the hash.</p>
+<h3 id="xrpl-note-on-permissioned-topics">XRPL note on "permissioned topics"</h3>
+<p>XRPL has no native encrypted storage or message primitive. HCS submit keys control <em>write</em>
+access to a topic but messages remain publicly readable via any mirror node. True read
+confidentiality on both rails requires encryption. <code>"permissioned HCS topic"</code> means controlling
+who can write, not who can read.</p>
+<hr />
+<h2 id="anchorref-field"><code>anchorRef</code> Field</h2>
+<p>An optional string on <code>PolicyGrant</code> pointing to the on-chain record.</p>
+<h3 id="formats">Formats</h3>
 <table>
 <thead>
 <tr>
-<th>Requirement</th>
-<th>Value</th>
+<th>Format</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Content-Type</td>
-<td><code>application/json</code></td>
+<td><code>hcs:{topicId}:{sequenceNumber}</code></td>
+<td><code>"hcs:0.0.12345:42"</code></td>
 </tr>
 <tr>
-<td>Status</td>
-<td><code>200 OK</code> for valid responses</td>
-</tr>
-<tr>
-<td>Encoding</td>
-<td>UTF-8</td>
+<td><code>xrpl:nft:{tokenId}</code></td>
+<td><code>"xrpl:nft:000800006B55D0F1584E4D2CBD04F60B9E61FFDD2A4E3F9F00000001"</code></td>
 </tr>
 </tbody>
 </table>
-<p>Verifiers SHOULD cache key set responses according to standard HTTP cache semantics (<code>Cache-Control</code>, <code>ETag</code>). Verifiers MUST revalidate cached responses before use when they have expired.</p>
+<p>The verifier passes <code>anchorRef</code> through without enforcement. It is informational metadata used
+by auditors, merchants, and dispute resolution tooling.</p>
 <hr />
-<h2 id="resolution-algorithm">Resolution Algorithm</h2>
-<div class="highlight"><pre><span></span><code>function resolvePublicKey(issuer, issuerKeyId):
-    url = deriveKeySetUrl(issuer)
-    keySetDoc = httpGet(url)               # HTTPS required; TLS validated
-    keys = parseKeySet(keySetDoc)
-    jwk = keys.find(k =&gt; k.kid == issuerKeyId)
-    if jwk is null:
-        raise KEY_NOT_FOUND
-    return jwk
-</code></pre></div>
-<p>If the well-known endpoint is unreachable and no pre-configured key is available, the verifier MUST fail the signature check and reject the artifact.</p>
-<hr />
-<h2 id="pre-configured-keys">Pre-Configured Keys</h2>
-<p>Implementations MAY pre-configure keys from trusted sources in lieu of or in addition to well-known lookups.</p>
-<p>Pre-configured keys are identified by <code>issuer</code> + <code>issuerKeyId</code> and expressed as JWK objects. When a pre-configured entry matches the artifact, the verifier uses it directly without fetching the well-known endpoint.</p>
-<p>This supports:</p>
-<ul>
-<li>offline and air-gapped machine wallets</li>
-<li>embedded deployments where network access is unavailable</li>
-<li>pinned deployments where key mutation must be prevented</li>
-</ul>
-<p>Pre-configured keys MUST still be expressed in JWK format.</p>
-<hr />
-<h2 id="did-and-verifiable-credentials-optional">DID and Verifiable Credentials (Optional)</h2>
-<p>Deployments MAY use decentralized identifiers (DIDs) or Verifiable Credentials (VCs) as a higher-level key binding mechanism.</p>
-<p>When the <code>issuer</code> field carries a <code>did:</code> URI other than <code>did:web:</code>, verifiers MAY use DID resolution to retrieve the key material. Resolved key material MUST still be expressed and validated as JWK.</p>
-<p>VC-based key discovery is outside the core protocol.</p>
-<p>DID resolution and VC verification are never required for MPCP compliance. Implementations that support only HTTPS well-known key resolution are fully conformant.</p>
-<hr />
-<h2 id="didxrpl-did-resolution"><code>did:xrpl</code> DID Resolution</h2>
-<p>MPCP defines an optional resolution mechanism for <code>did:xrpl</code> DIDs, used when XRPL-native policy
-authorities issue grants with an XRPL account as the issuer.</p>
-<h3 id="did-format">DID Format</h3>
-<div class="highlight"><pre><span></span><code>did:xrpl:{network}:{rAddress}
-</code></pre></div>
-<p>Examples:
-- <code>did:xrpl:mainnet:rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh</code>
-- <code>did:xrpl:testnet:rPT1Sjq2YGrBMTttX4GZHjKu9dyfzbpAYe</code></p>
-<h3 id="network-rpc-defaults">Network RPC Defaults</h3>
-<table>
-<thead>
-<tr>
-<th>Network</th>
-<th>Default RPC Endpoint</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>mainnet</code></td>
-<td><code>https://xrplcluster.com</code></td>
-</tr>
-<tr>
-<td><code>testnet</code></td>
-<td><code>https://s.altnet.rippletest.net:51234</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="resolution-algorithm_1">Resolution Algorithm</h3>
+<h2 id="hcs-policy-anchoring">HCS Policy Anchoring</h2>
+<h3 id="flow">Flow</h3>
 <ol>
-<li>Parse network and account from DID string</li>
-<li>Call XRPL <code>account_objects</code> JSON-RPC with <code>type: "DID"</code> to retrieve the DID object</li>
-<li>Hex-decode the <code>DIDDocument</code> field of the returned DID ledger entry</li>
-<li>Parse the decoded string as JSON to obtain the DID Document</li>
-<li>Extract <code>verificationMethod[0].publicKeyJwk</code></li>
-<li>Return the JWK</li>
+<li>The policy authority creates a PolicyGrant with a <code>policyHash</code></li>
+<li>The authority submits a message to a Hedera HCS topic (using <code>hederaHcsAnchorPolicyDocument</code>)</li>
+<li>The returned <code>sequenceNumber</code> is encoded as <code>"hcs:{topicId}:{seq}"</code> and placed in <code>anchorRef</code></li>
+<li>Auditors query the HCS mirror node to retrieve the message and verify the <code>policyHash</code></li>
 </ol>
-<div class="highlight"><pre><span></span><code>function resolveXrplDid(did):
-    (network, account) = parseDid(did)
-    rpcUrl = networkRpc(network)
-    response = xrplRpc(rpcUrl, &quot;account_objects&quot;, { account, type: &quot;DID&quot; })
-    didObject = response.result.account_objects[0]
-    didDocumentJson = hexDecode(didObject.DIDDocument)
-    didDocument = JSON.parse(didDocumentJson)
-    return didDocument.verificationMethod[0].publicKeyJwk
-</code></pre></div>
+<h3 id="hcs-message-formats">HCS Message Formats</h3>
+<p><strong>Hash-only (default):</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MPCP:PolicyAnchor:1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;sha256&gt;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;submitMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hash-only&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;anchoredAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-14T10:00:00.000Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Encrypted:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MPCP:PolicyAnchor:1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;sha256&gt;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;submitMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;encrypted&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;encryptedDocument&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;algorithm&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AES-256-GCM&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;iv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;base64 12 bytes&gt;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ciphertext&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;base64 — encrypted JSON + 16-byte GCM auth tag&gt;&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;anchoredAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-14T10:00:00.000Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Full-document (opt-in; document must be PII-free):</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MPCP:PolicyAnchor:1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;sha256&gt;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;submitMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;full-document&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;policyDocument&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;anchoredAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-14T10:00:00.000Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="environment-variables">Environment Variables</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MPCP_HCS_POLICY_TOPIC_ID</code></td>
+<td>HCS topic for policy anchoring</td>
+</tr>
+<tr>
+<td><code>MPCP_HCS_OPERATOR_ID</code></td>
+<td>Hedera operator account ID</td>
+</tr>
+<tr>
+<td><code>MPCP_HCS_OPERATOR_KEY</code></td>
+<td>Hedera operator private key</td>
+</tr>
+<tr>
+<td><code>HEDERA_NETWORK</code></td>
+<td><code>testnet</code> or <code>mainnet</code> (default: <code>testnet</code>)</td>
+</tr>
+</tbody>
+</table>
 <h3 id="reference-implementation">Reference Implementation</h3>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">resolveXrplDid</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">hederaHcsAnchorPolicyDocument</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
 
-<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">resolveXrplDid</span><span class="p">(</span>
-<span class="w">  </span><span class="s2">&quot;did:xrpl:mainnet:rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">rpcUrl</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://xrplcluster.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">timeoutMs</span><span class="o">:</span><span class="w"> </span><span class="kt">5000</span><span class="w"> </span><span class="p">},</span>
-<span class="p">);</span>
+<span class="c1">// Hash-only (default)</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">hederaHcsAnchorPolicyDocument</span><span class="p">(</span><span class="nx">policyDocument</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">topicId</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;0.0.12345&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">operatorId</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;0.0.9876&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">operatorKey</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&lt;key&gt;&quot;</span><span class="p">,</span>
+<span class="p">});</span>
+<span class="c1">// result.reference → &quot;hcs:0.0.12345:42&quot;</span>
+<span class="c1">// result.submitMode → &quot;hash-only&quot;</span>
+<span class="c1">// result.policyHash → &quot;&lt;sha256&gt;&quot;</span>
 
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="c1">// resolution failed</span>
-<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">jwk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">result</span><span class="p">.</span><span class="nx">jwk</span><span class="p">;</span><span class="w"> </span><span class="c1">// JsonWebKey</span>
+<span class="c1">// Encrypted</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">aes256Key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">globalThis</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">getRandomValues</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nb">Uint8Array</span><span class="p">(</span><span class="mf">32</span><span class="p">));</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">hederaHcsAnchorPolicyDocument</span><span class="p">(</span><span class="nx">policyDocument</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">topicId</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;0.0.12345&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">operatorId</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;0.0.9876&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">operatorKey</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;&lt;key&gt;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">submitMode</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;encrypted&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">encryption</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="kt">aes256Key</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+<span class="c1">// Share aes256Key out-of-band with authorized auditors</span>
+</code></pre></div>
+<h3 id="verification-via-mirror-node">Verification via Mirror Node</h3>
+<div class="highlight"><pre><span></span><code>GET https://testnet.mirrornode.hedera.com/api/v1/topics/{topicId}/messages/{sequenceNumber}
+</code></pre></div>
+<p>The response contains a base64-encoded message. Decode and verify:
+1. <code>type === "MPCP:PolicyAnchor:1.0"</code>
+2. <code>policyHash</code> matches <code>PolicyGrant.policyHash</code>
+3. For <code>"encrypted"</code>: decrypt with the shared key and verify the decrypted document hashes to <code>policyHash</code></p>
+<hr />
+<h2 id="xrpl-nft-backed-policygrant">XRPL NFT-Backed PolicyGrant</h2>
+<h3 id="how-it-works">How it works</h3>
+<ol>
+<li>The policy authority (or wallet holder) mints a non-transferable XRPL NFToken</li>
+<li>For <code>"hash-only"</code>: the NFT URI encodes the <code>policyHash</code> as a hex string</li>
+<li>For <code>"encrypted"</code>: encrypt the policy document → upload to IPFS → NFT URI = <code>ipfs://{CID}</code></li>
+<li>The token ID is encoded as <code>"xrpl:nft:{tokenId}"</code> and placed in <code>anchorRef</code></li>
+<li><strong>Revocation</strong> is accomplished by burning the NFToken</li>
+</ol>
+<h3 id="encrypted-xrpl-flow-preparation-step">Encrypted XRPL flow (preparation step)</h3>
+<p>The SDK provides <code>xrplEncryptAndStorePolicyDocument</code> to prepare the encrypted blob before minting.
+NFT minting (write side) is handled by <code>mpcp-policy-authority</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">xrplEncryptAndStorePolicyDocument</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">aes256Key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">globalThis</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">getRandomValues</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nb">Uint8Array</span><span class="p">(</span><span class="mf">32</span><span class="p">));</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">prep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">xrplEncryptAndStorePolicyDocument</span><span class="p">(</span><span class="nx">policyDocument</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">encryption</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="kt">aes256Key</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">ipfsStore</span><span class="o">:</span><span class="w"> </span><span class="kt">myIpfsClient</span><span class="p">,</span><span class="w">  </span><span class="c1">// implements PolicyDocumentIpfsStore</span>
+<span class="p">});</span>
+
+<span class="c1">// prep.cid        → IPFS CID of the encrypted blob</span>
+<span class="c1">// prep.policyHash → sha256 of the canonical policy document</span>
+<span class="c1">// NFT URI = `ipfs://${prep.cid}`</span>
+<span class="c1">// after minting: anchorRef = `xrpl:nft:${mintedTokenId}`</span>
+</code></pre></div>
+<h3 id="ipfs-store-interface">IPFS store interface</h3>
+<p>The SDK does not bundle an IPFS client. Callers inject one:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nx">PolicyDocumentIpfsStore</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">upload</span><span class="p">(</span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="kt">Uint8Array</span><span class="p">,</span><span class="w"> </span><span class="nx">filename?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="c1">// returns CID</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="error-codes">Error Codes</h3>
+<p>Compatible with <code>web3.storage</code>, <code>nft.storage</code>, a local IPFS node, or any content-addressed store.</p>
+<h3 id="revocation-check">Revocation check</h3>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkXrplNftRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">tokenId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">grant</span><span class="p">.</span><span class="nx">anchorRef</span><span class="o">?</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;xrpl:nft:&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">tokenId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkXrplNftRevocation</span><span class="p">(</span><span class="nx">tokenId</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">revoked</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* grant revoked — NFT burned */</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="comparison-to-revocationendpoint">Comparison to <code>revocationEndpoint</code></h3>
 <table>
 <thead>
 <tr>
-<th>Code</th>
-<th>Condition</th>
+<th>Mechanism</th>
+<th>Requires hosted service</th>
+<th>Finality</th>
+<th>Suitable for</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>invalid_did_format</code></td>
-<td>DID does not match <code>did:xrpl:{network}:{rAddress}</code></td>
+<td><code>revocationEndpoint</code></td>
+<td>Yes</td>
+<td>Soft</td>
+<td>Enterprise, operator-controlled</td>
 </tr>
 <tr>
-<td><code>unknown_xrpl_network</code></td>
-<td>Network is not <code>mainnet</code> or <code>testnet</code> and no <code>rpcUrl</code> provided</td>
-</tr>
-<tr>
-<td><code>xrpl_rpc_fetch_failed</code></td>
-<td>Network error calling the XRPL JSON-RPC endpoint</td>
-</tr>
-<tr>
-<td><code>xrpl_rpc_http_error</code></td>
-<td>Non-200 HTTP response from the RPC endpoint</td>
-</tr>
-<tr>
-<td><code>xrpl_did_not_found</code></td>
-<td>No DID object found for the account</td>
-</tr>
-<tr>
-<td><code>xrpl_did_document_missing</code></td>
-<td>DIDDocument field absent or empty</td>
-</tr>
-<tr>
-<td><code>xrpl_did_document_invalid_hex</code></td>
-<td>DIDDocument field is not valid hex</td>
-</tr>
-<tr>
-<td><code>xrpl_did_document_invalid_json</code></td>
-<td>Decoded DIDDocument is not valid JSON</td>
-</tr>
-<tr>
-<td><code>xrpl_did_no_verification_method</code></td>
-<td>DID Document has no verificationMethod entries</td>
-</tr>
-<tr>
-<td><code>xrpl_did_no_public_key_jwk</code></td>
-<td>verificationMethod[0] has no publicKeyJwk</td>
+<td>XRPL NFT burn</td>
+<td>No</td>
+<td>Hard (on-chain)</td>
+<td>Consumer, self-sovereign</td>
 </tr>
 </tbody>
 </table>
+<p>Both may be present on the same grant. Merchants SHOULD check both when present.</p>
 <hr />
-<h2 id="error-codes_1">Error Codes</h2>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>Condition</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>KEY_NOT_FOUND</code></td>
-<td><code>issuerKeyId</code> not present in the resolved key set</td>
-</tr>
-<tr>
-<td><code>KEY_SET_FETCH_FAILED</code></td>
-<td>Well-known endpoint unreachable or returned non-200</td>
-</tr>
-<tr>
-<td><code>KEY_SET_INVALID</code></td>
-<td>Key set document could not be parsed</td>
-</tr>
-<tr>
-<td><code>KEY_FORMAT_INVALID</code></td>
-<td>Key entry is not a valid JWK</td>
-</tr>
-</tbody>
-</table>
+<h2 id="off-chain-document-custody">Off-Chain Document Custody</h2>
+<p>When using <code>"hash-only"</code> mode (the default), the full policy document is never published to
+the ledger. The <strong>Service layer</strong> (e.g. <code>mpcp-policy-authority</code>) acts as custodian.</p>
+<p>Auditors retrieve the full document from the Service and verify it against the on-chain hash:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">InMemoryPolicyCustody</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
+
+<span class="c1">// Development / testing</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">custody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">InMemoryPolicyCustody</span><span class="p">();</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">custody</span><span class="p">.</span><span class="nx">store</span><span class="p">(</span><span class="nx">policyHash</span><span class="p">,</span><span class="w"> </span><span class="nx">policyDocument</span><span class="p">);</span>
+
+<span class="c1">// Later — auditor retrieval</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">doc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">custody</span><span class="p">.</span><span class="nx">retrieve</span><span class="p">(</span><span class="nx">policyHash</span><span class="p">);</span>
+<span class="c1">// Verify: sha256(canonicalJson(doc)) === policyHash</span>
+</code></pre></div>
+<p><code>InMemoryPolicyCustody</code> is for development. Production implementations back the
+<code>PolicyDocumentCustody</code> interface with a real database (see <code>mpcp-policy-authority</code>).</p>
+<hr />
+<h2 id="didxrpl-key-resolution"><code>did:xrpl</code> Key Resolution</h2>
+<p>When a PolicyGrant is issued by an XRPL-native policy authority, the <code>issuer</code> field may carry a
+<code>did:xrpl</code> DID. Verifiers can resolve this DID to retrieve the signing public key.</p>
+<p>See <a href="../key-resolution/#didxrpl-did-resolution">Key Resolution — <code>did:xrpl</code></a> for the full
+resolution algorithm.</p>
+<hr />
+<h2 id="security-considerations">Security Considerations</h2>
+<h3 id="hcs-topic-visibility">HCS Topic Visibility</h3>
+<p>HCS messages are publicly readable via mirror nodes regardless of topic submit keys.
+Use <code>"hash-only"</code> (default) or <code>"encrypted"</code> mode if the policy document contains
+sensitive data. Never rely on topic access control for read privacy.</p>
+<h3 id="encryption-key-management">Encryption Key Management</h3>
+<p>For <code>"encrypted"</code> mode, the AES-256 key must be shared out-of-band with authorized parties
+(regulators, auditors). The key must be stored securely — loss of the key means the
+on-chain document can never be decrypted. Key rotation requires re-anchoring.</p>
+<h3 id="nft-burn-finality">NFT Burn Finality</h3>
+<p>XRPL NFT burns are final and irreversible. Once a grant is revoked via NFT burn, it cannot
+be un-revoked. Policy authorities MUST ensure the correct token is burned.</p>
+<h3 id="immutability-and-gdpr">Immutability and GDPR</h3>
+<p>Public ledger records are immutable. Policy documents (or hashes) published to a public
+ledger cannot be deleted. For GDPR compliance:</p>
+<ul>
+<li>Use <code>"hash-only"</code> (the default) — the hash alone does not constitute personal data</li>
+<li>For <code>"encrypted"</code> mode — the ciphertext is not personal data if the decryption key is
+  controlled and can be destroyed (key deletion = effective erasure)</li>
+<li>Never use <code>"full-document"</code> mode for documents containing personal data</li>
+</ul>
+<h3 id="offline-merchants">Offline Merchants</h3>
+<p>If <code>anchorRef</code> contains an XRPL NFT reference and the XRPL network is temporarily unavailable,
+merchants SHOULD apply the same offline exception policy as for <code>revocationEndpoint</code> (see
+<a href="../../profiles/human-agent-profile/">Human-to-Agent Profile</a>).</p>
 <hr />
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../mpcp/#signature-schemes">Signature Schemes</a></li>
-<li><a href="../PolicyGrant/">PolicyGrant</a></li>
-<li><a href="../SignedBudgetAuthorization/">SignedBudgetAuthorization</a></li>
-<li><a href="../SignedPaymentAuthorization/">SignedPaymentAuthorization</a></li>
+<li><a href="../PolicyGrant/">PolicyGrant</a> — <code>anchorRef</code> field definition and revocation model</li>
+<li><a href="../key-resolution/">Key Resolution</a> — <code>did:xrpl</code> DID resolution</li>
+<li><a href="../anchoring/">Intent Anchoring</a> — settlement intent (not policy) anchoring</li>
+<li><a href="../../profiles/human-agent-profile/">Human-to-Agent Profile</a> — revocation and offline guidance</li>
 </ul>
 
 

@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/PolicyGrant/">
       
       
-        <link rel="prev" href="../anchoring/">
+        <link rel="prev" href="../policy-anchoring/">
       
       
         <link rel="next" href="../SignedBudgetAuthorization/">
@@ -1187,6 +1187,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../policy-anchoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Anchoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1438,6 +1466,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#policy-document-anchoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Document Anchoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#revocation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1450,10 +1489,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#revocationendpoint" class="md-nav__link">
+  <a href="#revocationendpoint-hosted-revocation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        revocationEndpoint
+        revocationEndpoint (Hosted Revocation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xrpl-nft-revocation-on-chain-revocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XRPL NFT Revocation (On-Chain Revocation)
       
     </span>
   </a>
@@ -2230,6 +2280,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#policy-document-anchoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Document Anchoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#revocation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2242,10 +2303,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#revocationendpoint" class="md-nav__link">
+  <a href="#revocationendpoint-hosted-revocation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        revocationEndpoint
+        revocationEndpoint (Hosted Revocation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xrpl-nft-revocation-on-chain-revocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XRPL NFT Revocation (On-Chain Revocation)
       
     </span>
   </a>
@@ -2457,6 +2529,12 @@ Settlement verification
 <td>optional</td>
 <td>Merchant category allowlist (e.g. <code>["travel:hotel", "travel:flight"]</code>). Semantic metadata — enforced by the agent, not by the MPCP verifier. Appears in the audit trail.</td>
 </tr>
+<tr>
+<td>anchorRef</td>
+<td>string</td>
+<td>optional</td>
+<td>Pointer to an on-chain record of the policy document. Format: <code>"hcs:{topicId}:{sequenceNumber}"</code> (Hedera HCS) or <code>"xrpl:nft:{tokenId}"</code> (XRPL NFToken). See <strong>Policy Document Anchoring</strong> section below.</td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -2582,8 +2660,19 @@ signature = sign(hash, policyAuthorityPrivateKey)
 <h3 id="key-resolution">Key Resolution</h3>
 <p>Verifiers resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> via the HTTPS well-known endpoint or pre-configured keys. See <a href="../key-resolution/">Key Resolution</a>.</p>
 <hr />
+<h2 id="policy-document-anchoring">Policy Document Anchoring</h2>
+<p>The <code>anchorRef</code> field is an optional pointer to an on-chain record of the policy document that
+produced this grant. Two formats are supported:</p>
+<div class="highlight"><pre><span></span><code>&quot;hcs:{topicId}:{sequenceNumber}&quot;   — Hedera Consensus Service message
+&quot;xrpl:nft:{tokenId}&quot;               — XRPL non-transferable NFToken
+</code></pre></div>
+<p><strong>Verifier behavior:</strong> The MPCP verifier passes <code>anchorRef</code> through without enforcement. It is
+informational metadata used by auditors, merchants, and dispute resolution tooling.</p>
+<p>See <a href="../policy-anchoring/">Policy Anchoring</a> for the full anchoring specification, including
+HCS message format, environment variables, and XRPL NFT minting guidance.</p>
+<hr />
 <h2 id="revocation">Revocation</h2>
-<h3 id="revocationendpoint"><code>revocationEndpoint</code></h3>
+<h3 id="revocationendpoint-hosted-revocation"><code>revocationEndpoint</code> (Hosted Revocation)</h3>
 <p>If the <code>revocationEndpoint</code> field is present, verifiers and service providers SHOULD check
 whether the grant has been revoked before accepting a payment.</p>
 <p><strong>Endpoint contract:</strong></p>
@@ -2606,6 +2695,48 @@ for guidance on offline exceptions).</p>
 <span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">timeoutMs</span><span class="o">:</span><span class="w"> </span><span class="mf">3000</span><span class="w"> </span><span class="p">}</span>
 <span class="p">);</span>
 </code></pre></div>
+<h3 id="xrpl-nft-revocation-on-chain-revocation">XRPL NFT Revocation (On-Chain Revocation)</h3>
+<p>When <code>anchorRef</code> contains an <code>"xrpl:nft:{tokenId}"</code> reference, the grant may be revoked by
+<strong>burning the NFToken</strong>. Merchants SHOULD check whether the NFT still exists before accepting
+payment.</p>
+<p>Non-existence of the NFT (after burn) signals revocation. This mechanism requires no hosted
+service — revocation is enforced by the XRPL ledger itself.</p>
+<p><strong>Reference implementation:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkXrplNftRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">tokenId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">grant</span><span class="p">.</span><span class="nx">anchorRef</span><span class="o">?</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;xrpl:nft:&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">tokenId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkXrplNftRevocation</span><span class="p">(</span><span class="nx">tokenId</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">timeoutMs</span><span class="o">:</span><span class="w"> </span><span class="mf">5000</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">revoked</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Grant has been revoked — reject the payment</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Comparison:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Requires hosted service</th>
+<th>Suitable for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>revocationEndpoint</code></td>
+<td>Yes</td>
+<td>Enterprise, operator-controlled</td>
+</tr>
+<tr>
+<td>XRPL NFT burn</td>
+<td>No</td>
+<td>Consumer, self-sovereign</td>
+</tr>
+</tbody>
+</table>
+<p>Both mechanisms may be present on the same grant. Merchants SHOULD check both when present.</p>
+<p>See <a href="../policy-anchoring/#xrpl-nft-backed-policygrant">Policy Anchoring — XRPL NFT-Backed PolicyGrant</a>
+for full details.</p>
 <hr />
 <h2 id="summary">Summary</h2>
 <p>PolicyGrant establishes the <strong>policy boundary</strong> for machine payments.</p>
