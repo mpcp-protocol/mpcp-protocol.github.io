@@ -1753,29 +1753,21 @@
 <li>delivery fleet</li>
 <li>autonomous logistics fleet</li>
 </ul>
-<p>In this reference flow, the fleet operator is identified by an <strong>XRPL DID</strong> and issues fleet charging policy credentials signed under that DID.</p>
+<p>In this reference flow, the fleet operator issues signed PolicyGrant artifacts. Optionally, the fleet operator may be identified by an <strong>XRPL DID</strong> for portable issuer identity.</p>
 <h2 id="identity-credential-layer">Identity &amp; Credential Layer</h2>
-<p>This scenario assumes an optional <strong>identity and credential layer</strong> based on:</p>
+<p>This scenario optionally uses an <strong>identity and credential layer</strong> for issuer key discovery.</p>
+<p>The <strong>baseline key resolution mechanism</strong> is HTTPS well-known:</p>
+<div class="highlight"><pre><span></span><code>https://{issuerDomain}/.well-known/mpcp-keys.json
+</code></pre></div>
+<p>This allows any MPCP verifier to look up the issuer's public key using a stable HTTPS URL without any dependency on DID infrastructure.</p>
+<p>An optional <strong>DID/VC layer</strong> may supplement this in deployments that require:</p>
 <ul>
-<li>XRPL DID</li>
-<li>Verifiable Credentials (VCs)</li>
+<li>portable issuer identity across organizations</li>
+<li>verifiable credential metadata</li>
+<li>decentralized key discovery via XRPL DID or similar</li>
 </ul>
-<p>In this model:</p>
-<ul>
-<li>the fleet operator has a DID</li>
-<li>the charging network operator has a DID</li>
-<li>the vehicle wallet may have its own DID</li>
-<li>selected MPCP policy artifacts may be issued as VCs</li>
-</ul>
-<p>MPCP remains the <strong>runtime payment authorization protocol</strong>.</p>
-<p>DIDs and VCs provide:</p>
-<ul>
-<li>issuer identity</li>
-<li>public key discovery</li>
-<li>portable trust metadata</li>
-<li>credential verification across organizations</li>
-</ul>
-<p>They do <strong>not</strong> replace MPCP artifacts such as <code>SignedBudgetAuthorization</code>, <code>SignedPaymentAuthorization</code>, or <code>SettlementIntent</code>.</p>
+<p>DIDs and VCs do <strong>not</strong> replace MPCP artifacts such as <code>SignedBudgetAuthorization</code>, <code>SignedPaymentAuthorization</code>, or <code>SettlementIntent</code>.</p>
+<p>MPCP remains the <strong>runtime payment authorization protocol</strong> regardless of which key resolution method is used.</p>
 <h2 id="vehicle-wallet">Vehicle Wallet</h2>
 <p>Each EV contains a <strong>machine wallet</strong> responsible for:</p>
 <ul>
@@ -1788,6 +1780,11 @@
 <ul>
 <li>SignedBudgetAuthorization (SBA)</li>
 <li>SignedPaymentAuthorization (SPA)</li>
+</ul>
+<p>In this autonomous deployment model, the vehicle wallet <strong>embeds both the session authority and the payment decision service roles</strong>:</p>
+<ul>
+<li><strong>session authority</strong>: creates and signs the SBA, defining the session-level budget and permitted destinations</li>
+<li><strong>payment decision service</strong>: evaluates each quote against the policy, assigns a <code>decisionId</code>, and signs the SPA</li>
 </ul>
 <hr />
 <h2 id="route-dispatch-system">Route / Dispatch System</h2>
@@ -1815,10 +1812,11 @@
 <p>The physical charger interacting with the EV.</p>
 <p>Responsibilities:</p>
 <ul>
-<li>request payment authorization</li>
-<li>verify MPCP artifact chain</li>
-<li>begin charging once verification passes</li>
+<li>request payment authorization from the vehicle</li>
+<li>relay the authorization bundle to the operator backend</li>
+<li>begin energy delivery once the operator backend confirms verification</li>
 </ul>
+<p>Note: MPCP artifact verification is performed by the <strong>Charging Operator Backend</strong>, not the physical station. The station acts as a relay and executes the outcome (begin or deny charging) based on the backend's decision.</p>
 <hr />
 <h2 id="settlement-rail">Settlement Rail</h2>
 <p>The settlement layer executes the payment.</p>
@@ -1867,7 +1865,7 @@ Allowed charging hours:
     06:00–23:00 UTC
 </code></pre></div>
 <p>This policy is translated into a <strong>PolicyGrant</strong> artifact.</p>
-<p>In this DID/VC-enabled version of the flow, the PolicyGrant is issued as an MPCP-native policy artifact that may also be wrapped or represented as a <strong>Verifiable Credential</strong>.</p>
+<p>The PolicyGrant is issued as an MPCP-native policy artifact. In deployments using the optional DID/VC layer, it may also be wrapped or represented as a <strong>Verifiable Credential</strong>.</p>
 <p>This allows the EV wallet and charging infrastructure to verify:</p>
 <ul>
 <li>who issued the policy</li>
@@ -1892,18 +1890,13 @@ Allowed charging hours:
 <td>Defines global payment constraints</td>
 </tr>
 <tr>
-<td>PolicyGrant VC (optional)</td>
-<td>Fleet policy service</td>
-<td>Encodes issuer identity and verifiable policy metadata</td>
-</tr>
-<tr>
 <td>SignedBudgetAuthorization</td>
-<td>Vehicle wallet</td>
+<td>Vehicle wallet (session authority role)</td>
 <td>Defines session‑level spending limits</td>
 </tr>
 <tr>
 <td>SignedPaymentAuthorization</td>
-<td>Vehicle wallet</td>
+<td>Vehicle wallet (payment decision service role)</td>
 <td>Authorizes a specific payment</td>
 </tr>
 <tr>
@@ -1922,49 +1915,7 @@ Allowed charging hours:
 <hr />
 <h1 id="highlevel-sequence-diagram">High‑Level Sequence Diagram</h1>
 <p>The following diagram summarizes the <strong>runtime interaction flow</strong> between the EV, charging station, and settlement rail.</p>
-<div class="highlight"><pre><span></span><code>Fleet Policy Service
-        │
-        │ 1. Issue PolicyGrant (signed)
-        ▼
-Vehicle Wallet
-        │
-        │ 2. Store PolicyGrant
-        │
-        │ 3. Request quote
-        ▼
-Charging Station
-        │
-        │ 4. Provide charging quote
-        ▼
-Vehicle Wallet
-        │
-        │ 5. Validate policy
-        │ 6. Create SignedBudgetAuthorization
-        │ 7. Create SettlementIntent
-        │ 8. Create SignedPaymentAuthorization
-        ▼
-Charging Station / Operator Backend
-        │
-        │ 9. Verify MPCP artifact chain
-        │
-        │   - resolve issuer DID
-        │   - verify PolicyGrant
-        │   - verify SignedBudgetAuthorization
-        │   - verify SPA
-        │
-        ▼
-Charging Station
-        │
-        │ 10. Begin charging session
-        ▼
-Settlement Rail
-        │
-        │ 11. Execute payment
-        ▼
-Charging Operator Backend
-        │
-        │ 12. Store audit bundle
-</code></pre></div>
+<p><img alt="MPCP Fleet EV Charging — Runtime Sequence Diagram" src="../reference-flow-sequence.svg" /></p>
 <p>This diagram highlights the <strong>separation of roles</strong>:</p>
 <ul>
 <li>fleet policy authority</li>
@@ -1991,13 +1942,6 @@ Charging Operator Backend
 <td>Authoritative copy</td>
 <td>Operational copy</td>
 <td>Optional reference</td>
-<td>—</td>
-</tr>
-<tr>
-<td>PolicyGrant VC</td>
-<td>Optional</td>
-<td>Optional</td>
-<td>Optional</td>
 <td>—</td>
 </tr>
 <tr>
@@ -2035,7 +1979,7 @@ Charging Operator Backend
 <h1 id="artifact-lifecycle">Artifact Lifecycle</h1>
 <h2 id="policygrant">PolicyGrant</h2>
 <p>Issued by:</p>
-<div class="highlight"><pre><span></span><code>Fleet Policy Service (identified by XRPL DID)
+<div class="highlight"><pre><span></span><code>Fleet Policy Service
 </code></pre></div>
 <p>Contains:</p>
 <ul>
@@ -2059,40 +2003,37 @@ Before a trip session
 <h3 id="policygrant-storage-and-signature-model">PolicyGrant Storage and Signature Model</h3>
 <p>A PolicyGrant is a <strong>signed JSON authorization artifact</strong> issued by the fleet operator's policy service.</p>
 <p>It is <strong>not an NFT and does not require a blockchain token</strong>. MPCP treats the PolicyGrant as a verifiable authorization credential that can be validated using the fleet operator's public key.</p>
-<p>In this reference flow, the fleet operator is identified by an <strong>XRPL DID</strong>.</p>
-<p>Example issuer:</p>
-<div class="highlight"><pre><span></span><code>issuer: did:xrpl:rFleetOperator...
+<p>Example issuer key identifiers:</p>
+<div class="highlight"><pre><span></span><code>issuer: fleet-operator.example.com          (baseline: HTTPS well-known)
+issuerKeyId: fleet-policy-key-1
+
+-- or with DID (optional) --
+
+issuer: did:xrpl:rFleetOperator...
 issuerKeyId: did:xrpl:rFleetOperator...#key-1
 </code></pre></div>
-<p>The EV wallet resolves the fleet DID to obtain the current public verification key.</p>
+<p>The EV wallet resolves the public verification key using the baseline HTTPS well-known endpoint, or optionally via DID resolution.</p>
 <p>Verification model:</p>
-<div class="highlight"><pre><span></span><code>resolve DID
-↓
+<div class="highlight"><pre><span></span><code>resolve issuerKeyId
+↓ (via HTTPS well-known or DID)
 get issuer public key
 ↓
 verify signature on PolicyGrant
 </code></pre></div>
 <p>This allows the EV wallet to confirm that the policy was issued by an authorized fleet authority.</p>
-<p>Example structure:</p>
-<div class="highlight"><pre><span></span><code>{
-  &quot;artifact&quot;: &quot;PolicyGrant&quot;,
-  &quot;version&quot;: &quot;1.0&quot;,
-  &quot;grantId&quot;: &quot;pg-983745&quot;,
-  &quot;issuer&quot;: &quot;did:xrpl:rFleetOperator...&quot;,
-  &quot;issuerKeyId&quot;: &quot;did:xrpl:rFleetOperator...#key-1&quot;,
-  &quot;allowedRails&quot;: [&quot;xrpl&quot;],
-  &quot;allowedAssets&quot;: [
-    { &quot;kind&quot;: &quot;IOU&quot;, &quot;currency&quot;: &quot;RLUSD&quot;, &quot;issuer&quot;: &quot;rIssuer&quot; }
-  ],
-  &quot;vendorAllowlist&quot;: [&quot;ChargeNet&quot;,&quot;FastVolt&quot;],
-  &quot;capPerSessionMinor&quot;: &quot;2500&quot;,
-  &quot;capPerDayMinor&quot;: &quot;8000&quot;,
-  &quot;expiresAt&quot;: &quot;2026-03-13T23:59:00Z&quot;,
-  &quot;policyHash&quot;: &quot;abc123...&quot;,
-  &quot;signature&quot;: &quot;ed25519:...&quot;
-}
+<p>Example <code>PolicyGrant</code> structure:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pg-983745&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-13T23:59:00Z&quot;</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>A VC representation may also be used for issuer portability.</p>
+<p>The <code>issuer</code>, <code>issuerKeyId</code>, and <code>signature</code> fields belong to the <strong>signed envelope</strong> that wraps the grant payload, not the grant itself.</p>
+<p>A VC representation may also be used for issuer portability in DID/VC-enabled deployments.</p>
 <p>Example conceptual VC envelope:</p>
 <div class="highlight"><pre><span></span><code>{
   &quot;@context&quot;: [&quot;https://www.w3.org/2018/credentials/v1&quot;],
@@ -2286,33 +2227,41 @@ Quote expiry: 5 minutes
 <li>asset is allowed</li>
 <li>amount fits session budget</li>
 <li>amount fits daily limit</li>
-<li>fleet issuer DID resolves correctly</li>
-<li>policy credential signature verifies successfully</li>
+<li>policy issuer public key resolves (via HTTPS well-known, or DID if configured)</li>
+<li>PolicyGrant signature verifies successfully</li>
 </ul>
 <hr />
 <h2 id="t15s-budget-authorization">T+15s — Budget Authorization</h2>
-<p>Vehicle creates or loads an active <strong>SignedBudgetAuthorization</strong>.</p>
+<p>The vehicle wallet <strong>creates</strong> a fresh <code>SignedBudgetAuthorization</code> for this session (or <strong>loads</strong> an existing one if this session is already active).</p>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><code>maxAmount: $25
+<div class="highlight"><pre><span></span><code>maxAmountMinor: 2500   (USD, minor units)
+budgetScope: SESSION
 session: charging-session-847
+grantId: pg-983745
 </code></pre></div>
 <hr />
 <h2 id="t20s-settlement-intent">T+20s — Settlement Intent</h2>
 <p>Vehicle constructs a <strong>SettlementIntent</strong>:</p>
 <div class="highlight"><pre><span></span><code>rail: XRPL
 asset: RLUSD
-amount: 7.80
+amount: 780000   (atomic units, 6 decimal places = 0.78 RLUSD)
 destination: ChargeNet account
 </code></pre></div>
 <p>An <strong>intentHash</strong> may be generated.</p>
 <hr />
-<h2 id="t22s-payment-authorization">T+22s — Payment Authorization</h2>
-<p>Vehicle signs a <strong>SignedPaymentAuthorization</strong>.</p>
-<p>This authorization binds:</p>
+<h2 id="t22s-payment-decision-and-authorization">T+22s — Payment Decision and Authorization</h2>
+<p>The vehicle wallet's payment decision logic evaluates the quote:</p>
 <ul>
-<li>session ID</li>
-<li>settlement parameters</li>
-<li>optional intent hash</li>
+<li>confirms the destination is on the SBA <code>destinationAllowlist</code></li>
+<li>confirms the amount fits within the session budget</li>
+<li>assigns a <code>decisionId</code> and links it to the <code>quoteId</code></li>
+</ul>
+<p>The wallet then signs a <strong>SignedPaymentAuthorization</strong> (SPA) binding:</p>
+<ul>
+<li><code>decisionId</code> and <code>quoteId</code></li>
+<li>session ID and budget ID</li>
+<li>settlement parameters (rail, asset, amount, destination)</li>
+<li>optional <code>intentHash</code> (SHA-256 of the SettlementIntent)</li>
 </ul>
 <hr />
 <h2 id="t25s-authorization-sent-to-charger">T+25s — Authorization Sent to Charger</h2>
@@ -2324,19 +2273,21 @@ destination: ChargeNet account
 <li>SettlementIntent (optional)</li>
 </ul>
 <hr />
-<h2 id="t27s-charger-verification">T+27s — Charger Verification</h2>
-<p>Charging network verifies:</p>
+<h2 id="t27s-charging-operator-verification">T+27s — Charging Operator Verification</h2>
+<p>The <strong>charging operator backend</strong> verifies:</p>
 <ol>
-<li>fleet issuer DID resolves correctly</li>
-<li>PolicyGrant or PolicyGrant VC is valid</li>
-<li>SignedBudgetAuthorization is valid</li>
+<li>issuer public key resolves (via HTTPS well-known, or DID if configured)</li>
+<li>PolicyGrant is valid and not expired</li>
+<li>SignedBudgetAuthorization signature and constraints are valid</li>
 <li>SPA signature is valid</li>
 <li>SPA parameters match the quote</li>
-<li>settlement parameters match allowed policy</li>
+<li>settlement parameters match the allowed policy</li>
 </ol>
-<p>If verification passes:</p>
-<div class="highlight"><pre><span></span><code>Charging session begins
-</code></pre></div>
+<p>If verification passes, the backend signals the physical charging station to begin.</p>
+<hr />
+<h2 id="t30s-energy-delivery-begins">T+30s — Energy Delivery Begins</h2>
+<p>The charging station begins delivering energy to the vehicle.</p>
+<p>The payment is pre-authorized and will be settled at session end.</p>
 <hr />
 <h2 id="tn-minutes-charging-session">T+N minutes — Charging Session</h2>
 <p>Energy delivery occurs.</p>
@@ -2348,12 +2299,17 @@ destination: ChargeNet account
 </ul>
 <hr />
 <h2 id="tsession-end-settlement">T+Session End — Settlement</h2>
-<p>Settlement occurs.</p>
-<p>Example:</p>
+<p>Vehicle wallet submits payment to the settlement rail:</p>
 <div class="highlight"><pre><span></span><code>XRPL payment
 vehicle_wallet → ChargeNet account
 </code></pre></div>
-<p>Settlement result is stored.</p>
+<p>Charging operator backend then:</p>
+<ul>
+<li>verifies the settlement transaction</li>
+<li>binds the tx to the <code>decisionId</code></li>
+<li>marks the authorization consumed</li>
+<li>stores the audit bundle</li>
+</ul>
 <hr />
 <h1 id="data-storage-model">Data Storage Model</h1>
 <h2 id="fleet-backend-stores">Fleet Backend Stores</h2>
@@ -2386,47 +2342,46 @@ vehicle_wallet → ChargeNet account
 <hr />
 <h1 id="verification-points">Verification Points</h1>
 <p>Verification happens in several places.</p>
-<h2 id="trust-model-and-did-resolution">Trust Model and DID Resolution</h2>
-<p>When XRPL DID integration is used, MPCP verification includes <strong>issuer identity validation</strong>.</p>
-<p>Typical resolution process:</p>
-<div class="highlight"><pre><span></span><code>PolicyGrant issuer DID
+<h2 id="key-resolution-and-trust-model">Key Resolution and Trust Model</h2>
+<p>MPCP verifiers must resolve the issuer's public key to verify signed artifacts.</p>
+<p><strong>Baseline mechanism — HTTPS well-known:</strong></p>
+<div class="highlight"><pre><span></span><code>https://{issuerDomain}/.well-known/mpcp-keys.json
+</code></pre></div>
+<p>The verifier fetches the key document and looks up the key by <code>issuerKeyId</code>.</p>
+<p><strong>Optional — DID resolution:</strong></p>
+<div class="highlight"><pre><span></span><code>issuerKeyId (DID URL fragment)
       ↓
 DID resolver
       ↓
-XRPL DID document
+DID document
       ↓
-public verification keys
+public verification key
 </code></pre></div>
-<p>The verifier then confirms:</p>
+<p>When <code>issuerKeyId</code> is a DID URL fragment, the verifier may use DID resolution instead of or in addition to HTTPS well-known.</p>
+<p>The verifier confirms:</p>
 <ul>
-<li>the DID document is valid</li>
-<li>the referenced verification key exists</li>
-<li>the PolicyGrant signature matches that key</li>
+<li>the signing key matches the <code>issuerKeyId</code> declared in the artifact</li>
+<li>the artifact signature is valid under that key</li>
 </ul>
-<p>This allows the charging operator to confirm that:</p>
-<ul>
-<li>the fleet operator actually issued the policy</li>
-<li>the authorization chain originates from a trusted authority</li>
-</ul>
-<p>If DID resolution fails, the charging operator should treat the PolicyGrant as <strong>untrusted</strong> and reject the authorization.</p>
+<p>If the key cannot be resolved by any available method, the authorization should be rejected as <strong>unverifiable</strong>.</p>
 <h2 id="vehicle-verification">Vehicle Verification</h2>
 <p>Before authorizing payment:</p>
 <ul>
-<li>vendor allowed</li>
-<li>station allowed</li>
-<li>destination allowed</li>
-<li>budget sufficient</li>
-<li>quote valid</li>
+<li>destination is on the SBA <code>destinationAllowlist</code></li>
+<li>settlement rail and asset are allowed</li>
+<li>amount is within session budget</li>
+<li>quote has not expired</li>
+<li>PolicyGrant signature is valid</li>
 </ul>
 <hr />
 <h2 id="charging-operator-verification">Charging Operator Verification</h2>
 <p>Before charging begins:</p>
 <ul>
-<li>issuer DID resolves and credential proof is valid</li>
-<li>PolicyGrant valid</li>
-<li>SignedBudgetAuthorization valid</li>
+<li>issuer public key resolved and PolicyGrant signature is valid</li>
+<li>PolicyGrant not expired and constraints match</li>
+<li>SignedBudgetAuthorization signature and constraints are valid</li>
 <li>SPA signature valid</li>
-<li>payment parameters match quote</li>
+<li>payment parameters match the quote</li>
 <li>authorization not expired</li>
 </ul>
 <hr />
@@ -2434,7 +2389,6 @@ public verification keys
 <p>After settlement:</p>
 <ul>
 <li>settlement matches authorization</li>
-<li>station vendor allowed</li>
 <li>policy constraints respected</li>
 <li>budgets not exceeded</li>
 </ul>
@@ -2456,14 +2410,13 @@ public verification keys
 <p>For audit or dispute resolution, the following bundle may be stored:</p>
 <ul>
 <li>PolicyGrant</li>
-<li>optional PolicyGrant VC</li>
-<li>issuer DID metadata or resolution record</li>
 <li>SignedBudgetAuthorization</li>
 <li>SignedPaymentAuthorization</li>
 <li>SettlementIntent</li>
 <li>charging quote metadata</li>
 <li>settlement receipt</li>
-<li>optional intent anchor</li>
+<li>optional intent anchor (ledger hash for tamper-detection)</li>
+<li>optional issuer DID resolution record (when DID/VC layer is used)</li>
 </ul>
 <p>This bundle allows full replay of the authorization chain.</p>
 <hr />
@@ -2471,72 +2424,40 @@ public verification keys
 <p>The following example shows the kind of <strong>self-contained authorization bundle</strong> a charging operator could receive and store for verification, audit, or dispute replay.</p>
 <p>This example is intentionally simplified, but it illustrates how the full MPCP chain may be packaged.</p>
 <blockquote>
-<p>Note: The example below uses display-friendly amounts (e.g., "7.80") for readability.<br />
-Real MPCP artifacts typically encode amounts in atomic units.</p>
+<p>Note: Amounts are encoded in atomic units. For example, <code>"780000"</code> represents 0.78 RLUSD with 6 decimal places, consistent with XRPL IOU conventions.</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;bundleType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MPCPChargingAuthorizationBundle&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-
-<span class="w">  </span><span class="nt">&quot;issuerDid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rFleetOperator...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;vehicleDid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rVehicleWallet...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;chargingOperatorDid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rChargeNet...&quot;</span><span class="p">,</span>
-
 <span class="w">  </span><span class="nt">&quot;policyGrant&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;artifact&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PolicyGrant&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pg-983745&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rFleetOperator...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rFleetOperator...#key-1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123...&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;vendorAllowlist&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;ChargeNet&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FastVolt&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;capPerSessionMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2500&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;capPerDayMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8000&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-13T23:59:00Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ed25519:...&quot;</span>
+<span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-13T23:59:00Z&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 
-<span class="w">  </span><span class="nt">&quot;policyGrantVc&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;@context&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;https://www.w3.org/2018/credentials/v1&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;VerifiableCredential&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;MPCPPolicyGrant&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rFleetOperator...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;issuanceDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T00:00:00Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;expirationDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-13T23:59:00Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;credentialSubject&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;sba&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bud-session-847&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pg-983745&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;charging-session-847&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;vehicleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EV-847&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123...&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;minorUnit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;budgetScope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;maxAmountMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2500&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;vendorAllowlist&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;ChargeNet&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FastVolt&quot;</span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;capPerSessionMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2500&quot;</span>
+<span class="w">      </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;destinationAllowlist&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;rChargeNetDestination&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T15:00:00Z&quot;</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;proof&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519Signature2020&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;verificationMethod&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rFleetOperator...#key-1&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">},</span>
-
-<span class="w">  </span><span class="nt">&quot;signedBudgetAuthorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;artifact&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SignedBudgetAuthorization&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rVehicleWallet...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rVehicleWallet...#key-1&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;charging-session-847&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;vehicleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EV-847&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;maxAmountMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2500&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;destinationAllowlist&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;rChargeNetDestination&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T15:00:00Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ed25519:...&quot;</span>
+<span class="w">    </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mpcp-sba-signing-key-1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64encodedSignature...&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 
 <span class="w">  </span><span class="nt">&quot;chargingQuote&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -2546,90 +2467,67 @@ Real MPCP artifacts typically encode amounts in atomic units.</p>
 <span class="w">    </span><span class="nt">&quot;connectorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DC-FAST-2&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rChargeNetDestination&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;priceFiat&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;amountMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;780&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span>
-<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;780000&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;decimals&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;priceFiat&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;amountMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;780&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="w"> </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T14:35:00Z&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 
 <span class="w">  </span><span class="nt">&quot;settlementIntent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;artifact&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SettlementIntent&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7.80&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;780000&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rChargeNetDestination&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;createdAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T14:30:20Z&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 
-<span class="w">  </span><span class="nt">&quot;signedPaymentAuthorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;artifact&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SignedPaymentAuthorization&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rVehicleWallet...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rVehicleWallet...#key-1&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;charging-session-847&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec-9001&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intenthash123...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;settlement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;spa&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;decisionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dec-9001&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;charging-session-847&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc123...&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bud-session-847&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;quoteId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;quote-4421&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;780000&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rChargeNetDestination&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7.80&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">      </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sha256ofSettlementIntent...&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T14:35:00Z&quot;</span>
 <span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ed25519:...&quot;</span>
+<span class="w">    </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mpcp-spa-signing-key-1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64encodedSignature...&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 
-<span class="w">  </span><span class="nt">&quot;settlementResult&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;settlement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;txHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ABCDEF123456...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7.80&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rChargeNetDestination&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;780000&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rChargeNetDestination&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;nowISO&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T14:31:10Z&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-
-<span class="w">  </span><span class="nt">&quot;intentAnchor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hedera-hcs&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;topicId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.0.123456&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;sequenceNumber&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;88&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;intentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intenthash123...&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;anchoredAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T14:30:25Z&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-
-<span class="w">  </span><span class="nt">&quot;verificationMaterial&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;fleetDidResolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;did&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rFleetOperator...&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;resolvedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T14:30:21Z&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;verificationMethod&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rFleetOperator...#key-1&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;chargingOperatorDidResolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;did&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rChargeNet...&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;resolvedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T14:30:23Z&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;verificationMethod&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rChargeNet...#key-1&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;vehicleDidResolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;did&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rVehicleWallet...&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;resolvedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T14:30:22Z&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;verificationMethod&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:xrpl:rVehicleWallet...#key-1&quot;</span>
-<span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="notes-on-the-example-bundle">Notes on the Example Bundle</h2>
-<p>This bundle illustrates several important modeling choices:</p>
+<p>This bundle illustrates the canonical MPCP artifact structure:</p>
 <ul>
-<li>the <strong>canonical MPCP artifacts</strong> remain the primary runtime objects</li>
-<li>the <code>policyGrantVc</code> is optional and exists to carry issuer identity and trust metadata</li>
-<li>DID resolution metadata for the fleet issuer, vehicle wallet, and charging operator may be stored alongside the bundle to support later audit or dispute replay</li>
-<li>the <code>chargingQuote</code> is not itself an MPCP artifact, but it is operationally important because the charging operator must verify that the SPA matches the quote</li>
-<li>the <code>intentAnchor</code> is optional and provides additional auditability without changing the core MPCP authorization chain</li>
+<li><code>policyGrant</code> contains only the MPCP-native grant fields (<code>grantId</code>, <code>policyHash</code>, <code>allowedRails</code>, <code>allowedAssets</code>, <code>expiresAt</code>)</li>
+<li><code>sba</code> uses the signed envelope format: <code>{ authorization: {...}, issuerKeyId, signature }</code> — the <code>authorization</code> object is what gets hashed and signed</li>
+<li><code>spa</code> uses the same signed envelope format; <code>authorization.budgetId</code> links to <code>sba.authorization.budgetId</code>; <code>authorization.grantId</code> in the SBA links to <code>policyGrant.grantId</code></li>
+<li><code>chargingQuote</code> is not an MPCP artifact but is operationally important — the operator must verify that the SPA <code>amount</code> and <code>destination</code> match the quote</li>
+<li>amounts are encoded in atomic units (e.g., <code>"780000"</code> for 0.78 RLUSD with 6 decimal places)</li>
+<li><code>settlement</code> records what was actually submitted to the settlement rail; the operator verifies it matches the SPA</li>
 </ul>
 <p>In a production deployment, the exact bundle shape may vary, but it should preserve the same key property:</p>
 <p><strong>a verifier must be able to reconstruct and validate the full authorization chain from policy issuance to settlement.</strong></p>
+<p>Optional additions (not shown above):
+- <code>issuer</code> field on <code>sba</code> or <code>spa</code> envelopes (HTTPS domain or DID for key discovery)
+- intent anchor (ledger hash of the <code>settlementIntent</code>)
+- DID resolution records (when DID/VC layer is used)</p>
 <h1 id="summary">Summary</h1>
 <p>This scenario demonstrates how MPCP enables <strong>safe autonomous charging payments</strong>.</p>
-<p>In this version of the flow, MPCP authorization can be anchored in a portable trust model using <strong>XRPL DID</strong> and optional <strong>Verifiable Credentials</strong>, while keeping runtime payment control artifacts lightweight and MPCP-native.</p>
+<p>Runtime payment control artifacts remain lightweight and MPCP-native. Key resolution uses HTTPS well-known as the baseline, with optional DID/VC support for deployments that require portable issuer identity or verifiable credential metadata.</p>
 <p>Infrastructure can answer the critical question:</p>
 <div class="highlight"><pre><span></span><code>Was this vehicle actually allowed to make this payment?
 </code></pre></div>
