@@ -2036,7 +2036,7 @@ Verification
 <li><strong>maxAmountMinor</strong> — Maximum spend in the on-chain asset's atomic units (same denomination as <code>SPA.amount</code>). The session authority converts the fiat budget to on-chain units at SBA issuance time.</li>
 <li><strong>allowedRails</strong>, <strong>allowedAssets</strong> — Must be subsets of PolicyGrant</li>
 <li><strong>destinationAllowlist</strong> — Optional list of permitted destination addresses</li>
-<li><strong>budgetScope</strong> — SESSION, DAY, VEHICLE, or FLEET</li>
+<li><strong>budgetScope</strong> — SESSION, DAY, VEHICLE, FLEET, or TRIP (multi-session; see <a href="../../profiles/human-agent-profile/#trip-scope-semantics">Human-to-Agent Profile</a>)</li>
 </ul>
 <p>The SBA is cryptographically signed. A verifier checks the signature over <code>SHA256("MPCP:SBA:1.0:" || canonicalJson(authorization))</code>.</p>
 <hr />
