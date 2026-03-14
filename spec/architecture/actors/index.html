@@ -2050,7 +2050,7 @@
 </ul>
 <p>The wallet is the MPCP actor that signs SignedBudgetAuthorization and SignedPaymentAuthorization.</p>
 <blockquote>
-<p><strong>Note on Vehicle Identity:</strong> The <code>vehicleId</code> field in SBA artifacts is self-reported by the wallet. Production deployments SHOULD establish vehicle attestation via device key binding (e.g., a hardware-backed key whose public key is registered with the fleet operator). Without attestation, <code>vehicleId</code> cannot be cryptographically verified and is informational only.</p>
+<p><strong>Note on Actor Identity:</strong> The <code>actorId</code> field in SBA artifacts is self-reported by the wallet. Production deployments SHOULD establish actor attestation via device key binding (e.g., a hardware-backed key whose public key is registered with the fleet operator). Without attestation, <code>actorId</code> cannot be cryptographically verified and is informational only.</p>
 </blockquote>
 <h2 id="ai-agent">AI Agent</h2>
 <p>An AI agent acting under human authorization, using MPCP to bound its spending authority.</p>
@@ -2097,7 +2097,7 @@
 </table>
 <p><strong>Examples:</strong> Travel booking agent, subscription manager, event budget agent.</p>
 <blockquote>
-<p>The <code>vehicleId</code> field in SBA artifacts is used for agent identity (e.g. <code>"ai-trip-planner-v2"</code>).
+<p>The <code>actorId</code> field in SBA artifacts is used for agent identity (e.g. <code>"ai-trip-planner-v2"</code>).
 Agent attestation follows the same key binding recommendations as vehicle wallets.</p>
 </blockquote>
 <h2 id="service-provider">Service Provider</h2>
@@ -2132,7 +2132,8 @@ Agent attestation follows the same key binding recommendations as vehicle wallet
 <p>MPCP does not replace settlement systems—it <strong>controls authorization above them</strong>.</p>
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../fleet-ev-reference-flow/">Reference Flow</a> — Full actor interaction in EV charging scenario</li>
+<li><a href="../fleet-ev-reference-flow/">Reference Flow (Fleet EV)</a> — Full actor interaction in EV charging scenario</li>
+<li><a href="../human-agent-reference-flow/">Reference Flow (Human-Agent)</a> — Human-to-AI-agent travel budget scenario</li>
 <li><a href="../system-model/">System Model</a></li>
 </ul>
 

@@ -2177,7 +2177,7 @@ In MPCP, every settlement must be authorized by a deterministic chain of artifac
 <span class="w">    </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_abc123&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;vehicleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;veh_001&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;actorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ev-847&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a1b2c3...&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;scopeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;budgetScope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
@@ -2592,7 +2592,7 @@ Protection is limited to the settlement fields explicitly carried in the SPA and
 <h2 id="grant-revocation">Grant Revocation</h2>
 <p>MPCP does not define a revocation mechanism for PolicyGrants or SBAs. Once issued, an artifact remains valid until its <code>expiresAt</code> timestamp passes.</p>
 <p><strong>Mitigation:</strong> Issue short-lived grants (recommended: &lt; 15 minutes for high-risk sessions). In scenarios where immediate revocation is required, the session authority should decline to issue new SPAs; the current grant will expire naturally.</p>
-<p><strong>Future work:</strong> A <code>revocationEndpoint</code> extension may be defined in a future protocol version to support real-time revocation checks by verifiers.</p>
+<p><strong>Revocation extension:</strong> The <code>revocationEndpoint</code> field on PolicyGrant supports real-time revocation checks. See the <a href="../../profiles/human-agent-profile/#revocation">Human-to-Agent Profile</a> for the full revocation contract.</p>
 <hr />
 <p>These sections define the core interoperability rules required for MPCP implementations across different systems and settlement rails.</p>
 <hr />
@@ -2740,7 +2740,7 @@ Protection is limited to the settlement fields explicitly carried in the SPA and
 <span class="w">    </span><span class="nt">&quot;budgetId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget_123&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_abc123&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;sessionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;vehicleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;veh_001&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;actorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ev-847&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a1b2c3...&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;scopeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sess_456&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;budgetScope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
