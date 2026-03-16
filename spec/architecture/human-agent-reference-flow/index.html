@@ -1901,7 +1901,7 @@ Settlement Rail (XRPL / RLUSD)
 <li>optionally anchors the policy to Hedera HCS for audit</li>
 <li>can revoke the delegation mid-trip via her wallet service's revocation endpoint</li>
 </ul>
-<p>Alice's identity is expressed as a <strong>DID</strong> (<code>did:key:...</code> or <code>did:xrpl:...</code>). The PolicyGrant <code>issuer</code> field contains her DID; her public key is used to verify all PolicyGrant signatures.</p>
+<p>Alice's identity is expressed as a <a href="https://www.w3.org/TR/did-core/">DID</a> (<code>did:key:...</code>, <code>did:xrpl:...</code>, <code>did:hedera:...</code>, or any W3C-compatible DID method). The PolicyGrant <code>issuer</code> field contains her DID; her public key is used to verify all PolicyGrant signatures.</p>
 <p>In this reference flow:</p>
 <div class="highlight"><pre><span></span><code>issuer:    did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK
 issuerKeyId: alice-did-key-1
@@ -2148,7 +2148,7 @@ maxAmountMinor: &quot;80000&quot;   // $800.00 (USD minor units = cents)
 <div class="highlight"><pre><span></span><code>issuer: did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK
 issuerKeyId: alice-did-key-1
 </code></pre></div>
-<p>Key resolution: service providers and verifiers resolve Alice's DID to retrieve her public verification key. For <code>did:key</code> DIDs, the key material is embedded in the DID itself. For <code>did:xrpl</code> DIDs, resolution uses the XRPL <code>account_objects</code> JSON-RPC call.</p>
+<p>Key resolution: service providers and verifiers resolve Alice's DID to retrieve her public verification key. For <code>did:key</code> DIDs, the key material is embedded in the DID itself. For other DID methods (<code>did:xrpl</code>, <code>did:hedera</code>, etc.), resolution follows the method-specific resolver defined by the <a href="https://www.w3.org/TR/did-core/">W3C DID Core</a> specification.</p>
 <p>Example <code>PolicyGrant</code> structure:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pg-alice-paris-2026&quot;</span><span class="p">,</span>
@@ -2406,10 +2406,10 @@ destination: rEuropcarParis
 <h2 id="key-resolution-and-trust-model">Key Resolution and Trust Model</h2>
 <p>Service providers verify the PolicyGrant signature using Alice's DID public key.</p>
 <p>For <code>did:key</code> DIDs, the public key is derived directly from the DID string — no network call required.</p>
-<p>For <code>did:xrpl</code> DIDs, the verifier calls the XRPL <code>account_objects</code> JSON-RPC to retrieve the DIDObject and extract the JWK public key.</p>
+<p>For other DID methods (<code>did:xrpl</code>, <code>did:hedera</code>, etc.), the verifier uses the method-specific resolver to retrieve the DID Document and extract the <code>verificationMethod[].publicKeyJwk</code>. See <a href="../../protocol/key-resolution/">Key Resolution</a> for the <code>did:xrpl</code> example and <a href="https://www.w3.org/TR/did-core/">W3C DID Core</a> for the standard.</p>
 <div class="highlight"><pre><span></span><code>issuerKeyId (Alice&#39;s DID)
       ↓
-DID resolver (did:key — inline; did:xrpl — XRPL JSON-RPC)
+DID resolver (did:key — inline; other methods — method-specific resolver)
       ↓
 public verification key
       ↓

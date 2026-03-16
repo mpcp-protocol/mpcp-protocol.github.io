@@ -2432,13 +2432,16 @@ context.</p>
 </table>
 <hr />
 <h2 id="did-key-resolution">DID Key Resolution</h2>
-<p>When <code>issuer</code> is a DID:</p>
+<p>When <code>issuer</code> is a <a href="https://www.w3.org/TR/did-core/">DID</a>:</p>
 <ul>
-<li><code>did:key:z6Mk...</code> — public key is embedded in the DID identifier itself</li>
+<li><code>did:key:z6Mk...</code> — public key is embedded in the DID identifier itself (no network call)</li>
 <li><code>did:web:example.com</code> — resolve via <code>https://example.com/.well-known/did.json</code></li>
+<li><code>did:xrpl:mainnet:rAddr...</code> — resolve via XRPL <code>account_objects</code> JSON-RPC</li>
+<li><code>did:hedera:mainnet:0.0.xxxxx</code> — resolve via Hedera Mirror Node</li>
 </ul>
-<p>Verifiers resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> before verifying
-the PolicyGrant signature. See <a href="../../protocol/key-resolution/">Key Resolution</a>.</p>
+<p>Any W3C-compatible DID method may be used. Verifiers resolve the public key (as JWK) using
+<code>issuer</code> and <code>issuerKeyId</code> before verifying the PolicyGrant signature.
+See <a href="../../protocol/key-resolution/">Key Resolution</a>.</p>
 <hr />
 <h2 id="allowedpurposes-merchant-category-filter"><code>allowedPurposes</code> — Merchant Category Filter</h2>
 <p><code>allowedPurposes</code> is an <strong>agent-enforced</strong> constraint, not a cryptographic enforcement by the

@@ -1883,7 +1883,7 @@
 <li>delivery fleet</li>
 <li>autonomous logistics fleet</li>
 </ul>
-<p>In this reference flow, the fleet operator issues signed PolicyGrant artifacts. Optionally, the fleet operator may be identified by an <strong>XRPL DID</strong> for portable issuer identity.</p>
+<p>In this reference flow, the fleet operator issues signed PolicyGrant artifacts. Optionally, the fleet operator may be identified by an on-chain <strong><a href="https://www.w3.org/TR/did-core/">DID</a></strong> (e.g. <code>did:xrpl:</code>, <code>did:hedera:</code>) for portable issuer identity.</p>
 <h2 id="identity-credential-layer">Identity &amp; Credential Layer</h2>
 <p>This scenario optionally uses an <strong>identity and credential layer</strong> for issuer key discovery.</p>
 <p>The <strong>baseline key resolution mechanism</strong> is HTTPS well-known:</p>
@@ -1894,7 +1894,7 @@
 <ul>
 <li>portable issuer identity across organizations</li>
 <li>verifiable credential metadata</li>
-<li>decentralized key discovery via XRPL DID or similar</li>
+<li>decentralized key discovery via on-chain DID methods (<code>did:xrpl</code>, <code>did:hedera</code>, <code>did:web</code>, etc.)</li>
 </ul>
 <p>DIDs and VCs do <strong>not</strong> replace MPCP artifacts such as <code>SignedBudgetAuthorization</code>, <code>SignedPaymentAuthorization</code>, or <code>SettlementIntent</code>.</p>
 <p>MPCP remains the <strong>runtime payment authorization protocol</strong> regardless of which key resolution method is used.</p>
@@ -1936,7 +1936,7 @@
 <li>verify MPCP authorization artifacts</li>
 <li>allow or deny charging sessions</li>
 </ul>
-<p>In this reference flow, the charging network operator may also publish an <strong>XRPL DID</strong> and issue verifiable credentials describing approved station identity, operator identity, and payment endpoints.</p>
+<p>In this reference flow, the charging network operator may also publish an on-chain <strong><a href="https://www.w3.org/TR/did-core/">DID</a></strong> (e.g. <code>did:xrpl:</code>, <code>did:hedera:</code>) and issue <a href="https://www.w3.org/TR/vc-data-model/">Verifiable Credentials</a> describing approved station identity, operator identity, and payment endpoints.</p>
 <hr />
 <h2 id="charging-station">Charging Station</h2>
 <p>The physical charger interacting with the EV.</p>
@@ -2142,10 +2142,13 @@ Before a trip session
 <div class="highlight"><pre><span></span><code>issuer: fleet-operator.example.com          (baseline: HTTPS well-known)
 issuerKeyId: fleet-policy-key-1
 
--- or with DID (optional) --
+-- or with DID (optional; any W3C DID method) --
 
-issuer: did:xrpl:rFleetOperator...
+issuer: did:xrpl:rFleetOperator...          (example: did:xrpl)
 issuerKeyId: did:xrpl:rFleetOperator...#key-1
+
+issuer: did:hedera:mainnet:0.0.12345        (example: did:hedera)
+issuerKeyId: did:hedera:mainnet:0.0.12345#key-1
 </code></pre></div>
 <p>The EV wallet resolves the public verification key using the baseline HTTPS well-known endpoint, or optionally via DID resolution.</p>
 <p>Verification model:</p>
@@ -2168,12 +2171,12 @@ verify signature on PolicyGrant
 <span class="p">}</span>
 </code></pre></div>
 <p>The <code>issuer</code>, <code>issuerKeyId</code>, and <code>signature</code> fields belong to the <strong>signed envelope</strong> that wraps the grant payload, not the grant itself.</p>
-<p>A VC representation may also be used for issuer portability in DID/VC-enabled deployments.</p>
+<p>A <a href="https://www.w3.org/TR/vc-data-model/">Verifiable Credential (VC)</a> representation may also be used for issuer portability in DID/VC-enabled deployments. Any W3C-compatible DID method may appear as the <code>issuer</code>; <code>did:xrpl</code> is shown here as a concrete example.</p>
 <p>Example conceptual VC envelope:</p>
 <div class="highlight"><pre><span></span><code>{
   &quot;@context&quot;: [&quot;https://www.w3.org/2018/credentials/v1&quot;],
   &quot;type&quot;: [&quot;VerifiableCredential&quot;, &quot;MPCPPolicyGrant&quot;],
-  &quot;issuer&quot;: &quot;did:xrpl:rFleetOperator...&quot;,
+  &quot;issuer&quot;: &quot;did:xrpl:rFleetOperator...&quot;,   // example DID method — did:hedera, did:web, etc. also valid
   &quot;issuanceDate&quot;: &quot;2026-03-12T00:00:00Z&quot;,
   &quot;expirationDate&quot;: &quot;2026-03-13T23:59:00Z&quot;,
   &quot;credentialSubject&quot;: {

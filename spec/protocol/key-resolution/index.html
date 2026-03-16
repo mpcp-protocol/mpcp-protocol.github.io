@@ -1357,15 +1357,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#didxrpl-did-resolution" class="md-nav__link">
+  <a href="#did-resolution-example-didxrpl" class="md-nav__link">
     <span class="md-ellipsis">
       
-        did:xrpl DID Resolution
+        DID Resolution — Example: did:xrpl
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="did:xrpl DID Resolution">
+    <nav class="md-nav" aria-label="DID Resolution — Example: did:xrpl">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2260,15 +2260,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#didxrpl-did-resolution" class="md-nav__link">
+  <a href="#did-resolution-example-didxrpl" class="md-nav__link">
     <span class="md-ellipsis">
       
-        did:xrpl DID Resolution
+        DID Resolution — Example: did:xrpl
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="did:xrpl DID Resolution">
+    <nav class="md-nav" aria-label="DID Resolution — Example: did:xrpl">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2382,7 +2382,7 @@
 <li><code>issuerKeyId</code> — selects the specific key within that authority's key set</li>
 </ul>
 <p>Verifiers use these two fields to retrieve the public key required to validate the artifact signature.</p>
-<p>MPCP defines <strong>HTTPS well-known</strong> as the baseline key resolution mechanism. All conforming implementations MUST support it. DID resolution and Verifiable Credentials are optional higher-level mechanisms that deployments MAY use in addition.</p>
+<p>MPCP defines <strong>HTTPS well-known</strong> as the baseline key resolution mechanism. All conforming implementations MUST support it. DID (<a href="https://www.w3.org/TR/did-core/">W3C DID Core</a>) resolution and Verifiable Credentials (<a href="https://www.w3.org/TR/vc-data-model/">W3C VC Data Model</a>) are optional higher-level mechanisms that deployments MAY use in addition.</p>
 <hr />
 <h2 id="canonical-key-format-jwk">Canonical Key Format: JWK</h2>
 <p>MPCP uses <strong>JSON Web Key (JWK)</strong> format (RFC 7517) as the canonical representation for public keys.</p>
@@ -2547,14 +2547,16 @@
 <p>Pre-configured keys MUST still be expressed in JWK format.</p>
 <hr />
 <h2 id="did-and-verifiable-credentials-optional">DID and Verifiable Credentials (Optional)</h2>
-<p>Deployments MAY use decentralized identifiers (DIDs) or Verifiable Credentials (VCs) as a higher-level key binding mechanism.</p>
+<p>Deployments MAY use <a href="https://www.w3.org/TR/did-core/">decentralized identifiers (DIDs)</a> or <a href="https://www.w3.org/TR/vc-data-model/">Verifiable Credentials (VCs)</a> as a higher-level key binding mechanism.</p>
 <p>When the <code>issuer</code> field carries a <code>did:</code> URI other than <code>did:web:</code>, verifiers MAY use DID resolution to retrieve the key material. Resolved key material MUST still be expressed and validated as JWK.</p>
 <p>VC-based key discovery is outside the core protocol.</p>
 <p>DID resolution and VC verification are never required for MPCP compliance. Implementations that support only HTTPS well-known key resolution are fully conformant.</p>
 <hr />
-<h2 id="didxrpl-did-resolution"><code>did:xrpl</code> DID Resolution</h2>
-<p>MPCP defines an optional resolution mechanism for <code>did:xrpl</code> DIDs, used when XRPL-native policy
-authorities issue grants with an XRPL account as the issuer.</p>
+<h2 id="did-resolution-example-didxrpl">DID Resolution — Example: <code>did:xrpl</code></h2>
+<p>The following shows how a W3C DID can be resolved to obtain signing keys. The <code>did:xrpl</code> method
+is used as a concrete example; other DID methods (e.g. <code>did:hedera</code>, <code>did:key</code>, <code>did:web</code>)
+follow the same general pattern with method-specific resolution logic as defined by the
+<a href="https://www.w3.org/TR/did-core/">W3C DID Core</a> specification.</p>
 <h3 id="did-format">DID Format</h3>
 <div class="highlight"><pre><span></span><code>did:xrpl:{network}:{rAddress}
 </code></pre></div>
