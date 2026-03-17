@@ -1178,6 +1178,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../protocol/trust-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Bundles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../protocol/PolicyGrant/" class="md-nav__link">
         
   
@@ -1748,6 +1776,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#offline-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2221,6 +2260,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#offline-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2352,9 +2402,20 @@
 <p>The <code>nonce</code> field SHOULD be present in Full Profile SPAs. The reference implementation auto-generates a UUID nonce on every <code>createSignedPaymentAuthorization()</code> call.</p>
 <p>Recipients SHOULD record nonces to detect and reject replayed SPAs within the same session. The verifier itself does not track nonces (stateless model); nonce uniqueness enforcement is the responsibility of the session authority.</p>
 <hr />
+<h2 id="offline-deployment">Offline Deployment</h2>
+<p>Full Profile deployments may operate offline for artifact signature verification. <a href="../../protocol/trust-bundles/">Trust Bundles</a> pre-distribute the public keys of approved issuers, enabling PolicyGrant, SBA, and SPA signature verification without network access.</p>
+<p><strong>Connectivity still required for:</strong></p>
+<ul>
+<li><strong>Revocation checks</strong> — <code>revocationEndpoint</code> cannot be called without network access. Offline verifiers accept the risk that a revoked grant remains valid until expiry. See <a href="../../protocol/trust-bundles/#offline-verification">Trust Bundles — Offline Verification</a>.</li>
+<li><strong>IAL anchoring</strong> — Publishing or verifying <code>intentHash</code> commitments on Hedera HCS or XRPL requires connectivity to the respective network.</li>
+</ul>
+<p>Deployments with strict revocation or anchoring requirements MUST ensure connectivity at verification time or use an embedded revocation list (planned future extension).</p>
+<p>See <a href="../../protocol/trust-bundles/">Trust Bundles</a> for the full specification.</p>
+<hr />
 <h2 id="see-also">See Also</h2>
 <ul>
 <li><a href="../lite-profile/">Lite Profile</a> — SPA-only settlement binding</li>
+<li><a href="../../protocol/trust-bundles/">Trust Bundles</a> — offline key distribution</li>
 <li><a href="../../protocol/SignedPaymentAuthorization/">SignedPaymentAuthorization</a></li>
 <li><a href="../../protocol/SettlementIntentHash/">SettlementIntentHash</a></li>
 <li><a href="../../protocol/anchoring/">Anchoring</a></li>

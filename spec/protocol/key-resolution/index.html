@@ -16,7 +16,7 @@
         <link rel="prev" href="../verification/">
       
       
-        <link rel="next" href="../PolicyGrant/">
+        <link rel="next" href="../trust-bundles/">
       
       
         
@@ -1335,6 +1335,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#trust-bundle-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Bundle Resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pre-configured-keys" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1454,6 +1465,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trust-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Bundles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2238,6 +2277,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#trust-bundle-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Bundle Resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pre-configured-keys" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2524,20 +2574,47 @@
 <p>Verifiers SHOULD cache key set responses according to standard HTTP cache semantics (<code>Cache-Control</code>, <code>ETag</code>). Verifiers MUST revalidate cached responses before use when they have expired.</p>
 <hr />
 <h2 id="resolution-algorithm">Resolution Algorithm</h2>
+<p>Verifiers MUST attempt resolution in the following priority order:</p>
 <div class="highlight"><pre><span></span><code>function resolvePublicKey(issuer, issuerKeyId):
+    # 1. Trust Bundle lookup (offline / pre-distributed)
+    jwk = resolveFromTrustBundle(issuer, issuerKeyId)
+    if jwk: return jwk
+
+    # 2. HTTPS well-known (online)
     url = deriveKeySetUrl(issuer)
     keySetDoc = httpGet(url)               # HTTPS required; TLS validated
     keys = parseKeySet(keySetDoc)
     jwk = keys.find(k =&gt; k.kid == issuerKeyId)
-    if jwk is null:
-        raise KEY_NOT_FOUND
-    return jwk
+    if jwk: return jwk
+
+    # 3. DID resolution (optional, online)
+    if issuer starts with &quot;did:&quot; and not &quot;did:web:&quot;:
+        jwk = resolveDid(issuer, issuerKeyId)   # method-specific; see DID section below
+        if jwk: return jwk
+
+    raise KEY_NOT_FOUND
 </code></pre></div>
-<p>If the well-known endpoint is unreachable and no pre-configured key is available, the verifier MUST fail the signature check and reject the artifact.</p>
+<p>If no resolution path succeeds, the verifier MUST fail the signature check and reject the artifact.</p>
+<hr />
+<h2 id="trust-bundle-resolution">Trust Bundle Resolution</h2>
+<p><a href="../trust-bundles/">Trust Bundles</a> are the primary resolution mechanism for deployments that operate without network access at verification time.</p>
+<p>A Trust Bundle is a signed, distributable document containing the public keys of approved issuers for a given scope. Verifiers load one or more Trust Bundles at startup (or after periodic refresh) and consult them before attempting any live network call.</p>
+<div class="highlight"><pre><span></span><code>function resolveFromTrustBundle(issuer, issuerKeyId):
+    for each bundle in loadedBundles (sorted by expiresAt desc):
+        if bundle is expired: continue
+        if issuer not in bundle.approvedIssuers: continue
+        entry = bundle.issuers.find(e =&gt; e.issuer == issuer)
+        if entry is null: continue   # approved but no embedded keys — fall through
+        jwk = entry.keys.find(k =&gt; k.kid == issuerKeyId)
+        if jwk: return jwk
+    return null
+</code></pre></div>
+<p>Trust Bundles are optional. If no Trust Bundle is loaded, resolution proceeds directly to the HTTPS well-known step.</p>
+<p>See <a href="../trust-bundles/">Trust Bundles</a> for the full specification including signing, lifecycle, and offline revocation considerations.</p>
 <hr />
 <h2 id="pre-configured-keys">Pre-Configured Keys</h2>
-<p>Implementations MAY pre-configure keys from trusted sources in lieu of or in addition to well-known lookups.</p>
-<p>Pre-configured keys are identified by <code>issuer</code> + <code>issuerKeyId</code> and expressed as JWK objects. When a pre-configured entry matches the artifact, the verifier uses it directly without fetching the well-known endpoint.</p>
+<p>Individual keys MAY be pre-configured directly on a verifier, identified by <code>issuer</code> + <code>issuerKeyId</code> and expressed as JWK objects. When a matching entry is found, the verifier uses it without fetching the well-known endpoint.</p>
+<p>Trust Bundles are the recommended mechanism for distributing pre-configured keys at scale. Direct pre-configuration is appropriate for single-key pinning or testing environments.</p>
 <p>This supports:</p>
 <ul>
 <li>offline and air-gapped machine wallets</li>

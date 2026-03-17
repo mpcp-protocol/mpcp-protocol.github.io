@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/verification/">
+        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/trust-bundles/">
       
       
-        <link rel="prev" href="../hashing/">
+        <link rel="prev" href="../key-resolution/">
       
       
-        <link rel="next" href="../key-resolution/">
+        <link rel="next" href="../PolicyGrant/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Verification - MPCP Spec</title>
+        <title>Trust Bundles - MPCP Spec</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#verification" class="md-skip">
+        <a href="#trust-bundles" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Verification
+              Trust Bundles
             
           </span>
         </div>
@@ -1122,37 +1122,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Verification
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../verification/" class="md-nav__link">
         
   
   
@@ -1168,81 +1141,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#verification-pipeline" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verification Pipeline
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-verified" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What Is Verified
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dispute-verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dispute Verification
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See Also
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1280,10 +1178,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../trust-bundles/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Bundles
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1299,6 +1224,358 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundleid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bundleId
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundleissuer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bundleIssuer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundlekeyid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bundleKeyId
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#category" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        category
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geography" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        geography
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approvedissuers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        approvedIssuers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issuers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        issuers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expiresat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expiresAt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        signature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Signing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#canonical-payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Canonical Payload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-lookup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Lookup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offline-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Offline Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revocation-in-offline-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revocation in Offline Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Extensions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1961,10 +2238,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#verification-pipeline" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verification Pipeline
+        Overview
       
     </span>
   </a>
@@ -1972,10 +2249,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-is-verified" class="md-nav__link">
+  <a href="#purpose" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What Is Verified
+        Purpose
       
     </span>
   </a>
@@ -1983,10 +2260,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Scope
       
     </span>
   </a>
@@ -1994,10 +2271,287 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dispute-verification" class="md-nav__link">
+  <a href="#structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dispute Verification
+        Structure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fields
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundleid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bundleId
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundleissuer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bundleIssuer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bundlekeyid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bundleKeyId
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#category" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        category
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geography" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        geography
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approvedissuers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        approvedIssuers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issuers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        issuers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expiresat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expiresAt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        signature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Signing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Signing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#canonical-payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Canonical Payload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-lookup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Lookup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offline-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Offline Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#revocation-in-offline-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revocation in Offline Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Extensions
       
     </span>
   </a>
@@ -2035,76 +2589,267 @@
   
 
 
-<h1 id="verification">Verification</h1>
-<p>MPCP settlement verification ensures that an executed transaction matches the authorization chain.</p>
-<h2 id="verification-pipeline">Verification Pipeline</h2>
-<p>The verifier runs checks in order:</p>
-<ol>
-<li><strong>Schema</strong> — All artifacts parse and validate against expected structure</li>
-<li><strong>Signatures</strong> — PolicyGrant, SBA, and SPA signatures are valid (resolve public keys via <code>issuer</code> + <code>issuerKeyId</code> using the <a href="../key-resolution/">Key Resolution</a> algorithm; in offline deployments, keys are resolved from a pre-loaded <a href="../trust-bundles/">Trust Bundle</a>)</li>
-<li><strong>Linkage</strong> — <code>SBA.authorization.grantId</code> references a valid PolicyGrant; <code>SPA.authorization.budgetId</code> references the issuing SBA; constraint subsets are respected</li>
-<li><strong>Hash</strong> — If intentHash is present, it matches <code>computeSettlementIntentHash(settlementIntent)</code></li>
-<li><strong>Policy</strong> — Budget limits, rail/asset/destination constraints, expiration</li>
-</ol>
-<p>If any check fails, verification fails with a specific reason.</p>
-<h2 id="what-is-verified">What Is Verified</h2>
+<h1 id="trust-bundles">Trust Bundles</h1>
+<p>Part of the <a href="../mpcp/">Machine Payment Control Protocol (MPCP)</a>.</p>
+<h2 id="overview">Overview</h2>
+<p>A <strong>Trust Bundle</strong> is a signed, distributable document that packages trusted issuer public keys and scope metadata for use by MPCP verifiers that cannot perform live key resolution at runtime.</p>
+<p>Trust Bundles enable:</p>
+<ul>
+<li><strong>Offline verification</strong> — artifacts can be verified without network access</li>
+<li><strong>Deterministic key resolution</strong> — keys are pre-distributed rather than fetched at verify time</li>
+<li><strong>Scoped trust domains</strong> — each bundle is bounded to a specific category and geography, minimising the blast radius of a compromised issuer</li>
+</ul>
+<p>Trust Bundles are <strong>optional</strong> in MPCP, but <strong>REQUIRED</strong> for deployment profiles that operate without network access at verification time.</p>
+<p>Trust Bundles are distinct from <a href="../ArtifactBundle/">ArtifactBundles</a>. An ArtifactBundle packages the payment verification artifacts of a single transaction for audit and dispute use. A Trust Bundle packages the public keys of trusted issuers for verifier configuration — it is an operational input, not a per-transaction artifact.</p>
+<hr />
+<h2 id="purpose">Purpose</h2>
+<p>MPCP artifacts (PolicyGrant, SignedBudgetAuthorization, SignedPaymentAuthorization) are signed by different issuers. To verify these signatures, a verifier must obtain the corresponding public key.</p>
+<p>In online environments, keys are resolved dynamically via the <a href="../key-resolution/#https-well-known-endpoint">HTTPS well-known endpoint</a> or <a href="../key-resolution/#did-resolution--example-didxrpl">DID resolution</a>.</p>
+<p>In offline or constrained environments — embedded devices, vehicle-mounted verifiers, IoT infrastructure with intermittent connectivity — verifiers MUST rely on pre-distributed trust material. Trust Bundles are the standardised mechanism for distributing that material.</p>
+<hr />
+<h2 id="scope">Scope</h2>
+<p>A Trust Bundle is scoped by <strong>policy context</strong>, which may include:</p>
+<ul>
+<li><strong>category</strong> — the service domain the bundle applies to (e.g., <code>ev-charging</code>, <code>parking</code>, <code>tolls</code>)</li>
+<li><strong>geography</strong> — optional region or country constraint</li>
+<li><strong>approved issuers</strong> — the explicit set of issuer identities trusted within this scope</li>
+</ul>
+<p>A verifier loads only the bundles relevant to its deployment. A verifier serving EV charging in Germany loads a bundle scoped to <code>ev-charging / EU / DE</code>; it does not need to load bundles for other categories or regions.</p>
+<hr />
+<h2 id="structure">Structure</h2>
+<p>A Trust Bundle MUST be a JSON document containing:</p>
+<ul>
+<li>An <strong>issuer identity set</strong> (<code>approvedIssuers</code>): the complete list of issuer DIDs authorised for this bundle's scope</li>
+<li>An <strong>embedded key set</strong> (<code>issuers</code>): the subset of approved issuers whose key material is pre-distributed in this bundle</li>
+<li><strong>Bundle metadata</strong>: scope, expiry, and the identity of the bundle signer</li>
+<li>A <strong>signature</strong> over the canonical bundle payload</li>
+</ul>
+<p>An issuer that appears in <code>approvedIssuers</code> but not in <code>issuers</code> is recognised as trusted but its keys are not embedded — verifiers MUST resolve its keys via DID or well-known if connectivity is available, or reject the artifact if offline.</p>
+<h3 id="example">Example</h3>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;bundleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;charging-eu-ionity-v1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;bundleIssuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:consortium.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;bundleKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;root-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ev-charging&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;geography&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EU&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;countryCodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;DE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;NL&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FR&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;approvedIssuers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;did:web:ionity.eu&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;did:web:fleet.example.com&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;issuers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:fleet.example.com&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;keys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget-key-1&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:ionity.eu&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;keys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-key-1&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-06-01T00:00:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="fields">Fields</h2>
+<h3 id="version"><code>version</code></h3>
+<p>Semantic version of the Trust Bundle format. MUST be <code>"1.0"</code> for this version of the spec.</p>
+<h3 id="bundleid"><code>bundleId</code></h3>
+<p>Unique identifier for this bundle. SHOULD be human-readable and include the scope and version.</p>
+<h3 id="bundleissuer"><code>bundleIssuer</code></h3>
+<p>Identifier (domain or DID) of the authority that signed this bundle — e.g., a policy authority, fleet operator, or consortium root. Verifiers use this to look up the bundle signer's key from their pre-configured root key set.</p>
+<h3 id="bundlekeyid"><code>bundleKeyId</code></h3>
+<p>The <code>kid</code> of the key used to sign this bundle, within the <code>bundleIssuer</code>'s key set.</p>
+<h3 id="category"><code>category</code></h3>
+<p>The service category this bundle applies to. Informational metadata used for bundle selection.</p>
+<h3 id="geography"><code>geography</code></h3>
+<p>Optional geographic constraints. Informational metadata used for bundle selection.</p>
+<h3 id="approvedissuers"><code>approvedIssuers</code></h3>
+<p>The complete list of issuer identifiers trusted within this bundle's scope. An artifact whose <code>issuer</code> is not present in this list MUST be rejected, even if connectivity is available.</p>
+<h3 id="issuers"><code>issuers</code></h3>
+<p>Array of issuer entries with embedded key material. Each entry contains:</p>
+<ul>
+<li><code>issuer</code> — the issuer identifier (MUST appear in <code>approvedIssuers</code>)</li>
+<li><code>keys</code> — array of public keys in JWK format</li>
+</ul>
+<p>Issuers present in <code>approvedIssuers</code> but absent from <code>issuers</code> have no embedded keys; verifiers resolve their keys dynamically if online, or reject the artifact if offline.</p>
+<h3 id="expiresat"><code>expiresAt</code></h3>
+<p>ISO 8601 expiration timestamp. Verifiers MUST reject a bundle that has expired.</p>
+<h3 id="signature"><code>signature</code></h3>
+<p>Signature over the canonical bundle payload by the <code>bundleIssuer</code>. See <a href="#signing">Signing</a> for the exact construction.</p>
+<hr />
+<h2 id="key-format">Key Format</h2>
+<p>Public keys MUST be expressed as <strong>JSON Web Keys (JWK)</strong> (RFC 7517).</p>
+<p>MPCP implementations MUST support:</p>
 <table>
 <thead>
 <tr>
-<th>Check</th>
-<th>Description</th>
+<th>Algorithm</th>
+<th><code>kty</code></th>
+<th><code>crv</code></th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>PolicyGrant</td>
-<td>Signature valid; expiresAt not passed; constraints valid</td>
+<td>Ed25519</td>
+<td><code>OKP</code></td>
+<td><code>Ed25519</code></td>
+<td>Recommended</td>
 </tr>
 <tr>
-<td>SBA</td>
-<td>Signature valid; expiresAt not passed; <code>authorization.grantId</code> references a valid PolicyGrant</td>
+<td>ECDSA P-256</td>
+<td><code>EC</code></td>
+<td><code>P-256</code></td>
+<td>Required for compatibility with SBA signing in the reference implementation</td>
 </tr>
 <tr>
-<td>SBA → decision</td>
-<td>Current payment amount ≤ <code>maxAmountMinor</code>; rail, asset, destination in allowlists. Check is stateless — session authority manages cumulative budget tracking.</td>
-</tr>
-<tr>
-<td>SPA</td>
-<td>Signature valid; expiresAt not passed</td>
-</tr>
-<tr>
-<td>SPA → settlement</td>
-<td>rail, amount, destination, asset match executed settlement</td>
-</tr>
-<tr>
-<td>intentHash</td>
-<td>If present, equals hash of settlement intent</td>
+<td>secp256k1</td>
+<td><code>EC</code></td>
+<td><code>secp256k1</code></td>
+<td>Required for XRPL-based deployments</td>
 </tr>
 </tbody>
 </table>
-<h2 id="usage">Usage</h2>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">verifySettlement</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service&quot;</span><span class="p">;</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="nx">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">verifySettlement</span><span class="p">(</span><span class="nx">context</span><span class="p">);</span>
-
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">valid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="c1">// Settlement matches authorization chain</span>
-<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="c1">// result.reason describes the failure</span>
-<span class="p">}</span>
+<p>All keys MUST include <code>kid</code> and <code>use: "sig"</code>. Private key material (<code>d</code>) MUST NOT be present.</p>
+<hr />
+<h2 id="signing">Signing</h2>
+<h3 id="canonical-payload">Canonical Payload</h3>
+<p>The signed payload is constructed by:</p>
+<ol>
+<li>Removing the <code>signature</code> field from the bundle document</li>
+<li>Applying canonical JSON serialisation (see <a href="../hashing/">Hashing</a>)</li>
+<li>Prepending the MPCP domain prefix</li>
+</ol>
+<div class="highlight"><pre><span></span><code>signedBytes = &quot;MPCP:TrustBundle:1.0:&quot; || canonicalJson(bundleWithoutSignature)
 </code></pre></div>
-<p>The <code>context</code> includes policyGrant, signedBudgetAuthorization, signedPaymentAuthorization, settlement, paymentPolicyDecision, decisionId, and optional settlementIntent.</p>
-<h2 id="dispute-verification">Dispute Verification</h2>
-<p>When a settlement is disputed, <code>verifyDisputedSettlement</code> runs full chain verification plus optional ledger anchor verification. If the intent was anchored (e.g., to Hedera HCS), the anchor can be checked against the expected intentHash.</p>
-<p>See <a href="../../guides/dispute-resolution/">Dispute Resolution</a> for the guide.</p>
+<h3 id="algorithm">Algorithm</h3>
+<p>The signature MUST use the algorithm implied by the <code>bundleIssuer</code>'s key type:</p>
+<table>
+<thead>
+<tr>
+<th>Key type</th>
+<th>Signature algorithm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OKP / Ed25519</code></td>
+<td>EdDSA</td>
+</tr>
+<tr>
+<td><code>EC / P-256</code></td>
+<td>ECDSA with SHA-256</td>
+</tr>
+<tr>
+<td><code>EC / secp256k1</code></td>
+<td>ECDSA with SHA-256</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>signature</code> field contains the resulting signature encoded as base64url.</p>
+<h3 id="trust-model">Trust Model</h3>
+<p>Verifiers MUST:</p>
+<ol>
+<li>Obtain the <code>bundleIssuer</code>'s public key (identified by <code>bundleKeyId</code>) from pre-configured root keys</li>
+<li>Verify the bundle signature against the canonical payload</li>
+<li>Reject the bundle if the signature is invalid or the bundle has expired</li>
+<li>Use embedded keys in <code>issuers</code> to verify artifact signatures</li>
+</ol>
+<p><strong>Root key bootstrap:</strong> The public key(s) of bundle signers cannot themselves be distributed in a Trust Bundle — doing so would be circular. Root keys are distributed out-of-band:</p>
+<ul>
+<li>Installed at device manufacture or provisioning time as a firmware constant</li>
+<li>Fetched once over TLS during initial setup and then pinned</li>
+<li>Distributed by the fleet operator or consortium through a separate secure channel</li>
+</ul>
+<hr />
+<h2 id="key-lookup">Key Lookup</h2>
+<p>When resolving an artifact's issuer key, verifiers check loaded bundles before attempting live resolution:</p>
+<div class="highlight"><pre><span></span><code>function resolveFromTrustBundle(issuer, issuerKeyId, loadedBundles):
+    for each bundle in loadedBundles (sorted by expiresAt desc):
+        if bundle is expired: continue
+        if issuer not in bundle.approvedIssuers: continue
+        entry = bundle.issuers.find(e =&gt; e.issuer == issuer)
+        if entry is null: continue   # approved but not embedded — fall through
+        jwk = entry.keys.find(k =&gt; k.kid == issuerKeyId)
+        if jwk: return jwk
+    return null   # not found in any bundle
+</code></pre></div>
+<p>If multiple non-expired bundles match the issuer, the verifier MUST use the one with the latest <code>expiresAt</code>.</p>
+<p>This function feeds into the broader <a href="../key-resolution/">Key Resolution</a> algorithm as the first step, before HTTPS well-known and DID resolution.</p>
+<hr />
+<h2 id="offline-verification">Offline Verification</h2>
+<p>In offline environments:</p>
+<ul>
+<li>Verifiers MUST rely on loaded Trust Bundles for key resolution</li>
+<li>No network calls (HTTPS well-known, DID resolution) are performed</li>
+<li>Verifiers MUST reject artifacts whose issuer is not covered by any loaded bundle</li>
+</ul>
+<p>Verification flow:</p>
+<div class="highlight"><pre><span></span><code>artifact → issuer → lookup key in bundle → verify signature → check expiry and constraints
+</code></pre></div>
+<h3 id="revocation-in-offline-mode">Revocation in Offline Mode</h3>
+<p>PolicyGrants and SPAs may carry a <code>revocationEndpoint</code>. Offline verifiers cannot call this endpoint. Deployments that use offline verification MUST accept the risk that a revoked grant may be accepted — the revoked grant will remain valid until its <code>expiresAt</code> expires or the bundle is refreshed and revocation state is checked.</p>
+<p>Embedded revocation lists (CRL, bloom filter) are a <a href="#future-extensions">planned future extension</a>. Until that mechanism is available, deployments with strict revocation requirements MUST use online verification.</p>
+<hr />
+<h2 id="lifecycle">Lifecycle</h2>
+<p>Trust Bundles MUST:</p>
+<ul>
+<li>carry a defined <code>expiresAt</code></li>
+<li>be periodically refreshed when connectivity is available</li>
+</ul>
+<p>Implementations SHOULD:</p>
+<ul>
+<li>reject expired bundles at load time</li>
+<li>support loading multiple bundles simultaneously (for different scopes or overlapping key rotations)</li>
+<li>begin refreshing a bundle before it expires to avoid a verification gap</li>
+</ul>
+<p>Bundle refresh is performed by fetching an updated Trust Bundle document from the bundle issuer's distribution endpoint (deployment-specific) and verifying its signature before replacing the stored bundle.</p>
+<hr />
+<h2 id="security-considerations">Security Considerations</h2>
+<ul>
+<li>Trust Bundles reduce the trust surface by scoping approved issuers to a specific category and geography</li>
+<li>Compromise of a bundle signer key allows an attacker to distribute bundles with injected issuer keys — short <code>expiresAt</code> windows limit the damage window</li>
+<li>Root keys MUST be installed securely and MUST NOT be changeable by software update alone in high-assurance deployments</li>
+<li>Verifiers MUST NOT load unsigned or expired bundles</li>
+</ul>
+<hr />
+<h2 id="future-extensions">Future Extensions</h2>
+<p>Trust Bundles MAY be extended in future versions to support:</p>
+<ul>
+<li><strong>Embedded revocation lists</strong> — CRL or bloom filter of revoked <code>grantId</code> values for offline revocation checking</li>
+<li><strong>DID document caching</strong> — pre-resolved DID documents for approved issuers</li>
+<li><strong>Verifiable Credential chains</strong> — VC-based bundle attestation for cross-domain trust</li>
+<li><strong>Merkle-compressed key sets</strong> — compact representation for constrained devices</li>
+</ul>
+<hr />
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../artifacts/">Artifacts</a></li>
-<li><a href="../hashing/">Hashing</a></li>
-<li><a href="../key-resolution/">Key Resolution</a></li>
-<li><a href="../trust-bundles/">Trust Bundles</a> — offline key distribution</li>
-<li><a href="../anchoring/">Anchoring</a></li>
-<li><a href="https://mpcp-protocol.github.io/mpcp-reference/reference/cli/">Reference: CLI</a> — <code>mpcp verify</code> command</li>
+<li><a href="../key-resolution/">Key Resolution</a> — full key resolution algorithm including Trust Bundle lookup</li>
+<li><a href="../verification/">Verification</a></li>
+<li><a href="../ArtifactBundle/">ArtifactBundle</a> — distinct concept: per-transaction artifact packaging</li>
+<li><a href="../../profiles/lite-profile/">Lite Profile</a></li>
+<li><a href="../../profiles/full-profile/">Full Profile</a></li>
 </ul>
 
 

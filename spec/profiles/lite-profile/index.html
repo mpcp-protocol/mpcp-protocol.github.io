@@ -1178,6 +1178,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../protocol/trust-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Bundles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../protocol/PolicyGrant/" class="md-nav__link">
         
   
@@ -1698,6 +1726,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#offline-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2177,6 +2216,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#offline-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2310,9 +2360,16 @@
 <h3 id="memo-and-metadata">Memo and Metadata</h3>
 <p>Fields outside the SPA — memo content, ancillary metadata, extended transaction fields — receive no cryptographic protection in Lite Profile. If these fields affect business outcomes, use the Full Profile.</p>
 <hr />
+<h2 id="offline-deployment">Offline Deployment</h2>
+<p>The Lite Profile is well-suited to offline or intermittently-connected infrastructure such as vehicle-mounted terminals and embedded IoT devices.</p>
+<p>For deployments that perform artifact verification without network access at verification time, <a href="../../protocol/trust-bundles/">Trust Bundles</a> are <strong>REQUIRED</strong>. A Trust Bundle pre-distributes the public keys of approved issuers so that PolicyGrant, SBA, and SPA signatures can be verified without calling the HTTPS well-known endpoint or a DID resolver.</p>
+<p><strong>Offline revocation:</strong> Offline verifiers cannot call <code>revocationEndpoint</code>. Deployments must accept the risk that a revoked grant remains accepted until its <code>expiresAt</code> expires or the Trust Bundle is refreshed and revocation state is checked online. Deployments with strict revocation requirements MUST use online verification.</p>
+<p>See <a href="../../protocol/trust-bundles/">Trust Bundles</a> for the full specification.</p>
+<hr />
 <h2 id="see-also">See Also</h2>
 <ul>
 <li><a href="../full-profile/">Full Profile</a> — SPA + intentHash binding</li>
+<li><a href="../../protocol/trust-bundles/">Trust Bundles</a> — offline key distribution</li>
 <li><a href="../../protocol/SignedPaymentAuthorization/">SignedPaymentAuthorization</a></li>
 <li><a href="../../protocol/SettlementIntentHash/">SettlementIntentHash</a></li>
 </ul>
