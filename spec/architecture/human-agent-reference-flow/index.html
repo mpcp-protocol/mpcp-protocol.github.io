@@ -1896,27 +1896,66 @@
 <p>See also: <a href="../../profiles/human-agent-profile/">Human-Agent Profile</a> for the normative profile specification.</p>
 <hr />
 <h1 id="scenario-overview">Scenario Overview</h1>
-<p>Alice is planning a 3-day trip to Paris (Apr 10–12 2026). She delegates a <strong>$800 travel budget</strong> to her AI trip-planning agent, which will autonomously book hotels, transport, and other services on her behalf.</p>
-<p>Alice remains in control:</p>
+<p>Alice is planning a 3-day trip to Paris (Apr 10–12 2026). Instead of manually booking each service, she delegates execution to an AI agent — but keeps strict control over <em>what the agent is allowed to spend, where, and under which conditions</em>.</p>
+<p>Using MPCP, Alice does <strong>not give the agent access to her funds directly</strong>. Instead, she issues a cryptographically signed <strong>PolicyGrant</strong> that defines:</p>
 <ul>
-<li>she sets the total budget and which categories of spend are allowed</li>
-<li>she can revoke the delegation at any time via her wallet service</li>
-<li>every payment produces a cryptographically verifiable audit trail</li>
+<li>total budget ($800)</li>
+<li>allowed spending categories (hotel, transport, flight)</li>
+<li>allowed payment rails and assets (XRPL / RLUSD)</li>
+<li>revocation controls</li>
 </ul>
-<div class="highlight"><pre><span></span><code>Alice
-  │  signs PolicyGrant (TRIP scope, $800, purposes: hotel / flight / transport)
+<p>The AI agent operates under this policy and cannot exceed it.</p>
+<p>This creates a <strong>constrained delegation model</strong>:</p>
+<ul>
+<li>Alice defines <em>intent and limits</em></li>
+<li>the AI agent executes within those limits</li>
+<li>service providers independently verify that each payment is authorized</li>
+<li>the settlement rail executes only after verification</li>
+</ul>
+<hr />
+<h2 id="what-this-scenario-demonstrates">What This Scenario Demonstrates</h2>
+<p>This reference flow demonstrates the full MPCP lifecycle in a human-to-agent setting:</p>
+<ul>
+<li>how a human delegates authority without surrendering control</li>
+<li>how an AI agent enforces policy locally (not the merchant)</li>
+<li>how merchants verify authorization without trusting the agent</li>
+<li>how revocation works mid-flight</li>
+<li>how auditability is preserved end-to-end</li>
+</ul>
+<hr />
+<h2 id="authorization-chain-conceptual">Authorization Chain (Conceptual)</h2>
+<div class="highlight"><pre><span></span><code>Alice (human principal)
+  │  signs PolicyGrant (TRIP scope, $800, allowed purposes)
   ▼
 AI Trip Planner v2
-  │  enforces allowedPurposes + cumulative budget
-  │  issues SBA (TRIP scope) once per trip
-  │  issues SPA per service provider
+  │  enforces policy + cumulative spend
+  │  issues SBA (trip budget)
+  │  issues SPA per booking
   ▼
-Service Providers (hotel, rail, car rental)
-  │  verify MPCP authorization chain
-  │  provide service on confirmation
+Service Providers
+  │  verify MPCP chain (no trust in agent required)
   ▼
 Settlement Rail (XRPL / RLUSD)
 </code></pre></div>
+<p>Key property:</p>
+<blockquote>
+<p>Every payment must be explainable as a valid derivation of Alice’s original signed intent.</p>
+</blockquote>
+<hr />
+<h2 id="why-this-matters">Why This Matters</h2>
+<p>Without MPCP:</p>
+<ul>
+<li>agents need direct wallet access (high risk)</li>
+<li>merchants must trust the agent</li>
+<li>audit trails are weak or incomplete</li>
+</ul>
+<p>With MPCP:</p>
+<ul>
+<li>authority is <strong>delegated but bounded</strong></li>
+<li>verification is <strong>stateless and deterministic</strong></li>
+<li>trust is replaced by <strong>cryptographic proof</strong></li>
+</ul>
+<p>This scenario shows how MPCP enables <strong>safe, auditable autonomy</strong> for AI-driven commerce.</p>
 <hr />
 <h1 id="actors">Actors</h1>
 <p>See: <a href="../actors/">Actors</a> for a standalone overview.</p>
@@ -2344,19 +2383,6 @@ destination:  rEurostar
 <h3 id="provider-verifies-and-confirms">Provider verifies and confirms</h3>
 <p>Service confirmed. Settlement executes on XRPL.</p>
 <p><strong>Cumulative: $370 / $800</strong></p>
-<hr />
-<h2 id="apr-11-stop-3-restaurant-le-jules-verne-skipped">Apr 11 — Stop 3: Restaurant (Le Jules Verne) — SKIPPED</h2>
-<h3 id="provider-sends-quote_2">Provider sends quote</h3>
-<div class="highlight"><pre><span></span><code>provider:   Le Jules Verne
-purpose:    travel:dining
-amount:     ~$180
-</code></pre></div>
-<h3 id="agent-refuses-without-issuing-spa">Agent refuses without issuing SPA</h3>
-<p>The agent checks <code>policyGrant.allowedPurposes</code>:</p>
-<div class="highlight"><pre><span></span><code>allowedPurposes: [travel:hotel, travel:flight, travel:transport]
-</code></pre></div>
-<p><code>travel:dining</code> is not in the list. The agent <strong>refuses to sign an SPA</strong>. No SBA check, no payment, no settlement.</p>
-<p>The service provider receives no authorization artifact.</p>
 <hr />
 <h2 id="apr-11-mid-trip-alice-revokes">Apr 11 (mid-trip) — Alice Revokes</h2>
 <p>Alice decides to cancel the remainder of the delegation.</p>
