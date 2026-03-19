@@ -1369,6 +1369,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#merchant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        merchant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#geography" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2366,6 +2377,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#merchant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        merchant
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#geography" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2611,10 +2633,12 @@
 <p>A Trust Bundle is scoped by <strong>policy context</strong>, which may include:</p>
 <ul>
 <li><strong>category</strong> — the service domain the bundle applies to (e.g., <code>ev-charging</code>, <code>parking</code>, <code>tolls</code>)</li>
+<li><strong>merchant</strong> — optional identity (DID or domain) of the payment-accepting entity this bundle is scoped to</li>
 <li><strong>geography</strong> — optional region or country constraint</li>
 <li><strong>approved issuers</strong> — the explicit set of issuer identities trusted within this scope</li>
 </ul>
 <p>A verifier loads only the bundles relevant to its deployment. A verifier serving EV charging in Germany loads a bundle scoped to <code>ev-charging / EU / DE</code>; it does not need to load bundles for other categories or regions.</p>
+<p>Embedded devices that belong to a specific merchant (e.g., an EV charging station managed by Ionity) SHOULD additionally filter by <code>merchant</code> to avoid loading key material from competing networks.</p>
 <hr />
 <h2 id="structure">Structure</h2>
 <p>A Trust Bundle MUST be a JSON document containing:</p>
@@ -2632,6 +2656,7 @@
 <span class="w">  </span><span class="nt">&quot;bundleIssuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:consortium.example.com&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;bundleKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;root-key-1&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ev-charging&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;merchant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:ionity.eu&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;geography&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EU&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;countryCodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;DE&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;NL&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;FR&quot;</span><span class="p">]</span>
@@ -2682,6 +2707,10 @@
 <p>The <code>kid</code> of the key used to sign this bundle, within the <code>bundleIssuer</code>'s key set.</p>
 <h3 id="category"><code>category</code></h3>
 <p>The service category this bundle applies to. Informational metadata used for bundle selection.</p>
+<h3 id="merchant"><code>merchant</code></h3>
+<p>Optional. The identity (DID or domain) of the payment-accepting entity this bundle is scoped to. Used by embedded devices (e.g. EV charging stations, parking meters) to filter bundles by the merchant network they belong to.</p>
+<p>A device that serves a single merchant SHOULD only load bundles where <code>merchant</code> matches its own merchant identity. Bundles without a <code>merchant</code> field are unscoped and may be loaded by any verifier within the applicable <code>category</code> and <code>geography</code>.</p>
+<p>Example values: <code>did:web:ionity.eu</code>, <code>pa.acme-parking.com</code></p>
 <h3 id="geography"><code>geography</code></h3>
 <p>Optional geographic constraints. Informational metadata used for bundle selection.</p>
 <h3 id="approvedissuers"><code>approvedIssuers</code></h3>
