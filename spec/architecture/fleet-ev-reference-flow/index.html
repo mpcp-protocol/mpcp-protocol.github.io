@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -1464,6 +1464,62 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/policy-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/policy-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1596,6 +1652,34 @@
     
   
     Human-Agent Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/gateway-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transparent Gateway
   
 
     
@@ -1972,6 +2056,8 @@
 <li><strong>session authority</strong>: creates and signs the SBA, defining the session-level budget and permitted destinations</li>
 <li><strong>payment decision service</strong>: evaluates each quote against the policy, assigns a <code>decisionId</code>, and signs the SPA</li>
 </ul>
+<p>The wallet also maintains a <strong>shift-level cumulative budget tracker</strong>. Before signing each SBA, it checks whether the new payment would exceed the shift ceiling. If so, it refuses — no SBA is created, no network call is made, and no authorization bundle reaches the merchant. This enforcement is deterministic and requires no server dependency.</p>
+<p>The wallet also checks the fleet's <strong>revocation endpoint</strong> before signing each SBA. If the fleet operator has disabled the vehicle, the wallet refuses to sign, regardless of remaining budget.</p>
 <hr />
 <h2 id="route-dispatch-system">Route / Dispatch System</h2>
 <p>The dispatch system determines the route and charging requirements.</p>
@@ -2533,6 +2619,29 @@ anchor reference stored in audit bundle
 </ul>
 <p>Intent anchoring is <strong>optional</strong> and does not block or affect the payment flow. Settlement and verification are complete without it.</p>
 <hr />
+<h1 id="multi-merchant-shift-pattern">Multi-Merchant Shift Pattern</h1>
+<p>The timeline above describes a single charge at one station. In practice, a robotaxi or delivery vehicle makes <strong>multiple payments across multiple merchants during a single shift</strong> — tolls, EV charging stations, and potentially parking or access control.</p>
+<p>MPCP handles this via an <strong>on-vehicle wallet Session</strong> bound to a shift-level ceiling:</p>
+<div class="highlight"><pre><span></span><code>PolicyGrant (from fleet operator, e.g. $30 shift ceiling)
+    ↓
+Wallet Session (scope: SESSION, ceiling: $30)
+    ├─ TollExpress — Plaza Norte    $2.50   ✓  remaining $27.50
+    ├─ EVGrid — ChargePoint A      $22.00   ✓  remaining $5.50
+    ├─ TollExpress — Tunnel Sur     $2.50   ✓  remaining $3.00
+    ├─ EVGrid — ChargePoint B      $15.00   ✗  budget exceeded (refused locally)
+    └─ (grant revoked by fleet operator)
+       EVGrid — ChargePoint East    $2.50   ✗  grant revoked (refused locally)
+</code></pre></div>
+<p>Each merchant verifies the SBA independently using a pre-loaded <strong>Trust Bundle</strong> — no server call required, no per-vehicle key configuration needed at the merchant.</p>
+<p>Key properties of this pattern:</p>
+<ul>
+<li><strong>Single PolicyGrant, multiple payments</strong> — the grant covers the entire shift; each SBA is signed per payment with a per-payment <code>maxAmountMinor</code></li>
+<li><strong>On-vehicle enforcement</strong> — the wallet Session tracks cumulative spend; overspend refusals happen before any authorization bundle is created</li>
+<li><strong>Trust Bundle key resolution</strong> — pre-loaded at merchant startup; resolves the vehicle's public key by <code>issuer</code> identifier without any live network call</li>
+<li><strong>Revocation before signing</strong> — the wallet checks the fleet's revocation endpoint before signing each SBA; a disabled vehicle cannot issue new authorizations regardless of remaining budget</li>
+</ul>
+<p>This is the recommended pattern for third-party infrastructure (toll terminals, EV chargers, parking kiosks) that cannot be pre-configured with per-vehicle env keys.</p>
+<hr />
 <h1 id="data-storage-model">Data Storage Model</h1>
 <h2 id="fleet-backend-stores">Fleet Backend Stores</h2>
 <ul>
@@ -2565,12 +2674,17 @@ anchor reference stored in audit bundle
 <h1 id="verification-points">Verification Points</h1>
 <p>Verification happens in several places.</p>
 <h2 id="key-resolution-and-trust-model">Key Resolution and Trust Model</h2>
-<p>MPCP verifiers must resolve the issuer's public key to verify signed artifacts.</p>
-<p><strong>Baseline mechanism — HTTPS well-known:</strong></p>
+<p>MPCP verifiers must resolve the issuer's public key to verify signed artifacts. Three mechanisms are supported, in order of precedence:</p>
+<p><strong>1. Trust Bundle (offline — preferred for fleet terminals)</strong></p>
+<p>A Trust Bundle is a signed document published by the fleet operator and pre-loaded by merchants at startup. It lists the public keys of all authorized vehicles by issuer identifier.</p>
+<div class="highlight"><pre><span></span><code>sba.issuer  →  Trust Bundle issuers list  →  JWK by issuerKeyId  →  verify signature
+</code></pre></div>
+<p>No network call is required at verification time. The Trust Bundle is cached locally and refreshed periodically before expiry. Third-party infrastructure that cannot be pre-configured with per-vehicle keys (toll terminals, EV chargers, parking kiosks) SHOULD use this pattern.</p>
+<p><strong>2. Baseline — HTTPS well-known:</strong></p>
 <div class="highlight"><pre><span></span><code>https://{issuerDomain}/.well-known/mpcp-keys.json
 </code></pre></div>
-<p>The verifier fetches the key document and looks up the key by <code>issuerKeyId</code>.</p>
-<p><strong>Optional — DID resolution:</strong></p>
+<p>The verifier fetches the key document and looks up the key by <code>issuerKeyId</code>. Suitable when the verifier has network connectivity and the issuer domain is known.</p>
+<p><strong>3. Optional — DID resolution:</strong></p>
 <div class="highlight"><pre><span></span><code>issuerKeyId (DID URL fragment)
       ↓
 DID resolver
@@ -2620,7 +2734,48 @@ public verification key
 <p>Vehicle refuses to authorize payment.</p>
 <hr />
 <h2 id="quote-exceeds-budget">Quote Exceeds Budget</h2>
-<p>Vehicle rejects charging request.</p>
+<p>The vehicle wallet maintains a running spend total for the shift. Before signing an SBA, it checks:</p>
+<div class="highlight"><pre><span></span><code>cumulativeSpend + requestedAmount &gt; shiftCeiling  →  refuse
+</code></pre></div>
+<p>If the ceiling would be exceeded, the wallet refuses to create the SBA. No authorization bundle reaches the merchant.</p>
+<p>Example with a $30.00 shift ceiling:</p>
+<table>
+<thead>
+<tr>
+<th>Payment</th>
+<th>Amount</th>
+<th>Running Total</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TollExpress — Plaza Norte</td>
+<td>$2.50</td>
+<td>$2.50</td>
+<td>✓ approved</td>
+</tr>
+<tr>
+<td>EVGrid — ChargePoint A</td>
+<td>$22.00</td>
+<td>$24.50</td>
+<td>✓ approved</td>
+</tr>
+<tr>
+<td>TollExpress — Tunnel Sur</td>
+<td>$2.50</td>
+<td>$27.00</td>
+<td>✓ approved</td>
+</tr>
+<tr>
+<td>EVGrid — ChargePoint B</td>
+<td>$15.00</td>
+<td>$42.00 (&gt; $30)</td>
+<td>✗ refused locally</td>
+</tr>
+</tbody>
+</table>
+<p>The refusal is local and requires no server round-trip.</p>
 <hr />
 <h2 id="destination-mismatch">Destination Mismatch</h2>
 <p>Charging operator rejects authorization.</p>
@@ -2678,6 +2833,7 @@ public verification key
 <span class="w">      </span><span class="nt">&quot;destinationAllowlist&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;rChargeNetDestination&quot;</span><span class="p">],</span>
 <span class="w">      </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-12T15:00:00Z&quot;</span>
 <span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vehicle:EV-847.fleet.example.com&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mpcp-sba-signing-key-1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64encodedSignature...&quot;</span>
 <span class="w">  </span><span class="p">},</span>
@@ -2744,7 +2900,7 @@ public verification key
 <p>In a production deployment, the exact bundle shape may vary, but it should preserve the same key property:</p>
 <p><strong>a verifier must be able to reconstruct and validate the full authorization chain from policy issuance to settlement.</strong></p>
 <p>Optional additions (not shown above):
-- <code>issuer</code> field on <code>sba</code> or <code>spa</code> envelopes (HTTPS domain or DID for key discovery)
+- <code>issuer</code> field on <code>sba</code> or <code>spa</code> envelopes — <strong>required</strong> when the verifier uses Trust Bundle key resolution (offline fleet terminals, third-party chargers); optional when the verifier uses a pre-configured key or HTTPS well-known
 - intent anchor (ledger hash of the <code>settlementIntent</code>)
 - DID resolution records (when DID/VC layer is used)</p>
 <h1 id="summary">Summary</h1>

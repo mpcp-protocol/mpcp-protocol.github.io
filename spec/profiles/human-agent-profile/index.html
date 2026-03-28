@@ -16,14 +16,14 @@
         <link rel="prev" href="../full-profile/">
       
       
-        <link rel="next" href="../../guides/integration-guide/">
+        <link rel="next" href="../gateway-profile/">
       
       
         
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -1451,6 +1451,62 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/policy-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/policy-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1682,6 +1738,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#policy-authority-server-common-deployment-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Authority Server — Common Deployment Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1846,6 +1913,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gateway-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transparent Gateway
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2183,6 +2278,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#policy-authority-server-common-deployment-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Authority Server — Common Deployment Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2439,6 +2545,24 @@ to the human.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="policy-authority-server-common-deployment-pattern">Policy Authority Server — Common Deployment Pattern</h3>
+<p>The example above shows Alice signing the PolicyGrant with her DID key directly. In practice, most deployments use a <strong>Policy Authority (PA) server</strong> — a backend service that issues grants on Alice's behalf.</p>
+<p>In this model:</p>
+<ul>
+<li>Alice authenticates to her PA server (via session token, API key, or OAuth)</li>
+<li>The PA server issues the PolicyGrant, signing with a domain key</li>
+<li><code>issuer</code> is the PA server's domain (e.g. <code>wallet.alice.example.com</code>) rather than Alice's personal DID</li>
+<li>Key resolution uses HTTPS well-known: <code>https://wallet.alice.example.com/.well-known/mpcp-keys.json</code></li>
+<li>The <code>revocationEndpoint</code> is also hosted by the PA server, which tracks revocation state</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wallet.alice.example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pa-grant-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;revocationEndpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://wallet.alice.example.com/revoke&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The MPCP artifact chain is identical — only the <code>issuer</code> value and key resolution method differ. This pattern is operationally simpler than requiring users to manage DID private keys and is the recommended starting point for most production deployments.</p>
+<p>See: <a href="../../guides/integration-guide/">Integration Guide — Grant Issuer path</a> for a step-by-step walkthrough.</p>
 <hr />
 <h2 id="trip-scope-semantics">TRIP Scope Semantics</h2>
 <p><code>budgetScope: "TRIP"</code> indicates that the SBA budget applies across multiple sessions for a
@@ -2573,8 +2697,8 @@ frequent SBA refresh.</p>
 <tbody>
 <tr>
 <td>Policy authority</td>
-<td>Fleet operator (DID/domain)</td>
-<td>Human (DID key)</td>
+<td>Fleet operator (domain key)</td>
+<td>Human (DID key) or PA server (domain key)</td>
 </tr>
 <tr>
 <td>Subject</td>
@@ -2583,18 +2707,18 @@ frequent SBA refresh.</p>
 </tr>
 <tr>
 <td>Connectivity</td>
-<td>Offline-first</td>
+<td>Offline-first (Trust Bundle)</td>
 <td>Online by design</td>
 </tr>
 <tr>
 <td>Revocation</td>
-<td>Not defined (short-lived SBAs)</td>
-<td><code>revocationEndpoint</code></td>
+<td><code>revocationEndpoint</code> — fleet disables vehicle mid-shift</td>
+<td><code>revocationEndpoint</code> — human cancels delegation</td>
 </tr>
 <tr>
 <td>Budget scope</td>
-<td>SESSION / DAY / FLEET</td>
-<td>TRIP</td>
+<td>SESSION (per-shift, multi-merchant) ¹</td>
+<td>TRIP (multi-day, multi-session)</td>
 </tr>
 <tr>
 <td>Merchant categories</td>
@@ -2603,11 +2727,12 @@ frequent SBA refresh.</p>
 </tr>
 <tr>
 <td>Use case</td>
-<td>Parking, charging, tolls</td>
+<td>Tolls, EV charging, parking</td>
 <td>Travel, subscriptions, event budgets</td>
 </tr>
 </tbody>
 </table>
+<p>¹ <code>SESSION</code> is the recommended scope for fleet shift deployments. <code>DAY</code>, <code>VEHICLE</code>, and <code>FLEET</code> scopes are also defined in the <a href="../../protocol/SignedBudgetAuthorization/">SBA spec</a> for deployments with different budget reset semantics.</p>
 <p>Both profiles use the same MPCP artifact chain and the same verifier. The difference is in
 the policy authority, connectivity assumptions, and the new fields for human use cases.</p>
 <hr />

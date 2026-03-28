@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/PolicyGrant/">
+        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/policy-model/">
       
       
-        <link rel="prev" href="../trust-bundles/">
+        <link rel="prev" href="../ArtifactBundle/">
       
       
-        <link rel="next" href="../SignedBudgetAuthorization/">
+        <link rel="next" href="../policy-examples/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>PolicyGrant - MPCP Spec</title>
+        <title>Policy Model - MPCP Spec</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#policygrant" class="md-skip">
+        <a href="#mpcp-policy-model" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              PolicyGrant
+              Policy Model
             
           </span>
         </div>
@@ -1206,37 +1206,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    PolicyGrant
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../PolicyGrant/" class="md-nav__link">
         
   
   
@@ -1252,286 +1225,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Purpose
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Problem
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-lifecycle-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Lifecycle Context
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Structure
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Structure">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#policygrant-payload" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PolicyGrant (payload)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Example
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-intersection-model" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Intersection Model
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#relationship-to-sba" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Relationship to SBA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#relationship-to-spa" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Relationship to SPA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#expiration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Expiration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-hashing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Hashing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#signing-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Signing Requirements
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Signing Requirements">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#domain-hash" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Domain Hash
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference-implementation-environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference Implementation — Environment Variables
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#enforcement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Enforcement
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#key-resolution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Resolution
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-document-anchoring" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Document Anchoring
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#revocation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Revocation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Revocation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#revocationendpoint-hosted-revocation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        revocationEndpoint (Hosted Revocation)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#xrpl-nft-revocation-on-chain-revocation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        XRPL NFT Revocation (On-Chain Revocation)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See Also
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1765,10 +1458,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../policy-model/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Model
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1784,6 +1504,319 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policy-authority-policy-author" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Authority (Policy Author)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vendors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vendors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#machine-wallet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Machine Wallet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-policy-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Policy Dimensions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Policy Dimensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-vendor-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Vendor Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rail-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rail Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-asset-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Asset Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-value-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Value Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-temporal-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Temporal Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-geographic-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Geographic Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-risk-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Risk Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#category" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vendor-identity-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vendor Identity Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vendor Identity Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vendor-matching-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vendor Matching Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#canonical-policy-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Canonical Policy Schema
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policygrant-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PolicyGrant Representation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policygrant-signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PolicyGrant Signing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policy-policygrant-projection-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy → PolicyGrant Projection Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#policy-vs-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy vs Trust
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2278,10 +2311,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Purpose
+        Overview
       
     </span>
   </a>
@@ -2289,28 +2322,184 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
+  <a href="#roles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Problem
+        Roles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policy-authority-policy-author" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Authority (Policy Author)
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-lifecycle-context" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#vendors" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Policy Lifecycle Context
+        Vendors
       
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#machine-wallet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Machine Wallet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
+  <a href="#core-policy-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Policy Dimensions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Policy Dimensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-vendor-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Vendor Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rail-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Rail Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-asset-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Asset Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-value-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Value Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-temporal-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Temporal Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-geographic-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Geographic Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-risk-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Risk Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#category" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vendor-identity-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vendor Identity Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vendor Identity Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#structure" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2319,14 +2508,24 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Structure">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#policygrant-payload" class="md-nav__link">
+  <a href="#notes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PolicyGrant (payload)
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vendor-matching-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vendor Matching Rules
       
     </span>
   </a>
@@ -2339,10 +2538,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
+  <a href="#canonical-policy-schema" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example
+        Canonical Policy Schema
       
     </span>
   </a>
@@ -2350,10 +2549,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#policy-intersection-model" class="md-nav__link">
+  <a href="#policygrant-representation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Policy Intersection Model
+        PolicyGrant Representation
       
     </span>
   </a>
@@ -2361,10 +2560,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationship-to-sba" class="md-nav__link">
+  <a href="#policygrant-signing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship to SBA
+        PolicyGrant Signing
       
     </span>
   </a>
@@ -2372,10 +2571,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationship-to-spa" class="md-nav__link">
+  <a href="#policy-policygrant-projection-rules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Relationship to SPA
+        Policy → PolicyGrant Projection Rules
       
     </span>
   </a>
@@ -2383,135 +2582,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#expiration" class="md-nav__link">
+  <a href="#policy-vs-trust" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Expiration
+        Policy vs Trust
       
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-hashing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Hashing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#signing-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Signing Requirements
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Signing Requirements">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#domain-hash" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Domain Hash
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference-implementation-environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference Implementation — Environment Variables
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#enforcement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Enforcement
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#key-resolution" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Resolution
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#policy-document-anchoring" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Policy Document Anchoring
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#revocation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Revocation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Revocation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#revocationendpoint-hosted-revocation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        revocationEndpoint (Hosted Revocation)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#xrpl-nft-revocation-on-chain-revocation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        XRPL NFT Revocation (On-Chain Revocation)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2520,17 +2597,6 @@
     <span class="md-ellipsis">
       
         Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See Also
       
     </span>
   </a>
@@ -2557,381 +2623,227 @@
   
 
 
-<h1 id="policygrant">PolicyGrant</h1>
-<p>Artifact Type: MPCP:PolicyGrant</p>
-<p>Part of the <a href="../mpcp/">Machine Payment Control Protocol (MPCP)</a>.</p>
-<hr />
-<h2 id="purpose">Purpose</h2>
-<p>A <strong>PolicyGrant</strong> represents the result of a policy evaluation performed before a machine is allowed to initiate payment activity.</p>
-<p>The PolicyGrant defines the <strong>initial permission envelope</strong> for a session or payment scope. It constrains which rails, assets, and spending limits may later be authorized via MPCP artifacts such as:</p>
+<h1 id="mpcp-policy-model">MPCP Policy Model</h1>
+<h2 id="overview">Overview</h2>
+<p>The MPCP Policy Model defines how spending and transaction constraints are expressed, enforced, and verified across the protocol.</p>
+<p>A policy answers a single fundamental question:</p>
+<blockquote>
+<p>Under what conditions is a machine allowed to execute a payment?</p>
+</blockquote>
+<p>Policies are authored by a <strong>policy authority</strong> (e.g., fleet operator, enterprise controller) and are materialized into a <strong>PolicyGrant</strong> that can be enforced by machine wallets and verified by vendors.</p>
+<p>The Policy Model is intentionally:</p>
 <ul>
-<li><strong>SignedBudgetAuthorization (SBA)</strong></li>
-<li><strong>SignedPaymentAuthorization (SPA)</strong></li>
+<li><strong>Deterministic</strong> – all constraints must be verifiable from artifacts</li>
+<li><strong>Composable</strong> – policies can combine multiple constraint dimensions</li>
+<li><strong>Extensible</strong> – profiles may add domain-specific constraints</li>
 </ul>
-<p>PolicyGrant is typically produced by a policy engine during an <strong>entry phase</strong> when a machine, vehicle, or agent attempts to access a service.</p>
-<p>The PolicyGrant is a <strong>signed artifact</strong>. It is signed by the policy authority; verifiers use <code>issuer</code> and <code>issuerKeyId</code> to resolve the policy authority public key for signature verification.</p>
 <hr />
-<h2 id="problem">Problem</h2>
-<p>In autonomous payment environments (vehicles, robots, AI agents), a system must determine <strong>whether payment activity is allowed before any transaction is authorized</strong>.</p>
-<p>Without a formal grant artifact:</p>
-<ul>
-<li>agents may bypass policy</li>
-<li>payment decisions may not be traceable to policy evaluation</li>
-<li>downstream authorizations cannot prove they were derived from policy</li>
-</ul>
-<p>PolicyGrant solves this by creating a <strong>verifiable policy snapshot</strong> that later artifacts must reference.</p>
+<h2 id="roles">Roles</h2>
+<h3 id="policy-authority-policy-author">Policy Authority (Policy Author)</h3>
+<p>Entity that <strong>defines and signs</strong> the policy.</p>
+<p>Examples:
+- <strong>Fleet operator</strong> — defines which vendors a fleet may pay
+- Enterprise IT / finance system
+- Wallet provider</p>
+<p>PolicyAuthority MUST be associated with a verifiable signing key.</p>
+<p>Key resolution is defined in the trust layer.</p>
+<h3 id="vendors">Vendors</h3>
+<p>The vendors the machine is allowed to pay.</p>
+<p>Examples:
+- EV charging networks
+- Parking vendors
+- Toll vendors
+- API providers</p>
+<h3 id="machine-wallet">Machine Wallet</h3>
+<p>Holds PolicyGrant and enforces constraints at execution time.</p>
+<h3 id="verifier">Verifier</h3>
+<p>Validates the payment chain.</p>
 <hr />
-<h2 id="policy-lifecycle-context">Policy Lifecycle Context</h2>
-<p>Policy evaluation typically occurs in three phases:</p>
-<div class="highlight"><pre><span></span><code>PolicyGrant
-     ↓
-SignedBudgetAuthorization (SBA)
-     ↓
-SignedPaymentAuthorization (SPA)
-     ↓
-Settlement verification
-</code></pre></div>
-<p>PolicyGrant establishes the <strong>upper policy boundary</strong> that subsequent artifacts must respect.</p>
-<p>For example:</p>
-<ul>
-<li>allowed rails</li>
-<li>allowed assets</li>
-<li>spending caps</li>
-<li>policy expiration</li>
-</ul>
-<p>Downstream artifacts must be <strong>subsets of the PolicyGrant constraints</strong>.</p>
+<h2 id="core-policy-dimensions">Core Policy Dimensions</h2>
+<h3 id="1-vendor-constraints">1. Vendor Constraints</h3>
+<p>Defines <strong>who the machine is allowed to pay</strong>.</p>
+<p>Examples:
+- allowed vendors (e.g., Ionity, ChargePoint)
+- merchant identifiers
+- destination allowlists</p>
+<p>Vendor constraints MUST ultimately resolve to concrete payment endpoints.</p>
+<p>Policies MUST NOT rely solely on vendor identifiers for enforcement.</p>
 <hr />
-<h2 id="structure">Structure</h2>
-<h3 id="policygrant-payload">PolicyGrant (payload)</h3>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>version</td>
-<td>string</td>
-<td>yes</td>
-<td>MPCP semantic version (e.g. "1.0")</td>
-</tr>
-<tr>
-<td>grantId</td>
-<td>string</td>
-<td>yes</td>
-<td>Unique identifier for the grant</td>
-</tr>
-<tr>
-<td>policyHash</td>
-<td>string</td>
-<td>yes</td>
-<td>SHA-256 hash of the canonical policy document from which this grant was issued. Computed as <code>SHA256("MPCP:Policy:&lt;version&gt;:" \|\| canonicalJson(policyDocument))</code>. Downstream artifacts (SBA, SPA) MUST carry the same value.</td>
-</tr>
-<tr>
-<td>subjectId</td>
-<td>string</td>
-<td>yes</td>
-<td>Identifier of the entity receiving the grant (vehicle, agent, wallet, etc.)</td>
-</tr>
-<tr>
-<td>operatorId</td>
-<td>string</td>
-<td>optional</td>
-<td>Service operator identifier</td>
-</tr>
-<tr>
-<td>scope</td>
-<td>string</td>
-<td>yes</td>
-<td>Scope of the grant (SESSION, VEHICLE, FLEET, etc.)</td>
-</tr>
-<tr>
-<td>allowedRails</td>
-<td>Rail[]</td>
-<td>yes</td>
-<td>Payment rails permitted by policy</td>
-</tr>
-<tr>
-<td>allowedAssets</td>
-<td>Asset[]</td>
-<td>conditional</td>
-<td>Allowed assets for on-chain rails</td>
-</tr>
-<tr>
-<td>maxSpend</td>
-<td>object</td>
-<td>optional</td>
-<td>Spending caps defined by policy</td>
-</tr>
-<tr>
-<td>expiresAt</td>
-<td>string</td>
-<td>yes</td>
-<td>ISO 8601 expiration timestamp</td>
-</tr>
-<tr>
-<td>requireApproval</td>
-<td>boolean</td>
-<td>optional</td>
-<td>Indicates that further approval is required before payment</td>
-</tr>
-<tr>
-<td>reasons</td>
-<td>string[]</td>
-<td>optional</td>
-<td>Policy evaluation reasons</td>
-</tr>
-<tr>
-<td>issuer</td>
-<td>string</td>
-<td>yes</td>
-<td>Identifier for the policy authority (e.g. DID, domain, or registry ID). Verifiers use this to resolve the signing key.</td>
-</tr>
-<tr>
-<td>issuerKeyId</td>
-<td>string</td>
-<td>yes</td>
-<td>Identifies the specific key used to sign (for deployments with multiple keys per issuer).</td>
-</tr>
-<tr>
-<td>signature</td>
-<td>string</td>
-<td>yes</td>
-<td>Cryptographic signature over the canonical JSON of the grant payload (all fields except <code>signature</code>).</td>
-</tr>
-<tr>
-<td>revocationEndpoint</td>
-<td>string</td>
-<td>optional</td>
-<td>URL of the human/operator wallet's revocation service. If present, merchants SHOULD check this before accepting payment. See <strong>Revocation</strong> section below.</td>
-</tr>
-<tr>
-<td>allowedPurposes</td>
-<td>string[]</td>
-<td>optional</td>
-<td>Merchant category allowlist (e.g. <code>["travel:hotel", "travel:flight"]</code>). Semantic metadata — enforced by the agent, not by the MPCP verifier. Appears in the audit trail.</td>
-</tr>
-<tr>
-<td>anchorRef</td>
-<td>string</td>
-<td>optional</td>
-<td>Pointer to an on-chain record of the policy document. Format: <code>"hcs:{topicId}:{sequenceNumber}"</code> (Hedera HCS) or <code>"xrpl:nft:{tokenId}"</code> (XRPL NFToken). See <strong>Policy Document Anchoring</strong> section below.</td>
-</tr>
-</tbody>
-</table>
+<h3 id="2-rail-constraints">2. Rail Constraints</h3>
+<p>Defines <strong>how payment may be executed</strong>.</p>
 <hr />
-<h2 id="example">Example</h2>
+<h3 id="3-asset-constraints">3. Asset Constraints</h3>
+<p>Defines <strong>what assets may be used</strong>.</p>
+<hr />
+<h3 id="4-value-constraints">4. Value Constraints</h3>
+<p>Defines <strong>how much may be spent</strong>.</p>
+<p>Cumulative constraints (e.g., maxPerSessionMinor) require state tracking.</p>
+<p>The entity responsible for tracking MUST be defined by the deployment profile.</p>
+<hr />
+<h3 id="5-temporal-constraints">5. Temporal Constraints</h3>
+<p>Defines <strong>when payments are allowed</strong>.</p>
+<hr />
+<h3 id="6-geographic-constraints">6. Geographic Constraints</h3>
+<p>Defines <strong>where payments are allowed</strong>.</p>
+<hr />
+<h3 id="7-risk-constraints">7. Risk Constraints</h3>
+<p>Defines <strong>additional safeguards</strong>.</p>
+<hr />
+<h3 id="category">Category</h3>
+<p>Category defines the commerce context of the policy.</p>
+<p>Examples:
+- ev-charging
+- parking
+- api-access
+- tolls</p>
+<p>Category MAY be used by:
+- policy enforcement
+- trust bundle selection
+- profile-specific validation</p>
+<hr />
+<h2 id="vendor-identity-model">Vendor Identity Model</h2>
+<p>A vendor is the <strong>counterparty receiving payment</strong>.</p>
+<h3 id="structure">Structure</h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant_7ab3&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9f3a0d...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;subjectId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vehicle_1284&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;operatorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;operator_12&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;scope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;stripe&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">}],</span>
-<span class="w">  </span><span class="nt">&quot;maxSpend&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;perTxMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5000&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;perSessionMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20000&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-08T14:00:00Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;requireApproval&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;reasons&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;OK&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:operator.example.com&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
+<span class="w">  </span><span class="nt">&quot;vendorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:ionity.eu&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;displayName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ionity&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;paymentEndpoints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;destinations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;rIonityDestination1&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-<hr />
-<h2 id="policy-intersection-model">Policy Intersection Model</h2>
-<p>PolicyGrant may represent the intersection of multiple policy sources.</p>
-<p>Example policy layers:</p>
+<h3 id="notes">Notes</h3>
 <ul>
-<li>operator policy</li>
-<li>fleet policy</li>
-<li>user policy</li>
-<li>regulatory policy</li>
+<li><code>vendorId</code> SHOULD be a DID or domain-based identifier</li>
+<li>destinations are <strong>rail-specific</strong></li>
+<li>DID MAY be used for discovery, but enforcement MUST rely on explicit endpoints</li>
+<li>vendorId MAY be used to resolve additional metadata (e.g., endpoints via DID), but MUST NOT be relied on for enforcement without explicit endpoints</li>
 </ul>
-<p>The effective policy becomes:</p>
-<div class="highlight"><pre><span></span><code>effectivePolicy =
-    operatorPolicy
- ∩  fleetPolicy
- ∩  userPolicy
- ∩  regulatoryPolicy
-</code></pre></div>
-<p>The PolicyGrant stores the <strong>resulting effective constraints</strong>.</p>
+<h3 id="vendor-matching-rules">Vendor Matching Rules</h3>
+<p>A settlement MUST match an allowed vendor by:</p>
+<ol>
+<li>Matching the selected rail</li>
+<li>Matching the destination against vendor.paymentEndpoints for that rail</li>
+</ol>
+<p>If no match is found:
+→ MUST reject with VENDOR_NOT_ALLOWED</p>
+<p>VendorId MAY be used for identity and audit purposes but MUST NOT be the sole enforcement mechanism.</p>
 <hr />
-<h2 id="relationship-to-sba">Relationship to SBA</h2>
-<p>A <strong>SignedBudgetAuthorization</strong> must always be a subset of the PolicyGrant.</p>
-<p>For example:</p>
-<div class="highlight"><pre><span></span><code>SBA.allowedRails ⊆ PolicyGrant.allowedRails
-SBA.allowedAssets ⊆ PolicyGrant.allowedAssets
-SBA.maxAmount ≤ PolicyGrant.maxSpend
-</code></pre></div>
-<p>The SBA must reference the same <strong>policyHash</strong> used to produce the PolicyGrant.</p>
-<hr />
-<h2 id="relationship-to-spa">Relationship to SPA</h2>
-<p>A <strong>SignedPaymentAuthorization</strong> must ultimately derive from a policy decision that was allowed by the PolicyGrant.</p>
-<p>Therefore:</p>
-<div class="highlight"><pre><span></span><code>SPA.rail ∈ PolicyGrant.allowedRails
-SPA.asset ∈ PolicyGrant.allowedAssets
-SPA.amount ≤ PolicyGrant.maxSpend
-</code></pre></div>
-<hr />
-<h2 id="expiration">Expiration</h2>
-<p>PolicyGrant defines the <strong>maximum validity window</strong> for downstream artifacts.</p>
-<p>Implementations MUST ensure:</p>
-<ul>
-<li>SBA expiration does not exceed PolicyGrant expiration</li>
-<li>SPA expiration does not exceed PolicyGrant expiration</li>
-</ul>
-<hr />
-<h2 id="policy-hashing">Policy Hashing</h2>
-<p><code>policyHash</code> is the SHA-256 hash of the canonical policy document from which the PolicyGrant was issued.</p>
-<p>The policy document is the structured representation of the rules evaluated to produce the grant (operator policy, fleet policy, regulatory constraints, etc.). It MUST be serialized using MPCP canonical JSON before hashing.</p>
-<p>Computation:</p>
-<div class="highlight"><pre><span></span><code>policyHash = SHA256(&quot;MPCP:Policy:&lt;version&gt;:&quot; || canonicalJson(policyDocument))
-</code></pre></div>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code>policyHash = SHA256(&quot;MPCP:Policy:1.0:&quot; || &#39;{&quot;allowedAssets&quot;:[...],&quot;allowedRails&quot;:[...],...}&#39;)
-</code></pre></div>
-<p>The <code>policyHash</code> is not a hash of the PolicyGrant artifact itself — it is a hash of the <strong>source policy</strong> that the grant was derived from.</p>
-<p>Downstream artifacts (SBA and SPA) MUST carry the same <code>policyHash</code>. During settlement verification, the verifier checks that <code>PolicyGrant.policyHash</code>, <code>SBA.policyHash</code>, and <code>SPA.policyHash</code> are all equal, confirming the entire authorization chain derives from the same policy snapshot.</p>
-<hr />
-<h2 id="signing-requirements">Signing Requirements</h2>
-<p>PolicyGrant MUST be cryptographically signed by the policy authority. Verifiers that have a public key configured MUST verify the signature and MUST reject unsigned grants.</p>
-<h3 id="domain-hash">Domain Hash</h3>
-<p>The signed payload uses domain-separated hashing:</p>
-<div class="highlight"><pre><span></span><code>hash = SHA256(&quot;MPCP:PolicyGrant:1.0:&quot; || canonicalJson(grantPayload))
-signature = sign(hash, policyAuthorityPrivateKey)
-</code></pre></div>
-<p>where <code>grantPayload</code> is all grant fields except <code>signature</code>, serialized as canonical JSON.</p>
-<h3 id="reference-implementation-environment-variables">Reference Implementation — Environment Variables</h3>
-<p>The reference implementation (<code>policyGrant.ts</code>) exposes signing and verification via environment variables:</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>MPCP_POLICY_GRANT_SIGNING_PRIVATE_KEY_PEM</code></td>
-<td>Private key for signing PolicyGrants</td>
-</tr>
-<tr>
-<td><code>MPCP_POLICY_GRANT_SIGNING_PUBLIC_KEY_PEM</code></td>
-<td>Public key for verifying PolicyGrant signatures. When set, unsigned grants are rejected.</td>
-</tr>
-<tr>
-<td><code>MPCP_POLICY_GRANT_SIGNING_KEY_ID</code></td>
-<td>Key identifier (default: <code>mpcp-policy-grant-signing-key-1</code>)</td>
-</tr>
-</tbody>
-</table>
-<p>Functions:
-- <code>createSignedPolicyGrant(grant)</code> — signs the grant, returns <code>SignedPolicyGrant</code>
-- <code>verifyPolicyGrantSignature(envelope)</code> — verifies the signature</p>
-<h3 id="enforcement">Enforcement</h3>
-<p>If <code>MPCP_POLICY_GRANT_SIGNING_PUBLIC_KEY_PEM</code> is set:
-- Grants without <code>issuerKeyId</code> and <code>signature</code> are rejected with <code>invalid_policy_grant_signature</code>
-- Grants with an invalid signature are rejected with <code>invalid_policy_grant_signature</code></p>
-<p>If the env var is not set, signature verification is skipped (backward-compatible mode for environments using pre-validated grants).</p>
-<p>If signature verification fails, the verifier MUST reject the grant.</p>
-<h3 id="key-resolution">Key Resolution</h3>
-<p>Verifiers resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> via the HTTPS well-known endpoint or pre-configured keys. See <a href="../key-resolution/">Key Resolution</a>.</p>
-<hr />
-<h2 id="policy-document-anchoring">Policy Document Anchoring</h2>
-<p>The <code>anchorRef</code> field is an optional pointer to an on-chain record of the policy document that
-produced this grant. Two formats are supported:</p>
-<div class="highlight"><pre><span></span><code>&quot;hcs:{topicId}:{sequenceNumber}&quot;   — Hedera Consensus Service message
-&quot;xrpl:nft:{tokenId}&quot;               — XRPL non-transferable NFToken
-</code></pre></div>
-<p><strong>Verifier behavior:</strong> The MPCP verifier passes <code>anchorRef</code> through without enforcement. It is
-informational metadata used by auditors, merchants, and dispute resolution tooling.</p>
-<p>See <a href="../policy-anchoring/">Policy Anchoring</a> for the full anchoring specification, including
-HCS message format, environment variables, and XRPL NFT minting guidance.</p>
-<hr />
-<h2 id="revocation">Revocation</h2>
-<h3 id="revocationendpoint-hosted-revocation"><code>revocationEndpoint</code> (Hosted Revocation)</h3>
-<p>If the <code>revocationEndpoint</code> field is present, verifiers and service providers SHOULD check
-whether the grant has been revoked before accepting a payment.</p>
-<p><strong>Endpoint contract:</strong></p>
-<div class="highlight"><pre><span></span><code>GET {revocationEndpoint}?grantId={grantId}
-Response: { &quot;revoked&quot;: boolean, &quot;revokedAt&quot;: &quot;ISO8601&quot; }
-</code></pre></div>
-<p><strong>Verifier behavior:</strong> The MPCP verifier pipeline does <strong>not</strong> call <code>revocationEndpoint</code> — it
-remains stateless and synchronous. Callers MUST perform the check as a separate step using
-<code>checkRevocation()</code> from the SDK.</p>
-<p><strong>Merchant responsibility:</strong> Merchants with a <code>revocationEndpoint</code> in the grant SHOULD call
-it before accepting payment. If the endpoint is unreachable, the merchant makes a risk-based
-decision based on deployment context (see <a href="../../profiles/human-agent-profile/">Human-to-Agent Profile</a>
-for guidance on offline exceptions).</p>
-<p><strong>Reference implementation:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="p">,</span><span class="w"> </span><span class="nx">revokedAt</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="p">(</span>
-<span class="w">  </span><span class="nx">grant</span><span class="p">.</span><span class="nx">revocationEndpoint</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">grant</span><span class="p">.</span><span class="nx">grantId</span><span class="p">,</span>
-<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">timeoutMs</span><span class="o">:</span><span class="w"> </span><span class="mf">3000</span><span class="w"> </span><span class="p">}</span>
-<span class="p">);</span>
-</code></pre></div>
-<h3 id="xrpl-nft-revocation-on-chain-revocation">XRPL NFT Revocation (On-Chain Revocation)</h3>
-<p>When <code>anchorRef</code> contains an <code>"xrpl:nft:{tokenId}"</code> reference, the grant may be revoked by
-<strong>burning the NFToken</strong>. Merchants SHOULD check whether the NFT still exists before accepting
-payment.</p>
-<p>Non-existence of the NFT (after burn) signals revocation. This mechanism requires no hosted
-service — revocation is enforced by the XRPL ledger itself.</p>
-<p><strong>Reference implementation:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkXrplNftRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="nx">tokenId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">grant</span><span class="p">.</span><span class="nx">anchorRef</span><span class="o">?</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;xrpl:nft:&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">);</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">tokenId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkXrplNftRevocation</span><span class="p">(</span><span class="nx">tokenId</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">timeoutMs</span><span class="o">:</span><span class="w"> </span><span class="mf">5000</span><span class="w"> </span><span class="p">});</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">revoked</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// Grant has been revoked — reject the payment</span>
+<h2 id="canonical-policy-schema">Canonical Policy Schema</h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;policyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;policyAuthority&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;authorityId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:fleet.example.com&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ev-charging&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;allowedVendors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;vendorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:ionity.eu&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;paymentEndpoints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;destinations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;rIonityDestination1&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;valueConstraints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;maxPerPaymentMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2000&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;maxPerSessionMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5000&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;timeConstraints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-10T00:00:00Z&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;geography&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EU&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;riskConstraints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;requireIntentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><strong>Comparison:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Mechanism</th>
-<th>Requires hosted service</th>
-<th>Suitable for</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>revocationEndpoint</code></td>
-<td>Yes</td>
-<td>Enterprise, operator-controlled</td>
-</tr>
-<tr>
-<td>XRPL NFT burn</td>
-<td>No</td>
-<td>Consumer, self-sovereign</td>
-</tr>
-</tbody>
-</table>
-<p>Both mechanisms may be present on the same grant. Merchants SHOULD check both when present.</p>
-<p>See <a href="../policy-anchoring/#xrpl-nft-backed-policygrant">Policy Anchoring — XRPL NFT-Backed PolicyGrant</a>
-for full details.</p>
+<p>Policies MUST define at least one allowed vendor.</p>
+<hr />
+<h2 id="policygrant-representation">PolicyGrant Representation</h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;policyAuthority&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;authorityId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:fleet.example.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;keyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;key-1&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;policyHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ev-charging&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;allowedVendors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;vendorId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:ionity.eu&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;paymentEndpoints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;destinations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;rIonityDestination1&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;maxPerSessionMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;maxPerPaymentMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;geography&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;region&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EU&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;riskConstraints&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;requireIntentHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-03-10T00:00:00Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="policygrant-signing">PolicyGrant Signing</h2>
+<p>PolicyGrant MUST be signed by the PolicyAuthority.</p>
+<p>The signature binds:
+- policyHash
+- allowedVendors
+- allowedRails
+- allowedAssets
+- value constraints
+- temporal constraints</p>
+<p>Signature format and verification rules are defined in the core MPCP protocol.</p>
+<hr />
+<h2 id="policy-policygrant-projection-rules">Policy → PolicyGrant Projection Rules</h2>
+<p>PolicyGrant MUST include all fields required for deterministic enforcement.</p>
+<p>At minimum:
+- allowedVendors (including paymentEndpoints)
+- allowedRails
+- allowedAssets
+- value constraints
+- time constraints (expiresAt)</p>
+<p>PolicyGrant MAY omit:
+- display-only metadata
+- internal policy annotations</p>
+<p>Projection MUST preserve:
+- vendor identity
+- payment endpoints
+- enforceable constraints</p>
+<hr />
+<h2 id="policy-vs-trust">Policy vs Trust</h2>
+<ul>
+<li><strong>Policy</strong> → what is allowed</li>
+<li><strong>Trust</strong> → whose signatures are trusted</li>
+</ul>
+<p>Vendor ≠ issuer.</p>
+<p>Policy defines WHAT is allowed.
+Trust defines WHO is authorized to sign artifacts.</p>
 <hr />
 <h2 id="summary">Summary</h2>
-<p>PolicyGrant establishes the <strong>policy boundary</strong> for machine payments.</p>
-<p>It ensures that downstream artifacts (SBA and SPA) are always derived from a <strong>validated policy evaluation</strong>.</p>
-<hr />
-<h2 id="see-also">See Also</h2>
-<ul>
-<li><a href="../../architecture/fleet-ev-reference-flow/">MPCP Reference Flow — EV Charging</a> — Demonstrates how PolicyGrant is used during runtime authorization.</li>
-</ul>
+<p>The policy model defines <strong>who can be paid, how, under what constraints, and how those constraints are enforced deterministically at verification time</strong>.</p>
 
 
 

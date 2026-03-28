@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -1464,6 +1464,62 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/policy-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/policy-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1596,6 +1652,34 @@
     
   
     Human-Agent Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/gateway-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transparent Gateway
   
 
     
@@ -2140,7 +2224,7 @@ maxAmountMinor: &quot;80000&quot;   // $800.00 (USD minor units = cents)
 <tbody>
 <tr>
 <td>PolicyGrant</td>
-<td>Alice (human principal, DID key)</td>
+<td>Alice (human principal, DID key or PA server)</td>
 <td>Defines budget, purposes, revocation endpoint</td>
 </tr>
 <tr>
@@ -2258,6 +2342,21 @@ issuerKeyId: alice-did-key-1
 <span class="p">}</span>
 </code></pre></div>
 <p>The <code>issuer</code>, <code>issuerKeyId</code>, and <code>signature</code> fields belong to the signed envelope that wraps the grant payload.</p>
+<h3 id="policy-authority-server-common-deployment-pattern">Policy Authority Server — Common Deployment Pattern</h3>
+<p>This reference flow shows Alice signing the PolicyGrant with her DID key directly. In practice, many deployments use a <strong>Policy Authority (PA) server</strong> — a backend service that issues grants on Alice's behalf.</p>
+<p>In this model:</p>
+<ul>
+<li>Alice authenticates to her PA server (via session token, API key, or OAuth)</li>
+<li>The PA server issues the PolicyGrant, signing with a domain key (e.g. <code>wallet.alice.example.com</code>)</li>
+<li><code>issuer</code> is the PA server's domain rather than Alice's personal DID</li>
+<li>Key resolution uses HTTPS well-known: <code>https://wallet.alice.example.com/.well-known/mpcp-keys.json</code></li>
+<li>The <code>revocationEndpoint</code> is also hosted by the PA server</li>
+</ul>
+<div class="highlight"><pre><span></span><code>issuer:    wallet.alice.example.com
+issuerKeyId: pa-grant-key-1
+</code></pre></div>
+<p>The MPCP artifact chain is identical — only the <code>issuer</code> value and key resolution method differ. This pattern is operationally simpler than requiring users to manage DID private keys and is the recommended starting point for most production deployments. The PA server also handles revocation, audit log storage, and grant lifecycle management centrally.</p>
+<p>See: <a href="../../guides/integration-guide/">Integration Guide — Grant Issuer path</a> for a step-by-step walkthrough of deploying the PA server and issuing grants.</p>
 <h3 id="optional-on-chain-policy-anchoring">Optional On-Chain Policy Anchoring</h3>
 <p>Alice may optionally anchor the policy document to Hedera Consensus Service at issuance time. This produces an <code>anchorRef</code> field on the PolicyGrant:</p>
 <div class="highlight"><pre><span></span><code>anchorRef: &quot;hcs:0.0.12345:42&quot;
@@ -2667,17 +2766,17 @@ verify PolicyGrant signature
 <tbody>
 <tr>
 <td>PolicyGrant issuer</td>
-<td>Fleet Operator (organization)</td>
-<td>Alice (individual, DID key)</td>
+<td>Fleet Operator (organization or domain)</td>
+<td>Alice (DID key or PA server domain)</td>
 </tr>
 <tr>
 <td>SBA budgetScope</td>
-<td>SESSION (single charge)</td>
+<td>SESSION (per-shift, multi-merchant)</td>
 <td>TRIP (multi-day, multi-session)</td>
 </tr>
 <tr>
 <td>Spend enforcement</td>
-<td>Per-session by SBA</td>
+<td>On-vehicle wallet Session (shift ceiling)</td>
 <td>Cumulative across trip, by agent</td>
 </tr>
 <tr>
@@ -2687,13 +2786,13 @@ verify PolicyGrant signature
 </tr>
 <tr>
 <td>Revocation</td>
-<td>Optional</td>
-<td>Designed in (human can cancel)</td>
+<td><code>revocationEndpoint</code> — fleet disables vehicle mid-shift</td>
+<td><code>revocationEndpoint</code> — human cancels delegation</td>
 </tr>
 <tr>
 <td>Key resolution</td>
-<td>HTTPS well-known or DID</td>
-<td>DID (human identity)</td>
+<td>Trust Bundle (offline, pre-loaded at merchants)</td>
+<td>DID or HTTPS well-known (PA server)</td>
 </tr>
 </tbody>
 </table>

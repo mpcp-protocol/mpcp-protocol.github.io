@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -1628,6 +1628,62 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../policy-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../policy-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1760,6 +1816,34 @@
     
   
     Human-Agent Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/gateway-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transparent Gateway
   
 
     
@@ -2327,6 +2411,7 @@
 <tr>
 <th>Field</th>
 <th>Type</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -2334,21 +2419,25 @@
 <tr>
 <td>authorization</td>
 <td>BudgetAuthorization</td>
+<td>yes</td>
 <td>The budget payload</td>
 </tr>
 <tr>
 <td>issuer</td>
 <td>string</td>
-<td>Identifier for the budget authority (e.g. DID, domain, or registry ID). Verifiers use this to resolve the signing key.</td>
+<td>conditional</td>
+<td>Identifier for the signing entity (e.g. DID, domain, or <code>vehicle:id.fleet.example</code>). Required when the verifier uses Trust Bundle key resolution. Optional when the verifier resolves the key via <code>MPCP_SBA_SIGNING_PUBLIC_KEY_PEM</code> or HTTPS well-known.</td>
 </tr>
 <tr>
 <td>issuerKeyId</td>
 <td>string</td>
+<td>yes</td>
 <td>Identifies the specific key used to sign (alias: <code>keyId</code> retained for backward compatibility)</td>
 </tr>
 <tr>
 <td>signature</td>
 <td>string</td>
+<td>yes</td>
 <td>Base64-encoded signature over SHA256("MPCP:SBA:1.0:"</td>
 </tr>
 </tbody>
@@ -2468,10 +2557,14 @@ In offline or air-gapped environments (e.g., vehicles without real-time connecti
 <p>This prevents cross-protocol and cross-artifact hash collisions and ensures compatibility with MPCP verifier implementations.</p>
 <p>A verifier MUST:</p>
 <ol>
-<li>Resolve the public key (as JWK) using <code>issuer</code> and <code>issuerKeyId</code> (or <code>keyId</code> if present) via the HTTPS well-known endpoint or pre-configured keys (see <a href="../key-resolution/">Key Resolution</a>), then validate the signature over SHA256("MPCP:SBA:<version>:" || canonicalJson(authorization))</li>
-<li>Check <code>expiresAt</code> has not passed</li>
-<li>When verifying against a payment decision or settlement context: ensure sessionId, policyHash, budgetScope, allowedRails, allowedAssets, optional destination constraints, and amount constraints match</li>
+<li>Resolve the public key (as JWK) using one of the following, in order of precedence:</li>
+<li><strong>Trust Bundle</strong> — if <code>trustBundles</code> are provided, look up <code>issuer</code> in the bundle's <code>issuers</code> list and retrieve the JWK by <code>issuerKeyId</code>. This path works fully offline.</li>
+<li><strong>Pre-configured key</strong> — if <code>MPCP_SBA_SIGNING_PUBLIC_KEY_PEM</code> is set (or equivalent), use it directly.</li>
+<li><strong>HTTPS well-known</strong> — fetch <code>https://{issuerDomain}/.well-known/mpcp-keys.json</code> and look up by <code>issuerKeyId</code>.</li>
 </ol>
+<p>Then validate the signature over SHA256("MPCP:SBA:<version>:" || canonicalJson(authorization)).
+2. Check <code>expiresAt</code> has not passed
+3. When verifying against a payment decision or settlement context: ensure sessionId, policyHash, budgetScope, allowedRails, allowedAssets, optional destination constraints, and amount constraints match</p>
 <hr />
 <h2 id="relationship-to-pipeline">Relationship to Pipeline</h2>
 <div class="highlight"><pre><span></span><code>PolicyGrant

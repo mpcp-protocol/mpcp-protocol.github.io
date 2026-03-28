@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://mpcp-protocol.github.io/spec/guides/integration-guide/">
       
       
-        <link rel="prev" href="../../profiles/human-agent-profile/">
+        <link rel="prev" href="../../profiles/gateway-profile/">
       
       
         <link rel="next" href="../build-a-machine-wallet/">
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -1451,6 +1451,62 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/policy-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../protocol/policy-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1583,6 +1639,34 @@
     
   
     Human-Agent Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../profiles/gateway-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transparent Gateway
   
 
     
@@ -1819,14 +1903,25 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="What you run">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SDK API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SDK API">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#current-path-mpcp-reference-primitives" class="md-nav__link">
+  <a href="#issuer-and-trust-bundle-key-resolution" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current path — mpcp-reference primitives
+        issuer and Trust Bundle key resolution
       
     </span>
   </a>
@@ -1834,10 +1929,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#planned-sdk-api-coming-soon" class="md-nav__link">
+  <a href="#using-mpcp-reference-primitives-directly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Planned SDK API (coming soon)
+        Using mpcp-reference primitives directly
       
     </span>
   </a>
@@ -2364,14 +2459,25 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="What you run">
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sdk-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SDK API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SDK API">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#current-path-mpcp-reference-primitives" class="md-nav__link">
+  <a href="#issuer-and-trust-bundle-key-resolution" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current path — mpcp-reference primitives
+        issuer and Trust Bundle key resolution
       
     </span>
   </a>
@@ -2379,10 +2485,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#planned-sdk-api-coming-soon" class="md-nav__link">
+  <a href="#using-mpcp-reference-primitives-directly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Planned SDK API (coming soon)
+        Using mpcp-reference primitives directly
       
     </span>
   </a>
@@ -2760,43 +2866,67 @@ npm<span class="w"> </span>start
 <p>Typical roles: vehicle OEM wallet, AI agent runtime (LangChain, custom Claude tool, AutoGPT), mobile wallet issuing to a sub-agent, IoT firmware.</p>
 <h3 id="what-you-run_1">What you run</h3>
 <p>Nothing. The wallet SDK is a library. No server required.</p>
-<blockquote>
-<p><strong>Status</strong>: <code>mpcp-wallet-sdk</code> is in development. The planned API is shown below. Until it ships, use <code>mpcp-reference</code> primitives directly — see <a href="../build-a-machine-wallet/">Build a Machine Wallet</a> for a working example.</p>
-</blockquote>
-<h4 id="current-path-mpcp-reference-primitives">Current path — mpcp-reference primitives</h4>
+<h3 id="sdk-api">SDK API</h3>
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install<span class="w"> </span>@mpcp/wallet-sdk
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createSession</span><span class="p">,</span><span class="w"> </span><span class="nx">MpcpBudgetExceededError</span><span class="p">,</span><span class="w"> </span><span class="nx">MpcpGrantRevokedError</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;@mpcp/agent&quot;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">createSession</span><span class="p">(</span><span class="nx">signedGrant</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">actorId</span><span class="o">:</span><span class="w">       </span><span class="s2">&quot;agent:my-agent-id&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">signingKey</span><span class="o">:</span><span class="w">    </span><span class="kt">process.env.AGENT_SIGNING_PRIVATE_KEY_PEM</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">signingKeyId</span><span class="o">:</span><span class="w">  </span><span class="s2">&quot;agent-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">scope</span><span class="o">:</span><span class="w">         </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">ceiling</span><span class="o">:</span><span class="w">       </span><span class="p">{</span><span class="w"> </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;80000&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">currency</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="w"> </span><span class="p">},</span><span class="w">  </span><span class="c1">// $800 budget ceiling</span>
+<span class="w">  </span><span class="nx">revocationTtl</span><span class="o">:</span><span class="w"> </span><span class="kt">60_000</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">// Required when merchants use Trust Bundle key resolution instead of env-var key:</span>
+<span class="w">  </span><span class="c1">// issuer: &quot;vehicle:robox-7.fleet.robox.example&quot;,</span>
+<span class="p">});</span>
+
+<span class="c1">// Budget enforcement, revocation checks, and spend tracking handled automatically.</span>
+<span class="c1">// Throws MpcpBudgetExceededError if amount would exceed ceiling.</span>
+<span class="c1">// Throws MpcpGrantRevokedError if the grant has been revoked.</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">sba</span><span class="p">;</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">sba</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">createSba</span><span class="p">({</span><span class="w"> </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2500&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">currency</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">rail</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;stripe&quot;</span><span class="w"> </span><span class="p">});</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="ow">instanceof</span><span class="w"> </span><span class="nx">MpcpBudgetExceededError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* handle */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="ow">instanceof</span><span class="w"> </span><span class="nx">MpcpGrantRevokedError</span><span class="p">)</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="cm">/* handle */</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Show remaining budget</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">remainingMinor</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">remaining</span><span class="p">();</span>
+</code></pre></div>
+<h4 id="issuer-and-trust-bundle-key-resolution"><code>issuer</code> and Trust Bundle key resolution</h4>
+<p>When the merchant verifies SBAs using a pre-loaded Trust Bundle (rather than a configured env-var public key), the SBA envelope must carry an <code>issuer</code> field. The wallet-sdk session sets this automatically when <code>issuer</code> is provided in <code>SessionOptions</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">createSession</span><span class="p">(</span><span class="nx">signedGrant</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">actorId</span><span class="o">:</span><span class="w">      </span><span class="s2">&quot;vehicle:robox-7&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">issuer</span><span class="o">:</span><span class="w">       </span><span class="s2">&quot;vehicle:robox-7.fleet.robox.example&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// must match Trust Bundle entry</span>
+<span class="w">  </span><span class="nx">signingKey</span><span class="o">:</span><span class="w">   </span><span class="kt">vehiclePrivKeyPem</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">signingKeyId</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;vehicle-sba-key-1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Without <code>issuer</code>, the merchant-sdk verifier falls back to <code>MPCP_SBA_SIGNING_PUBLIC_KEY_PEM</code> for key lookup. For third-party infrastructure (toll terminals, EV chargers) that cannot be pre-configured with per-vehicle keys, Trust Bundles + <code>issuer</code> is the correct pattern.</p>
+<h4 id="using-mpcp-reference-primitives-directly">Using mpcp-reference primitives directly</h4>
+<p>For environments that cannot run <code>mpcp-wallet-sdk</code> (e.g. constrained microcontrollers), use the reference SDK directly. Budget tracking must be implemented by the caller.</p>
 <div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createSignedSessionBudgetAuthorization</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
 
-<span class="c1">// Set signing key via env (or configure per-call in your own wrapper)</span>
 <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">MPCP_SBA_SIGNING_PRIVATE_KEY_PEM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">agentPrivateKeyPem</span><span class="p">;</span>
 <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">MPCP_SBA_SIGNING_KEY_ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;agent-key-1&quot;</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">sba</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createSignedSessionBudgetAuthorization</span><span class="p">({</span>
-<span class="w">  </span><span class="nx">sessionId</span><span class="o">:</span><span class="w"> </span><span class="kt">crypto.randomUUID</span><span class="p">(),</span>
-<span class="w">  </span><span class="nx">actorId</span><span class="o">:</span><span class="w">   </span><span class="s2">&quot;agent:my-agent-id&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">grantId</span><span class="o">:</span><span class="w">   </span><span class="kt">grant.grantId</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">policyHash</span><span class="o">:</span><span class="w"> </span><span class="kt">grant.policyHash</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">currency</span><span class="o">:</span><span class="w">  </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">maxAmountMinor</span><span class="o">:</span><span class="w">      </span><span class="s2">&quot;2500&quot;</span><span class="p">,</span><span class="w">   </span><span class="c1">// within grant ceiling</span>
-<span class="w">  </span><span class="nx">allowedRails</span><span class="o">:</span><span class="w">        </span><span class="kt">grant.allowedRails</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">allowedAssets</span><span class="o">:</span><span class="w">       </span><span class="kt">grant.allowedAssets</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">sessionId</span><span class="o">:</span><span class="w">            </span><span class="kt">crypto.randomUUID</span><span class="p">(),</span>
+<span class="w">  </span><span class="nx">actorId</span><span class="o">:</span><span class="w">              </span><span class="s2">&quot;agent:my-agent-id&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">grantId</span><span class="o">:</span><span class="w">              </span><span class="kt">grant.grantId</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">policyHash</span><span class="o">:</span><span class="w">           </span><span class="kt">grant.policyHash</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">currency</span><span class="o">:</span><span class="w">             </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">maxAmountMinor</span><span class="o">:</span><span class="w">       </span><span class="s2">&quot;2500&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">allowedRails</span><span class="o">:</span><span class="w">         </span><span class="kt">grant.allowedRails</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">allowedAssets</span><span class="o">:</span><span class="w">        </span><span class="kt">grant.allowedAssets</span><span class="p">,</span>
 <span class="w">  </span><span class="nx">destinationAllowlist</span><span class="o">:</span><span class="w"> </span><span class="kt">grant.destinationAllowlist</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="p">[],</span>
-<span class="w">  </span><span class="nx">expiresAt</span><span class="o">:</span><span class="w"> </span><span class="kt">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">3</span><span class="nx">_600_000</span><span class="p">).</span><span class="nx">toISOString</span><span class="p">(),</span>
-<span class="w">  </span><span class="nx">issuer</span><span class="o">:</span><span class="w">    </span><span class="kt">grant.issuer</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">expiresAt</span><span class="o">:</span><span class="w">            </span><span class="kt">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">3</span><span class="nx">_600_000</span><span class="p">).</span><span class="nx">toISOString</span><span class="p">(),</span>
+<span class="w">  </span><span class="nx">issuer</span><span class="o">:</span><span class="w">               </span><span class="kt">grant.issuer</span><span class="p">,</span><span class="w">  </span><span class="c1">// pass through for Trust Bundle resolution</span>
 <span class="p">});</span>
-</code></pre></div>
-<h4 id="planned-sdk-api-coming-soon">Planned SDK API (coming soon)</h4>
-<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install<span class="w"> </span>@mpcp/wallet-sdk
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">AgentWallet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;@mpcp/wallet-sdk&quot;</span><span class="p">;</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="nx">wallet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">AgentWallet</span><span class="p">(</span><span class="nx">grant</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nx">actorId</span><span class="o">:</span><span class="w">       </span><span class="s2">&quot;agent:my-agent-id&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">signingKeyPem</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.AGENT_SIGNING_PRIVATE_KEY_PEM</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">signingKeyId</span><span class="o">:</span><span class="w">  </span><span class="s2">&quot;agent-key-1&quot;</span><span class="p">,</span>
-<span class="p">});</span>
-
-<span class="c1">// Budget enforcement, revocation checks, and spend tracking handled automatically</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">sba</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">wallet</span><span class="p">.</span><span class="nx">createSba</span><span class="p">({</span><span class="w"> </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;2500&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">currency</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="w"> </span><span class="p">});</span>
 </code></pre></div>
 <h3 id="passing-the-sba-to-a-merchant">Passing the SBA to a merchant</h3>
 <p>The merchant expects the SBA in the <code>Authorization</code> header:</p>

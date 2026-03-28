@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -1449,6 +1449,62 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol/policy-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol/policy-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Policy Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1581,6 +1637,34 @@
     
   
     Human-Agent Profile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../profiles/gateway-profile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transparent Gateway
   
 
     
@@ -1961,6 +2045,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#mpcp-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mpcp-gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2078,6 +2173,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#mpcp-gateway" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mpcp-gateway
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2148,6 +2254,16 @@
 <td><a href="https://github.com/mpcp-protocol/mpcp-merchant-sdk/blob/main/ROADMAP.md">ROADMAP.md</a></td>
 </tr>
 <tr>
+<td><a href="https://github.com/mpcp-protocol/mpcp-gateway">mpcp-gateway</a></td>
+<td>Transparent payment gateway — speaks x402 externally, enforces MPCP internally; bridges non-MPCP agents to MPCP merchants</td>
+<td><a href="https://github.com/mpcp-protocol/mpcp-gateway/blob/main/ROADMAP.md">ROADMAP.md</a></td>
+</tr>
+<tr>
+<td>mpcp-gateway-client <em>(planned)</em></td>
+<td>Agent-side fetch wrapper — drop-in that routes requests through the gateway and handles 402 interception transparently; LangChain / AutoGen adapters</td>
+<td>—</td>
+</tr>
+<tr>
 <td><a href="https://github.com/mpcp-protocol/mpcp-spec">mpcp-spec</a></td>
 <td>Protocol specification, architecture docs, guides</td>
 <td>this site</td>
@@ -2166,6 +2282,17 @@
 <p>Planned. Phase 1 (Node.js core: <code>parseGrant</code>, <code>Session</code>, budget tracking) is the starting point.</p>
 <h3 id="mpcp-merchant-sdk">mpcp-merchant-sdk</h3>
 <p>Planned. Phase 1 (core <code>verifyMpcp</code>, revocation cache, spend tracking) is the starting point.</p>
+<h3 id="mpcp-gateway">mpcp-gateway</h3>
+<p>Phases 1–5 complete. The gateway bridges non-MPCP agents to MPCP merchants: it intercepts HTTP 402 responses, executes x402 payments, and optionally attaches a signed SBA (<code>X-Mpcp-Sba</code>) so MPCP-aware merchants can verify the authorization chain without any gateway-specific integration.</p>
+<p>Phase 5 deferred items (each a standalone PR): SQLite/PostgreSQL session persistence, Redis spend-ceiling cache, per-owner rate limiting, OpenTelemetry traces, Prometheus text-format metrics.</p>
+<p>Phases 6–10 planned (adoption acceleration):</p>
+<ul>
+<li><strong>P6</strong> — Trust Bundle well-known endpoint: merchants fetch <code>/.well-known/mpcp-trust-bundle.json</code> at startup and verify gateway SBAs with zero env config</li>
+<li><strong>P7</strong> — Spend webhooks: budget owners receive signed push notifications at configurable spend thresholds (50%/80%/100%) and on payment denial</li>
+<li><strong>P8</strong> — Session policy controls: merchant allowlist/blocklist (glob patterns) and velocity limits (max payments per hour, max amount per merchant per day)</li>
+<li><strong>P9</strong> — Soft budget ceiling + continuation token: budget exhaustion pauses the agent instead of hard-failing; user approves an extension via <code>PATCH /sessions/{id}</code> without re-issuing a grant</li>
+<li><strong>P10</strong> — x402 merchant mode: any backend delegates payment collection to the gateway via <code>POST /charge</code>; no x402 implementation required on the merchant side</li>
+</ul>
 <hr />
 <h2 id="spec-roadmap">Spec roadmap</h2>
 <p>Protocol specification work is tracked via GitHub pull requests on <a href="https://github.com/mpcp-protocol/mpcp-spec">mpcp-spec</a>. Spec changes accompany each reference implementation PR that introduces new protocol fields or behaviors.</p>
