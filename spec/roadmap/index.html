@@ -2056,6 +2056,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#mpcp-gateway-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mpcp-gateway-client
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2184,6 +2195,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#mpcp-gateway-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mpcp-gateway-client
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2240,7 +2262,7 @@
 </tr>
 <tr>
 <td><a href="https://github.com/mpcp-protocol/mpcp-policy-authority">mpcp-policy-authority</a></td>
-<td>Deployable policy authority service — grant issuance, revocation, on-chain anchoring</td>
+<td>Deployable policy authority service — grant issuance, revocation, Trust Bundle issuance, on-chain anchoring</td>
 <td><a href="https://github.com/mpcp-protocol/mpcp-policy-authority/blob/main/ROADMAP.md">ROADMAP.md</a></td>
 </tr>
 <tr>
@@ -2250,7 +2272,7 @@
 </tr>
 <tr>
 <td><a href="https://github.com/mpcp-protocol/mpcp-merchant-sdk">mpcp-merchant-sdk</a></td>
-<td>Merchant SDK — SBA verification, revocation caching, spend tracking, framework adapters</td>
+<td>Merchant SDK — SBA verification, revocation caching, spend tracking, framework adapters (Express / Fastify / Next.js / Edge)</td>
 <td><a href="https://github.com/mpcp-protocol/mpcp-merchant-sdk/blob/main/ROADMAP.md">ROADMAP.md</a></td>
 </tr>
 <tr>
@@ -2259,9 +2281,9 @@
 <td><a href="https://github.com/mpcp-protocol/mpcp-gateway/blob/main/ROADMAP.md">ROADMAP.md</a></td>
 </tr>
 <tr>
-<td>mpcp-gateway-client <em>(planned)</em></td>
-<td>Agent-side fetch wrapper — drop-in that routes requests through the gateway and handles 402 interception transparently; LangChain / AutoGen adapters</td>
-<td>—</td>
+<td><a href="https://github.com/mpcp-protocol/mpcp-gateway-client">mpcp-gateway-client</a></td>
+<td>Agent-side fetch wrapper — <code>GatewayClient</code> + <code>session.fetch()</code>; soft-limit continuation; LangChain / Vercel AI / AutoGen adapters</td>
+<td><a href="https://github.com/mpcp-protocol/mpcp-gateway-client/blob/main/ROADMAP.md">ROADMAP.md</a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/mpcp-protocol/mpcp-spec">mpcp-spec</a></td>
@@ -2273,36 +2295,53 @@
 <hr />
 <h2 id="implementation-status">Implementation status</h2>
 <h3 id="mpcp-reference">mpcp-reference</h3>
-<p>Phases 1–5 complete. Phase 6 (adoption acceleration) is active.</p>
-<p>Implemented highlights: canonical serialization · artifact schemas · full verification engine · CLI verifier with explain mode · Hedera HCS and XRPL anchor adapters · <code>did:xrpl</code> resolver · XRPL NFT revocation · AES-256-GCM encrypted policy anchoring · golden protocol vectors · human-to-agent delegation profile.</p>
+<p>All core phases complete.</p>
+<p>Implemented: canonical serialization · artifact schemas · full verification engine · CLI verifier with explain mode · Hedera HCS and XRPL anchor adapters · <code>did:xrpl</code> resolver · XRPL NFT revocation · Trust Bundle signing and verification · <code>resolveFromTrustBundle</code> for key lookup · AES-256-GCM encrypted policy anchoring · golden protocol vectors · human-to-agent delegation profile · TRIP budget scope · <code>checkRevocation</code> utility.</p>
 <h3 id="mpcp-policy-authority">mpcp-policy-authority</h3>
-<p>Phase 1 complete (grant issuance, policy custody, revocation endpoint, XRPL NFT mint/burn, persistent custody with soft-delete).</p>
-<p>Phase 2 active: HCS and XRPL on-chain anchoring integration into the service layer.</p>
+<p>All phases complete. Grant issuance, policy custody, revocation endpoint, Trust Bundle issuance and signing, XRPL NFT mint/burn, persistent custody with soft-delete, audit log with webhook dispatch, multi-key admin API.</p>
 <h3 id="mpcp-wallet-sdk">mpcp-wallet-sdk</h3>
-<p>Planned. Phase 1 (Node.js core: <code>parseGrant</code>, <code>Session</code>, budget tracking) is the starting point.</p>
+<p>All core and ecosystem integration phases complete. Node.js monorepo (<code>@mpcp/core</code>, <code>@mpcp/agent</code>, <code>@mpcp/issuer</code>, <code>@mpcp/react</code>).</p>
+<p>Implemented: <code>parseGrant</code> · <code>createSession(grant, opts)</code> → <code>Session</code> · <code>session.createSba({ amount, currency, rail })</code> · per-session budget ceiling enforcement · live revocation checking with TTL cache · <code>session.remaining()</code> · SQLite session persistence via Drizzle · Web Crypto signing path (<code>CryptoKey</code> support for browser) · <code>@mpcp/react</code> package (<code>usePolicyGrant</code>, <code>useSession</code> hooks) · <code>createX402Client</code> adapter (MPCP budget enforcement wrapping x402-gated APIs) · full integration test suite.</p>
+<p>Deferred: React Native bundle + AsyncStorage adapter (PR7).</p>
 <h3 id="mpcp-merchant-sdk">mpcp-merchant-sdk</h3>
-<p>Planned. Phase 1 (core <code>verifyMpcp</code>, revocation cache, spend tracking) is the starting point.</p>
+<p>All phases complete. Full Express / Fastify / Next.js / Edge (Web Crypto) adapter suite.</p>
+<p>Implemented: <code>verifyMpcp(sba, opts)</code> · <code>mpcp()</code> Express/Fastify middleware · <code>withMpcp()</code> Next.js HOC · <code>verifyMpcpEdge</code> (zero Node.js deps) · Trust Bundle key resolution (<code>trustBundles</code> option) · revocation checking with TTL cache · spend tracking · <code>verifyMpcpEdge</code> Ed25519 + P-256 support.</p>
 <h3 id="mpcp-gateway">mpcp-gateway</h3>
-<p>Phases 1–5 complete. The gateway bridges non-MPCP agents to MPCP merchants: it intercepts HTTP 402 responses, executes x402 payments, and optionally attaches a signed SBA (<code>X-Mpcp-Sba</code>) so MPCP-aware merchants can verify the authorization chain without any gateway-specific integration.</p>
-<p>Phase 5 deferred items (each a standalone PR): SQLite/PostgreSQL session persistence, Redis spend-ceiling cache, per-owner rate limiting, OpenTelemetry traces, Prometheus text-format metrics.</p>
-<p>Phases 6–10 planned (adoption acceleration):</p>
+<p>All phases (P1–P10) complete. The gateway bridges non-MPCP agents to MPCP merchants: intercepts HTTP 402, executes x402 payments, enforces session budgets/purposes/policies, and optionally attaches a signed SBA (<code>X-Mpcp-Sba</code>) so MPCP-aware merchants can verify the authorization chain.</p>
+<p>Implemented:</p>
 <ul>
-<li><strong>P6</strong> — Trust Bundle well-known endpoint: merchants fetch <code>/.well-known/mpcp-trust-bundle.json</code> at startup and verify gateway SBAs with zero env config</li>
-<li><strong>P7</strong> — Spend webhooks: budget owners receive signed push notifications at configurable spend thresholds (50%/80%/100%) and on payment denial</li>
-<li><strong>P8</strong> — Session policy controls: merchant allowlist/blocklist (glob patterns) and velocity limits (max payments per hour, max amount per merchant per day)</li>
-<li><strong>P9</strong> — Soft budget ceiling + continuation token: budget exhaustion pauses the agent instead of hard-failing; user approves an extension via <code>PATCH /sessions/{id}</code> without re-issuing a grant</li>
-<li><strong>P10</strong> — x402 merchant mode: any backend delegates payment collection to the gateway via <code>POST /charge</code>; no x402 implementation required on the merchant side</li>
+<li><strong>P1</strong> — Core proxy + x402 interception</li>
+<li><strong>P2</strong> — Session CRUD REST API (<code>POST / GET / DELETE /sessions</code>)</li>
+<li><strong>P3</strong> — Ed25519-signed receipts + audit log (<code>GET /sessions/:id/receipts</code>)</li>
+<li><strong>P4</strong> — MPCP passthrough headers (<code>X-Mpcp-Sba</code> on 402 retry)</li>
+<li><strong>P5</strong> — Production hardening: health/ready/metrics endpoints; pluggable <code>PaymentRail</code>; <code>KeyRing</code> with rotation; Dockerfile; SQLite session persistence (Drizzle + better-sqlite3 WAL)</li>
+<li><strong>P6</strong> — Trust Bundle auto-distribution (<code>/.well-known/mpcp-trust-bundle.json</code>; zero merchant env-var config)</li>
+<li><strong>P7</strong> — Spend webhooks: HMAC-signed push notifications at configurable thresholds; <code>payment.denied</code> events; dispatch log</li>
+<li><strong>P8</strong> — Session policy controls: merchant allowlist/blocklist (glob); velocity limits (max payments/hour, max amount per merchant/day)</li>
+<li><strong>P9</strong> — Soft budget ceiling + continuation token: budget exhaustion pauses instead of hard-failing; <code>PATCH /sessions/:id</code> raises ceiling via single-use HMAC token</li>
+<li><strong>P10</strong> — x402 merchant mode: <code>POST /charge</code> / <code>GET /charge/:id/verify</code>; <code>/.well-known/x402-payment-info</code></li>
+</ul>
+<p>Deferred items (each a standalone PR): PostgreSQL adapter, Redis session cache, per-owner rate limiting, OpenTelemetry traces, Prometheus text-format metrics.</p>
+<h3 id="mpcp-gateway-client">mpcp-gateway-client</h3>
+<p>P1–P3 complete. P4 (receipts + audit) planned.</p>
+<p>Implemented:</p>
+<ul>
+<li><strong>P1</strong> — Core client: <code>GatewayClient</code>, <code>createSession</code>, <code>session.fetch()</code> wrapper, session CRUD; zero runtime deps; TypeScript + ESM</li>
+<li><strong>P2</strong> — Soft-limit continuation: <code>onSoftLimit</code> callback; <code>continueSession()</code>; automatic retry on user approval</li>
+<li><strong>P3</strong> — Framework adapters: <code>GatewayFetchTool</code> (LangChain), <code>gatewayFetchTool()</code> (Vercel AI SDK), <code>gatewayFetchFn()</code> (generic function-calling / AutoGen)</li>
+</ul>
+<p>Planned:</p>
+<ul>
+<li><strong>P4</strong> — Receipts + audit: <code>getReceipts()</code>, <code>verifyReceipt()</code> (Ed25519), <code>fetchGatewayKeys()</code></li>
 </ul>
 <hr />
 <h2 id="spec-roadmap">Spec roadmap</h2>
 <p>Protocol specification work is tracked via GitHub pull requests on <a href="https://github.com/mpcp-protocol/mpcp-spec">mpcp-spec</a>. Spec changes accompany each reference implementation PR that introduces new protocol fields or behaviors.</p>
-<p>Upcoming spec work tracks the active reference implementation PRs:</p>
+<p>Upcoming spec work:</p>
 <ul>
-<li>Payment profiles expansion (PR21) — XRPL Stablecoin / RLUSD profile doc</li>
-<li>Layer-1 evaluation (PR22) — comparative analysis doc</li>
-<li>Machine wallet guardrails (PR23) — guardrail model guide</li>
-<li>Automated fleet payment demo (PR24) — visual walkthrough doc</li>
-<li>MPCP conformance badge (PR25) — conformance criteria</li>
+<li><code>mpcp-gateway-client</code> P4 (receipts + audit) — spec alignment when implemented</li>
+<li><code>mpcp-wallet-sdk</code> PR7 (React Native bundle) — spec alignment when implemented</li>
+<li><code>mpcp-reference</code> Phase 6 pending PRs (PR21–PR25) — payment profiles, L1 evaluation, conformance badge</li>
 </ul>
 
 
