@@ -2440,27 +2440,39 @@
 </tr>
 <tr>
 <td><a href="https://github.com/mpcp-protocol/mpcp-reference">mpcp-reference</a></td>
-<td>TypeScript reference implementation — canonical SDK, verifier, on-chain adapters</td>
+<td>TypeScript reference implementation — canonical SDK, verifier, on-chain adapters, Trust Bundle</td>
 <td>All implementers (SDK dependency)</td>
-<td>Active</td>
+<td>Complete</td>
 </tr>
 <tr>
 <td><a href="https://github.com/mpcp-protocol/mpcp-policy-authority">mpcp-policy-authority</a></td>
-<td>Deployable Policy Authority service — issues, stores, and revokes PolicyGrants; on-chain anchoring</td>
+<td>Deployable Policy Authority service — grant issuance, revocation, Trust Bundle issuance, on-chain anchoring</td>
 <td>Operators, platforms, enterprises</td>
-<td>Active (Phase 2)</td>
+<td>Complete</td>
 </tr>
 <tr>
 <td><a href="https://github.com/mpcp-protocol/mpcp-wallet-sdk">mpcp-wallet-sdk</a></td>
-<td>Wallet SDK — SBA signing, budget tracking, revocation; browser + React Native</td>
+<td>Wallet SDK — <code>createSession</code>, SBA signing, budget tracking, revocation; Node.js</td>
 <td>Wallet developers, AI agent builders</td>
-<td>Planned</td>
+<td>Complete (Node.js)</td>
 </tr>
 <tr>
 <td><a href="https://github.com/mpcp-protocol/mpcp-merchant-sdk">mpcp-merchant-sdk</a></td>
-<td>Merchant SDK — SBA/SPA verification middleware for Express, Fastify, Next.js</td>
+<td>Merchant SDK — SBA verification middleware for Express, Fastify, Next.js, Edge; Trust Bundle key resolution</td>
 <td>Merchant and service provider backends</td>
-<td>Planned</td>
+<td>Complete</td>
+</tr>
+<tr>
+<td><a href="https://github.com/mpcp-protocol/mpcp-gateway">mpcp-gateway</a></td>
+<td>Transparent payment gateway — x402 interception, session budgets, policy controls, signed receipts, soft limits</td>
+<td>Operators bridging non-MPCP agents</td>
+<td>Complete (P1–P10)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/mpcp-protocol/mpcp-gateway-client">mpcp-gateway-client</a></td>
+<td>Agent-side gateway client — <code>GatewayClient</code>, <code>session.fetch()</code>, framework adapters</td>
+<td>AI agent and automation developers</td>
+<td>Active (P1)</td>
 </tr>
 </tbody>
 </table>
@@ -2482,14 +2494,24 @@
 <td>Policy Authority service, revocation endpoint</td>
 </tr>
 <tr>
-<td><strong>Vehicle Wallet / AI Agent</strong></td>
+<td><strong>Vehicle Wallet / AI Agent (native MPCP)</strong></td>
 <td><code>mpcp-wallet-sdk</code></td>
 <td>SBA signing keys, session state</td>
+</tr>
+<tr>
+<td><strong>AI Agent (gateway path)</strong></td>
+<td><code>mpcp-gateway-client</code></td>
+<td>— (delegates all crypto to the gateway)</td>
 </tr>
 <tr>
 <td><strong>Merchant / Service Provider</strong></td>
 <td><code>mpcp-merchant-sdk</code></td>
 <td>Verification middleware</td>
+</tr>
+<tr>
+<td><strong>Gateway operator</strong></td>
+<td><code>mpcp-gateway</code></td>
+<td>Session store, x402 proxy, payment rail</td>
 </tr>
 <tr>
 <td><strong>Auditor / Verifier</strong></td>
@@ -2610,35 +2632,45 @@
 <thead>
 <tr>
 <th>Component</th>
-<th>Phase</th>
-<th>Key missing pieces</th>
+<th>Status</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>mpcp-spec</code></td>
-<td>Protocol complete</td>
-<td>—</td>
+<td>Complete</td>
+<td>Protocol spec, profiles, guides</td>
 </tr>
 <tr>
 <td><code>mpcp-reference</code></td>
-<td>Core + adapters complete</td>
-<td>—</td>
+<td>Complete</td>
+<td>Canonical SDK, verifier, Trust Bundle, on-chain adapters</td>
 </tr>
 <tr>
 <td><code>mpcp-policy-authority</code></td>
-<td>Phase 3 (trust bundles, JWKS, audit)</td>
-<td>Integration tests, Docker packaging</td>
+<td>Complete</td>
+<td>Grant issuance, revocation, Trust Bundle issuance, audit log</td>
 </tr>
 <tr>
 <td><code>mpcp-wallet-sdk</code></td>
-<td><strong>Not started</strong></td>
-<td>Everything — see repository ROADMAP</td>
+<td>Complete (Node.js)</td>
+<td><code>createSession</code>, SBA signing, budget enforcement, SQLite persistence</td>
 </tr>
 <tr>
 <td><code>mpcp-merchant-sdk</code></td>
-<td>Phase 1 active (core verifier + revocation + spend + Express middleware)</td>
-<td>Next.js/Edge adapter, full test suite</td>
+<td>Complete</td>
+<td>Express / Fastify / Next.js / Edge adapters; Trust Bundle key resolution</td>
+</tr>
+<tr>
+<td><code>mpcp-gateway</code></td>
+<td>Complete (P1–P10)</td>
+<td>x402 proxy, session API, receipts, policy controls, soft limits, x402 merchant mode, SQLite</td>
+</tr>
+<tr>
+<td><code>mpcp-gateway-client</code></td>
+<td>Active — P1</td>
+<td>Core client in progress; P2–P4 planned</td>
 </tr>
 </tbody>
 </table>
