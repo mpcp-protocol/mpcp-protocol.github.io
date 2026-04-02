@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/anchoring/">
+        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/protocol/trust-model/">
       
       
-        <link rel="prev" href="../SettlementIntentHash/">
+        <link rel="prev" href="../trust-bundles/">
       
       
-        <link rel="next" href="../policy-anchoring/">
+        <link rel="next" href="../rails/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Intent Anchoring - MPCP Spec</title>
+        <title>Trust Model - MPCP Spec</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#intent-anchoring" class="md-skip">
+        <a href="#trust-model" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Intent Anchoring
+              Trust Model
             
           </span>
         </div>
@@ -230,25 +230,6 @@
   
   
     <li class="md-tabs__item">
-      <a href="https://mpcp-protocol.github.io/reference/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Reference
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
       <a href="../.." class="md-tabs__link">
         
   
@@ -332,7 +313,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../profiles/lite-profile/" class="md-tabs__link">
+        <a href="../../profiles/human-agent-profile/" class="md-tabs__link">
           
   
   
@@ -500,33 +481,6 @@
   
   
     <li class="md-nav__item">
-      <a href="https://mpcp-protocol.github.io/reference/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Reference
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
         
   
@@ -569,10 +523,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -590,8 +544,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -770,10 +724,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
@@ -791,8 +745,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1002,10 +956,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -1023,8 +977,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1206,6 +1160,236 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Model
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actor-trust-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actor Trust Hierarchy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actor Trust Hierarchy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policy-authority-highest-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Authority (highest trust)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust-gateway-second-highest-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Gateway (second-highest trust)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent-vehicle-wallet-third-highest-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent / Vehicle Wallet (third-highest trust)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merchant-service-provider-lowest-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merchant / Service Provider (lowest trust)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-each-actor-can-and-cannot-forge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Each Actor Can and Cannot Forge
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#online-vs-offline-guarantee-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Online vs Offline Guarantee Table
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escrow-as-proof-of-reservation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Escrow as Proof of Reservation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trust-gateway-as-mandatory-actor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Gateway as Mandatory Actor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rails/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rails
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
@@ -1253,231 +1437,6 @@
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SignedPaymentAuthorization/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SPA
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SettlementIntent/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SettlementIntent
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../SettlementIntentHash/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    SettlementIntentHash
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Intent Anchoring
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Intent Anchoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Purpose
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#supported-rails" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Supported Rails
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Flow
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hedera-hcs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Hedera HCS
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See Also
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1652,10 +1611,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -1673,8 +1632,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1683,62 +1642,6 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../profiles/lite-profile/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Lite Profile
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../profiles/full-profile/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Full Profile
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -1825,10 +1728,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1846,8 +1749,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2084,10 +1987,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Purpose
+        Overview
       
     </span>
   </a>
@@ -2095,10 +1998,71 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#supported-rails" class="md-nav__link">
+  <a href="#actor-trust-hierarchy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supported Rails
+        Actor Trust Hierarchy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Actor Trust Hierarchy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#policy-authority-highest-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy Authority (highest trust)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust-gateway-second-highest-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Gateway (second-highest trust)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent-vehicle-wallet-third-highest-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent / Vehicle Wallet (third-highest trust)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merchant-service-provider-lowest-trust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merchant / Service Provider (lowest trust)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-each-actor-can-and-cannot-forge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Each Actor Can and Cannot Forge
       
     </span>
   </a>
@@ -2106,10 +2070,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#flow" class="md-nav__link">
+  <a href="#online-vs-offline-guarantee-table" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Flow
+        Online vs Offline Guarantee Table
       
     </span>
   </a>
@@ -2117,10 +2081,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#escrow-as-proof-of-reservation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Escrow as Proof of Reservation
       
     </span>
   </a>
@@ -2128,10 +2092,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hedera-hcs" class="md-nav__link">
+  <a href="#trust-gateway-as-mandatory-actor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hedera HCS
+        Trust Gateway as Mandatory Actor
       
     </span>
   </a>
@@ -2169,72 +2133,234 @@
   
 
 
-<h1 id="intent-anchoring">Intent Anchoring</h1>
-<p>Optional support for publishing <strong>settlement intent hashes</strong> to a distributed ledger for public
-auditability and dispute protection.</p>
-<p>!!! note "Scope: Settlement Intent Only"
-    This page covers <strong>intent anchoring</strong> — recording the hash of a settlement intent before
-    payment. For anchoring the <strong>policy document</strong> itself (on-chain policy audit trails and
-    XRPL NFT-backed revocation), see <a href="../policy-anchoring/">Policy Anchoring</a>.</p>
-<h2 id="purpose">Purpose</h2>
-<p>When an intent hash is anchored:</p>
+<h1 id="trust-model">Trust Model</h1>
+<p>Part of the <a href="../mpcp/">Machine Payment Control Protocol (MPCP)</a>.</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>MPCP defines a layered trust model in which each actor operates within cryptographically enforced
+constraints established by a higher-trust actor. No actor can exceed the authority granted by
+its superior in the chain.</p>
+<div class="highlight"><pre><span></span><code>Policy Authority (PA)
+       │  signs PolicyGrant
+       ▼
+   Trust Gateway
+       │  enforces PA-signed budget ceiling, manages escrow
+       ▼
+     Agent / Vehicle Wallet
+       │  signs SBAs within gateway-enforced ceiling
+       ▼
+    Merchant (Service Provider)
+       │  verifies SBA + PolicyGrant
+       ▼
+    XRPL Settlement
+</code></pre></div>
+<hr />
+<h2 id="actor-trust-hierarchy">Actor Trust Hierarchy</h2>
+<h3 id="policy-authority-highest-trust">Policy Authority (highest trust)</h3>
+<p>The PA is the <strong>root of trust</strong> for all payment authorization. It signs PolicyGrant artifacts
+that encode:</p>
 <ul>
-<li><strong>Dispute resolution</strong> — A verifier can fetch the anchor and confirm the intent was published before settlement</li>
-<li><strong>Auditability</strong> — Third parties can verify intent was committed without seeing payment details</li>
-<li><strong>Replay protection</strong> — Anchoring timestamps the intent; disputes can establish ordering</li>
+<li><code>budgetMinor</code> — maximum XRP (in drops) the session may spend</li>
+<li><code>expiresAt</code> — hard grant expiry</li>
+<li><code>allowedRails</code> — permitted payment rails</li>
+<li><code>allowedPurposes</code> — merchant category allowlist</li>
+<li><code>authorizedGateway</code> — the single XRPL address permitted to submit payments</li>
+<li><code>offlineMaxSinglePayment</code> — per-transaction cap for offline merchant acceptance</li>
+<li><code>budgetEscrowRef</code> — reference to the on-chain XRPL escrow that pre-reserves the budget</li>
 </ul>
-<h2 id="supported-rails">Supported Rails</h2>
+<p>The PA private key is the only thing that can produce a valid PolicyGrant. A compromised agent or
+gateway cannot forge a PolicyGrant with a higher budget or looser constraints.</p>
+<p><strong>What the PA cannot do:</strong> The PA does not execute transactions. It has no visibility into
+individual payments after grant issuance.</p>
+<hr />
+<h3 id="trust-gateway-second-highest-trust">Trust Gateway (second-highest trust)</h3>
+<p>The Trust Gateway is a mandatory <strong>online enforcement actor</strong> in MPCP's XRPL profile. It:</p>
+<ol>
+<li>Creates the XRPL budget escrow at grant issuance (pre-reserving <code>budgetMinor</code> XRP)</li>
+<li>Receives the PA-signed <code>budgetMinor</code> and enforces it as a hard ceiling for all payments</li>
+<li>Holds the XRPL gateway seed — no other actor can submit payments on this gateway's behalf</li>
+<li>Verifies the SBA signature and purpose before signing each XRPL Payment transaction</li>
+<li>Attaches <code>mpcp/grant-id</code> memo to every on-chain payment for audit traceability</li>
+<li>Releases the escrow on grant revocation (EscrowFinish with preimage) or expiry (EscrowCancel)</li>
+</ol>
+<p><strong>What the Gateway cannot do:</strong></p>
+<ul>
+<li>Exceed the PA-signed <code>budgetMinor</code> (it enforces this ceiling on itself)</li>
+<li>Spend against a grant whose <code>authorizedGateway</code> does not match its own XRPL address</li>
+<li>Forge a PolicyGrant or SBA signature</li>
+</ul>
+<p><strong>Why it is mandatory:</strong> Without the Trust Gateway, an agent could self-report any budget ceiling.
+The gateway enforces the PA-signed limit independently of agent behavior — a compromised or
+prompt-injected agent cannot cause overspending.</p>
+<hr />
+<h3 id="agent-vehicle-wallet-third-highest-trust">Agent / Vehicle Wallet (third-highest trust)</h3>
+<p>The agent creates per-payment <strong>SignedBudgetAuthorizations</strong> within the limits established by
+the PolicyGrant and enforced by the gateway:</p>
+<ul>
+<li>SBA <code>maxAmountMinor</code> ≤ remaining gateway budget</li>
+<li>SBA <code>allowedPurposes</code> ⊆ PolicyGrant <code>allowedPurposes</code></li>
+<li>SBA signed with agent's own key (not the gateway key)</li>
+</ul>
+<p><strong>What the agent cannot do:</strong></p>
+<ul>
+<li>Submit XRPL payments directly (no access to gateway seed)</li>
+<li>Exceed the PA-signed ceiling (gateway rejects overspends)</li>
+<li>Approve a purpose not in the PolicyGrant <code>allowedPurposes</code> list</li>
+</ul>
+<p><strong>Agent trust level:</strong> The gateway trusts that the SBA signature is valid and the purpose is
+permitted. It does not trust the agent's self-reported budget state — it maintains its own
+independent spend counter.</p>
+<hr />
+<h3 id="merchant-service-provider-lowest-trust">Merchant / Service Provider (lowest trust)</h3>
+<p>Merchants verify the SBA signature and PolicyGrant signature before accepting payment. They
+receive a payment receipt (XRPL transaction hash) after the gateway submits the transaction.</p>
+<p>In online mode, the merchant relies on the full chain:
+<code>SBA signature → PolicyGrant signature → gateway spend counter → XRPL settlement</code>.</p>
+<p>In offline mode, the merchant relies only on:
+<code>SBA signature → PolicyGrant signature → offlineMaxSinglePayment cap</code>.</p>
+<p><strong>What the merchant cannot do:</strong></p>
+<ul>
+<li>Create or modify a PolicyGrant</li>
+<li>Force a payment above the SBA <code>maxAmountMinor</code></li>
+<li>Access the gateway seed</li>
+</ul>
+<hr />
+<h2 id="what-each-actor-can-and-cannot-forge">What Each Actor Can and Cannot Forge</h2>
 <table>
 <thead>
 <tr>
-<th>Rail</th>
-<th>Description</th>
+<th>Actor</th>
+<th>Can forge</th>
+<th>Cannot forge</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>mock</td>
-<td>Stub for development/testing; no real ledger</td>
+<td>Policy Authority</td>
+<td>Anything it signs</td>
+<td>(root — external governance)</td>
 </tr>
 <tr>
-<td>hedera-hcs</td>
-<td>Hedera Hashgraph Consensus Service; publishes to a topic</td>
+<td>Trust Gateway</td>
+<td>Payment sequence, timing</td>
+<td>PolicyGrant, SBA signature</td>
+</tr>
+<tr>
+<td>Agent / Wallet</td>
+<td>SBA (within grant limits)</td>
+<td>PolicyGrant, gateway key</td>
+</tr>
+<tr>
+<td>Merchant</td>
+<td>Verification result (local)</td>
+<td>Any artifact, gateway key</td>
 </tr>
 </tbody>
 </table>
-<p>Additional rails can be supported by implementations (XRPL memos, Ethereum calldata, etc.).</p>
-<h2 id="flow">Flow</h2>
+<p>The critical attack surface is <strong>agent compromise</strong> (prompt injection, model manipulation,
+software vulnerability). MPCP's gateway model ensures that a compromised agent cannot cause
+overspending because:</p>
 <ol>
-<li>Compute <code>intentHash = computeSettlementIntentHash(settlementIntent)</code></li>
-<li>Publish the intentHash to the chosen rail (e.g., Hedera HCS topic)</li>
-<li>Store the <code>AnchorResult</code> (reference, consensusTimestamp, etc.) with the settlement</li>
-<li>In dispute: verifier fetches anchor, confirms intentHash matches</li>
+<li>The gateway enforces the PA-signed <code>budgetMinor</code> independently of the agent</li>
+<li>The escrow pre-reserves the maximum budget on-chain, preventing the gateway from overspending
+   even if the gateway itself is compromised (the XRPL ledger enforces the escrow amount)</li>
 </ol>
-<h2 id="usage">Usage</h2>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">anchorIntent</span><span class="p">,</span><span class="w"> </span><span class="nx">computeSettlementIntentHash</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service&quot;</span><span class="p">;</span>
+<hr />
+<h2 id="online-vs-offline-guarantee-table">Online vs Offline Guarantee Table</h2>
+<table>
+<thead>
+<tr>
+<th>Guarantee</th>
+<th>Online (gateway present)</th>
+<th>Offline (signature-only)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SBA signature valid</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>PolicyGrant signature valid</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Per-transaction cap enforced</td>
+<td>✅ <code>budgetMinor</code> / remaining</td>
+<td>✅ <code>offlineMaxSinglePayment</code></td>
+</tr>
+<tr>
+<td>Cumulative budget enforced</td>
+<td>✅ gateway counter + escrow</td>
+<td>❌ not enforced</td>
+</tr>
+<tr>
+<td>On-chain confirmation</td>
+<td>✅ XRPL receipt</td>
+<td>❌ no settlement yet</td>
+</tr>
+<tr>
+<td>Budget escrow verified</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Revocation checked</td>
+<td>✅ gateway checks on each payment</td>
+<td>⚠️ best-effort (TTL cache)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Offline mode (Option A — Tiered Trust):</strong> Merchants accept reduced guarantees in exchange for
+the ability to operate without a network connection. The <code>offlineMaxSinglePayment</code> cap (PA-signed)
+limits exposure: a compromised agent cannot present an SBA above this cap and get it accepted
+offline. Cumulative overspend across many offline transactions remains a theoretical risk; it
+is bounded by the escrow amount once the gateway comes back online.</p>
+<hr />
+<h2 id="escrow-as-proof-of-reservation">Escrow as Proof of Reservation</h2>
+<p>The XRPL escrow is not a payment — it is a <strong>credit pre-authorization hold</strong>.</p>
+<div class="highlight"><pre><span></span><code>Grant issuance:
+  Gateway calls EscrowCreate(amount=budgetMinor, CancelAfter=expiresAt, Condition=crypto-condition)
+  Escrow locks exactly budgetMinor XRP in the gateway&#39;s account
+  budgetEscrowRef = &quot;xrpl:escrow:{account}:{sequence}&quot; (PA-signed into grant)
 
-<span class="kd">const</span><span class="w"> </span><span class="nx">intentHash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">computeSettlementIntentHash</span><span class="p">(</span><span class="nx">settlementIntent</span><span class="p">);</span>
+During session:
+  Individual payments come from the gateway&#39;s unlocked balance (not from the escrow)
+  Gateway tracks cumulative spend via its own counter
 
-<span class="c1">// Mock (development)</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">anchor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">anchorIntent</span><span class="p">(</span><span class="nx">intentHash</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">rail</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;mock&quot;</span><span class="w"> </span><span class="p">});</span>
+Grant revocation:
+  Gateway calls EscrowFinish(Fulfillment=preimage) → immediate release of locked funds
+  If preimage unavailable (server restart): EscrowCancel after CancelAfter passes
 
-<span class="c1">// Hedera HCS (requires HEDERA_OPERATOR_ACCOUNT_ID, etc.)</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">anchor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">anchorIntent</span><span class="p">(</span><span class="nx">intentHash</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">rail</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;hedera-hcs&quot;</span><span class="w"> </span><span class="p">});</span>
+On-chain audit:
+  Total spent = sum(Amount of XRPL Payments with MemoType=&quot;mpcp/grant-id&quot;, MemoData=hex(grantId))
+  This is always ≤ escrow amount (enforced by gateway counter)
 </code></pre></div>
-<h2 id="hedera-hcs">Hedera HCS</h2>
-<p>Requires environment variables:</p>
+<p>The escrow provides a public, tamper-proof <strong>upper bound</strong> on what the session can spend. Even
+if the gateway's internal counter is wrong, it cannot have spent more than the escrow amount
+(because the XRP was pre-reserved).</p>
+<hr />
+<h2 id="trust-gateway-as-mandatory-actor">Trust Gateway as Mandatory Actor</h2>
+<p>For MPCP's XRPL profile, the Trust Gateway is <strong>not optional</strong> for online payments.</p>
+<p>Deployments that skip the gateway (having the agent submit payments directly) lose:</p>
 <ul>
-<li><code>HEDERA_OPERATOR_ACCOUNT_ID</code></li>
-<li><code>HEDERA_OPERATOR_PRIVATE_KEY</code></li>
-<li><code>HEDERA_TOPIC_ID</code></li>
-<li><code>HEDERA_NETWORK</code> (optional; default: testnet)</li>
+<li>PA-signed budget ceiling enforcement (agent self-reports remaining budget)</li>
+<li>Escrow-based budget reservation (no on-chain upper bound)</li>
+<li><code>authorizedGateway</code> binding (any node could submit payments)</li>
+<li>On-chain audit trail (memo tagging not guaranteed)</li>
 </ul>
-<p>Verification uses the Hedera mirror node to fetch the message and confirm intentHash matches.</p>
+<p>In a planned future extension, the Trust Gateway's XRPL address will be included in the Trust
+Bundle so offline merchants can verify that an SBA was produced by an entity operating under a
+registered gateway. (See roadmap: Gateway key in Trust Bundle.)</p>
+<hr />
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="https://github.com/mpcp-protocol/mpcp-reference/blob/main/doc/architecture/INTENT_ANCHORING.md">Intent Anchoring (architecture)</a></li>
-<li><a href="../../guides/dispute-resolution/">Dispute Resolution</a></li>
-<li><a href="https://mpcp-protocol.github.io/mpcp-reference/reference/service-api/">Reference: Service API</a> — <code>anchorIntent</code></li>
+<li><a href="../../architecture/actors/">Actors</a> — Actor definitions including Trust Gateway</li>
+<li><a href="../PolicyGrant/">PolicyGrant</a> — PA-signed grant fields</li>
+<li><a href="../trust-bundles/">Trust Bundles</a> — Offline key distribution</li>
+<li><a href="../rails/">Rails</a> — Rail extensibility and escrow URI scheme</li>
 </ul>
 
 
