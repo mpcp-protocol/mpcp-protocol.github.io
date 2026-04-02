@@ -646,6 +646,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../overview/why-xrpl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why XRPL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../overview/comparison-with-agent-protocols/" class="md-nav__link">
         
   
@@ -2094,11 +2122,11 @@
 <p><strong>Responsibilities:</strong></p>
 <ul>
 <li>Enforces policy constraints</li>
-<li>Manages charging/payment budgets</li>
-<li>Issues SignedBudgetAuthorization and SignedPaymentAuthorization</li>
-<li>Executes settlement transactions</li>
+<li>Manages payment budgets</li>
+<li>Issues SignedBudgetAuthorization (SBA) per payment request</li>
+<li>Submits SBAs to the Trust Gateway for settlement</li>
 </ul>
-<p>The wallet is the MPCP actor that signs SignedBudgetAuthorization and SignedPaymentAuthorization.</p>
+<p>The wallet is the MPCP actor that signs SignedBudgetAuthorizations. Settlement is executed by the Trust Gateway.</p>
 <blockquote>
 <p><strong>Note on Actor Identity:</strong> The <code>actorId</code> field in SBA artifacts is self-reported by the wallet. Production deployments SHOULD establish actor attestation via device key binding (e.g., a hardware-backed key whose public key is registered with the fleet operator). Without attestation, <code>actorId</code> cannot be cryptographically verified and is informational only.</p>
 </blockquote>
@@ -2109,9 +2137,9 @@
 <ul>
 <li>Receives a PolicyGrant from a human principal (DID-signed) and acts as its spending subject</li>
 <li>Acts as <strong>session authority</strong> — creates and signs SBAs (typically with TRIP scope)</li>
-<li>Acts as <strong>payment decision service</strong> — enforces <code>allowedPurposes</code> and signs SPAs</li>
+<li>Enforces <code>allowedPurposes</code> before issuing each SBA — refuses payments for disallowed merchant categories</li>
 <li>Maintains cumulative spend counter across all sessions in the trip/project</li>
-<li>SHOULD check <code>revocationEndpoint</code> before signing each SPA (agents are online by design)</li>
+<li>SHOULD check <code>revocationEndpoint</code> before issuing each SBA (agents are online by design)</li>
 </ul>
 <p><strong>Contrast with Vehicle Wallet:</strong></p>
 <table>
@@ -2136,7 +2164,7 @@
 <tr>
 <td>Revocation</td>
 <td>Not applicable</td>
-<td>SHOULD check before each payment</td>
+<td>SHOULD check before each SBA</td>
 </tr>
 <tr>
 <td>Budget scope</td>

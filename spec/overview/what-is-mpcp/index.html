@@ -751,6 +751,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../why-xrpl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why XRPL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../comparison-with-agent-protocols/" class="md-nav__link">
         
   
@@ -1999,8 +2027,8 @@
 <h2 id="key-characteristics">Key Characteristics</h2>
 <ul>
 <li><strong>Bounded authorization</strong> — Pre-authorized spending envelopes (budgets) instead of per-transaction approval</li>
-<li><strong>Deterministic verification</strong> — Every settlement can be verified against the authorization chain</li>
-<li><strong>Settlement-agnostic</strong> — Works with XRPL, EVM chains, Stripe, hosted providers, and other rails</li>
+<li><strong>Deterministic verification</strong> — Every settlement can be verified against the authorization chain; on-chain via <code>mpcp/grant-id</code> memo</li>
+<li><strong>XRPL-primary</strong> — v1.0 uses XRPL escrow + RLUSD for settlement; other rails supported via future profiles</li>
 <li><strong>Offline-capable</strong> — Payments can complete when the network is unavailable (e.g., underground garage)</li>
 <li><strong>Policy-first</strong> — All spending derives from explicit policy rules (rails, assets, destinations, caps)</li>
 </ul>
@@ -2014,14 +2042,15 @@
 <h2 id="what-mpcp-is-not">What MPCP Is Not</h2>
 <p>MPCP does <strong>not</strong>:</p>
 <ul>
-<li>Replace the settlement rail (XRPL, EVM, etc.) — it sits in front of it</li>
+<li>Replace the settlement rail — it sits in front of it as the authorization layer</li>
 <li>Define how money moves — it defines how authorization is granted and verified</li>
-<li>Require a specific blockchain — it is rail-agnostic</li>
+<li>Require per-transaction approval — authorization is pre-granted within a policy envelope</li>
 <li>Handle human-present card flows — it is designed for machine-initiated, bounded spending</li>
 </ul>
 <h2 id="next-steps">Next Steps</h2>
 <ul>
 <li><a href="../problem-statement/">Problem Statement</a> — Why existing payment systems fail for machines</li>
+<li><a href="../why-xrpl/">Why XRPL</a> — The rationale behind MPCP's XRPL-primary settlement layer</li>
 <li><a href="../comparison-with-agent-protocols/">Comparison with Agent Protocols</a> — How MPCP differs from x402, AP2, and others</li>
 <li><a href="../../protocol/artifacts/">Protocol: Artifacts</a> — The authorization chain in detail</li>
 </ul>

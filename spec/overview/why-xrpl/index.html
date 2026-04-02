@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/guides/build-a-machine-wallet/">
+        <link rel="canonical" href="https://mpcp-protocol.github.io/spec/overview/why-xrpl/">
       
       
-        <link rel="prev" href="../integration-guide/">
+        <link rel="prev" href="../design-goals/">
       
       
-        <link rel="next" href="../fleet-payments/">
+        <link rel="next" href="../comparison-with-agent-protocols/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Build a Machine Wallet - MPCP Spec</title>
+        <title>Why XRPL - MPCP Spec</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#build-a-machine-wallet" class="md-skip">
+        <a href="#why-xrpl-as-the-settlement-layer" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Build a Machine Wallet
+              Why XRPL
             
           </span>
         </div>
@@ -247,11 +247,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../overview/what-is-mpcp/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../what-is-mpcp/" class="md-tabs__link">
           
   
   
@@ -327,13 +329,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../integration-guide/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../guides/integration-guide/" class="md-tabs__link">
           
   
   
@@ -505,28 +505,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -544,7 +547,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -562,7 +565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../overview/what-is-mpcp/" class="md-nav__link">
+      <a href="../what-is-mpcp/" class="md-nav__link">
         
   
   
@@ -590,7 +593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../overview/problem-statement/" class="md-nav__link">
+      <a href="../problem-statement/" class="md-nav__link">
         
   
   
@@ -618,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../overview/design-goals/" class="md-nav__link">
+      <a href="../design-goals/" class="md-nav__link">
         
   
   
@@ -643,10 +646,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../overview/why-xrpl/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why XRPL
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -662,6 +692,136 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-core-requirement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Core Requirement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xrpl-native-escrow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XRPL Native Escrow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deterministic-finality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deterministic Finality
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transaction-memo-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transaction Memo Field
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rlusd-fiat-denominated-settlement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RLUSD: Fiat-Denominated Settlement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#didxrpl-for-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        did:xrpl for Identity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nft-based-policy-anchoring-and-revocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NFT-Based Policy Anchoring and Revocation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#low-fees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low Fees
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-other-rails-would-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Other Rails Would Need
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -674,7 +834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../overview/comparison-with-agent-protocols/" class="md-nav__link">
+      <a href="../comparison-with-agent-protocols/" class="md-nav__link">
         
   
   
@@ -702,7 +862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../overview/why-mpcp-for-agents/" class="md-nav__link">
+      <a href="../why-mpcp-for-agents/" class="md-nav__link">
         
   
   
@@ -1561,31 +1721,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1603,7 +1760,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1621,7 +1778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../integration-guide/" class="md-nav__link">
+      <a href="../../guides/integration-guide/" class="md-nav__link">
         
   
   
@@ -1646,37 +1803,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Build a Machine Wallet
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../guides/build-a-machine-wallet/" class="md-nav__link">
         
   
   
@@ -1692,114 +1822,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#concepts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Concepts
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Setup
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#generate-signing-keys" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Generate Signing Keys
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#receive-and-verify-policygrant" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Receive and Verify PolicyGrant
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sign-a-per-payment-sba" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sign a Per-Payment SBA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validate-before-signing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Validate Before Signing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#trust-bundle-for-offline-merchants" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Trust Bundle for Offline Merchants
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See Also
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1812,7 +1834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../fleet-payments/" class="md-nav__link">
+      <a href="../../guides/fleet-payments/" class="md-nav__link">
         
   
   
@@ -1840,7 +1862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dispute-resolution/" class="md-nav__link">
+      <a href="../../guides/dispute-resolution/" class="md-nav__link">
         
   
   
@@ -1976,10 +1998,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#concepts" class="md-nav__link">
+  <a href="#the-core-requirement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Concepts
+        The Core Requirement
       
     </span>
   </a>
@@ -1987,10 +2009,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#setup" class="md-nav__link">
+  <a href="#xrpl-native-escrow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Setup
+        XRPL Native Escrow
       
     </span>
   </a>
@@ -1998,10 +2020,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#generate-signing-keys" class="md-nav__link">
+  <a href="#deterministic-finality" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Generate Signing Keys
+        Deterministic Finality
       
     </span>
   </a>
@@ -2009,10 +2031,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#receive-and-verify-policygrant" class="md-nav__link">
+  <a href="#transaction-memo-field" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Receive and Verify PolicyGrant
+        Transaction Memo Field
       
     </span>
   </a>
@@ -2020,10 +2042,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#sign-a-per-payment-sba" class="md-nav__link">
+  <a href="#rlusd-fiat-denominated-settlement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sign a Per-Payment SBA
+        RLUSD: Fiat-Denominated Settlement
       
     </span>
   </a>
@@ -2031,10 +2053,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#validate-before-signing" class="md-nav__link">
+  <a href="#didxrpl-for-identity" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Validate Before Signing
+        did:xrpl for Identity
       
     </span>
   </a>
@@ -2042,10 +2064,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#trust-bundle-for-offline-merchants" class="md-nav__link">
+  <a href="#nft-based-policy-anchoring-and-revocation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Trust Bundle for Offline Merchants
+        NFT-Based Policy Anchoring and Revocation
       
     </span>
   </a>
@@ -2053,10 +2075,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
+  <a href="#low-fees" class="md-nav__link">
     <span class="md-ellipsis">
       
-        See Also
+        Low Fees
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-other-rails-would-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Other Rails Would Need
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
       
     </span>
   </a>
@@ -2083,106 +2127,175 @@
   
 
 
-<h1 id="build-a-machine-wallet">Build a Machine Wallet</h1>
-<p>This guide walks through building a machine wallet that can spend within MPCP policy and budget bounds.</p>
-<h2 id="concepts">Concepts</h2>
-<p>A <strong>machine wallet</strong> holds:</p>
+<h1 id="why-xrpl-as-the-settlement-layer">Why XRPL as the Settlement Layer</h1>
+<p>MPCP v1.0 is XRPL-primary. This page explains the design rationale behind that choice.</p>
+<h2 id="the-core-requirement">The Core Requirement</h2>
+<p>MPCP's authorization model requires a settlement layer that can do three things:</p>
 <ol>
-<li><strong>PolicyGrant</strong> — Permission envelope signed by the Policy Authority (PA); includes budget ceiling, escrow reference, and authorized gateway</li>
-<li><strong>Signing key</strong> — For producing per-payment SignedBudgetAuthorizations (SBA)</li>
+<li><strong>Pre-reserve a budget</strong> at grant issuance — so the policy ceiling is enforced by the ledger, not by trusting the agent</li>
+<li><strong>Settle individual payments</strong> against that reservation — quickly, cheaply, and with deterministic finality</li>
+<li><strong>Provide an on-chain audit trail</strong> linking every payment back to its originating grant</li>
 </ol>
-<p>When a payment is requested, the wallet:</p>
-<ol>
-<li>Checks the request against policy (rail, asset, purpose, destination)</li>
-<li>Checks revocation status (optional, via <code>revocationEndpoint</code>)</li>
-<li>Signs a per-payment SBA (amount + destination for this payment)</li>
-<li>Sends the SBA to the Trust Gateway for settlement</li>
-</ol>
-<p>The Trust Gateway enforces the cumulative budget ceiling and submits the XRPL Payment.</p>
-<h2 id="setup">Setup</h2>
-<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install<span class="w"> </span>mpcp-service
+<p>These requirements ruled out most settlement options and pointed directly to XRPL.</p>
+<hr />
+<h2 id="xrpl-native-escrow">XRPL Native Escrow</h2>
+<p>The most important fit is structural. MPCP's budget model works as follows:</p>
+<div class="highlight"><pre><span></span><code>PolicyGrant issued
+      ↓
+Trust Gateway pre-reserves budgetMinor via EscrowCreate
+      ↓
+Each SBA triggers a payment drawn against the escrow
+      ↓
+EscrowFinish on revocation / EscrowCancel on expiry
 </code></pre></div>
-<h2 id="generate-signing-keys">Generate Signing Keys</h2>
-<p>The machine needs a key for signing SBAs.</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nx">crypto</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;node:crypto&quot;</span><span class="p">;</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="nx">sbaKeys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">crypto</span><span class="p">.</span><span class="nx">generateKeyPairSync</span><span class="p">(</span><span class="s2">&quot;ed25519&quot;</span><span class="p">);</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">privateKeyPem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sbaKeys</span><span class="p">.</span><span class="nx">privateKey</span><span class="p">.</span><span class="k">export</span><span class="p">({</span><span class="w"> </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;pkcs8&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">format</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;pem&quot;</span><span class="w"> </span><span class="p">});</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">publicKeyPem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sbaKeys</span><span class="p">.</span><span class="nx">publicKey</span><span class="p">.</span><span class="k">export</span><span class="p">({</span><span class="w"> </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;spki&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">format</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;pem&quot;</span><span class="w"> </span><span class="p">});</span>
-
-<span class="c1">// Store securely; export publicKeyPem to the PA so it can be included in Trust Bundles</span>
-</code></pre></div>
-<h2 id="receive-and-verify-policygrant">Receive and Verify PolicyGrant</h2>
-<p>The PolicyGrant is issued by the fleet operator's PA server and delivered to the wallet before operation:</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">verifyPolicyGrant</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="c1">// Verify signature before storing</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">isValid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">verifyPolicyGrant</span><span class="p">(</span><span class="nx">policyGrant</span><span class="p">);</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">isValid</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">&quot;Invalid PolicyGrant&quot;</span><span class="p">);</span>
-
-<span class="c1">// Store locally</span>
-<span class="nx">wallet</span><span class="p">.</span><span class="nx">setPolicyGrant</span><span class="p">(</span><span class="nx">policyGrant</span><span class="p">);</span>
-</code></pre></div>
-<h2 id="sign-a-per-payment-sba">Sign a Per-Payment SBA</h2>
-<p>When the merchant/infrastructure sends a payment quote:</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createSignedSessionBudgetAuthorization</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="c1">// SBA signs this specific payment — NOT the full trip/shift budget</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">sba</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createSignedSessionBudgetAuthorization</span><span class="p">({</span>
-<span class="w">  </span><span class="nx">grantId</span><span class="o">:</span><span class="w"> </span><span class="nx">policyGrant</span><span class="p">.</span><span class="nx">grantId</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">sessionId</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;sess-vehicle-123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">actorId</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;vehicle-123&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">policyHash</span><span class="o">:</span><span class="w"> </span><span class="nx">policyGrant</span><span class="p">.</span><span class="nx">policyHash</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">issuer</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;vehicle-123.fleet.example.com&quot;</span><span class="p">,</span><span class="w">   </span><span class="c1">// required for Trust Bundle resolution</span>
-<span class="w">  </span><span class="nx">currency</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">maxAmountMinor</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;780&quot;</span><span class="p">,</span><span class="w">                      </span><span class="c1">// this payment (USD cents = $7.80)</span>
-<span class="w">  </span><span class="nx">allowedRails</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nx">allowedAssets</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">kind</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">currency</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">issuer</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}],</span>
-<span class="w">  </span><span class="nx">destinationAllowlist</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;rParkingMeter&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nx">budgetScope</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">expiresAt</span><span class="o">:</span><span class="w"> </span><span class="nx">policyGrant</span><span class="p">.</span><span class="nx">expiresAt</span><span class="p">,</span>
-<span class="p">});</span>
-
-<span class="c1">// Send {policyGrant, sba} to the merchant for verification</span>
-<span class="c1">// Send sba to the Trust Gateway for settlement</span>
-</code></pre></div>
-<h2 id="validate-before-signing">Validate Before Signing</h2>
-<p>Before signing, the wallet MUST verify:</p>
-<ol>
-<li><strong>Rail and asset</strong> — Permitted by PolicyGrant <code>allowedRails</code> and <code>allowedAssets</code></li>
-<li><strong>Destination</strong> — Expected recipient (cross-check with quote)</li>
-<li><strong>Expiration</strong> — PolicyGrant not expired</li>
-<li><strong>Revocation</strong> — Check <code>revocationEndpoint</code> if present (fail-open for offline)</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">policyGrant</span><span class="p">.</span><span class="nx">revocationEndpoint</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="p">(</span>
-<span class="w">    </span><span class="nx">policyGrant</span><span class="p">.</span><span class="nx">revocationEndpoint</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">policyGrant</span><span class="p">.</span><span class="nx">grantId</span><span class="p">,</span>
-<span class="w">  </span><span class="p">);</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">revoked</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">&quot;Grant revoked&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="trust-bundle-for-offline-merchants">Trust Bundle for Offline Merchants</h2>
-<p>Pre-load a Trust Bundle so merchants can verify the wallet's SBA signatures without a network call:</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">verifyTrustBundle</span><span class="p">,</span><span class="w"> </span><span class="nx">resolveFromTrustBundle</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="c1">// Merchant-side: load Trust Bundle at startup</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">isValid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">verifyTrustBundle</span><span class="p">(</span><span class="nx">bundle</span><span class="p">,</span><span class="w"> </span><span class="nx">rootPublicKeyPem</span><span class="p">);</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">isValid</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">&quot;Invalid Trust Bundle&quot;</span><span class="p">);</span>
-
-<span class="c1">// Resolve SBA issuer key from bundle (no network call)</span>
-<span class="kd">const</span><span class="w"> </span><span class="nx">jwk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">resolveFromTrustBundle</span><span class="p">(</span><span class="nx">sba</span><span class="p">.</span><span class="nx">issuer</span><span class="p">,</span><span class="w"> </span><span class="nx">sba</span><span class="p">.</span><span class="nx">issuerKeyId</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="nx">bundle</span><span class="p">]);</span>
-</code></pre></div>
-<h2 id="see-also">See Also</h2>
+<p>XRPL has first-class <code>EscrowCreate</code>, <code>EscrowFinish</code>, and <code>EscrowCancel</code> transaction types built into the protocol. No smart contract is required. The ledger itself enforces the ceiling — even if the Trust Gateway were compromised, it cannot spend more than was locked in the escrow.</p>
+<p>This isn't replicated cleanly on other rails:</p>
 <ul>
-<li><a href="../../architecture/fleet-ev-reference-flow/">Reference Flow: Fleet EV</a></li>
-<li><a href="../../protocol/trust-bundles/">Trust Bundles</a> — Key distribution for offline verification</li>
-<li><a href="../../protocol/trust-model/">Trust Model</a> — Trust Gateway role and escrow</li>
-<li><a href="../../protocol/artifacts/">Protocol: Artifacts</a></li>
-<li><a href="../integration-guide/">Integration Guide</a> — Full actor-by-actor walkthrough</li>
+<li><strong>EVM</strong> — Requires a custom smart contract to hold funds. Contract bugs become MPCP bugs. Gas costs make micro-payments expensive.</li>
+<li><strong>Stripe / hosted</strong> — No concept of pre-reservation with cryptographic release conditions. Requires trusting Stripe's API at settlement time.</li>
+<li><strong>Bitcoin / Lightning</strong> — No escrow with conditional release. Lightning is payment-channel based, not budget-escrow based.</li>
 </ul>
+<hr />
+<h2 id="deterministic-finality">Deterministic Finality</h2>
+<p>XRPL closes ledgers every 3–5 seconds with deterministic finality. There are no forks, no re-orgs, no gas auctions.</p>
+<p>For machine payments this matters:</p>
+<ul>
+<li>A vehicle paying for charging needs confirmation before it drives away</li>
+<li>A parking meter needs settlement assurance before it raises the barrier</li>
+<li>An AI agent booking a hotel needs to know the payment cleared before confirming the reservation</li>
+</ul>
+<p>EVM chains have probabilistic finality (waiting for confirmations adds latency) and gas fee variance that makes small, frequent payments unpredictable in cost.</p>
+<hr />
+<h2 id="transaction-memo-field">Transaction Memo Field</h2>
+<p>XRPL payments natively support memo fields. MPCP uses this to attach <code>mpcp/grant-id</code> to every payment transaction:</p>
+<div class="highlight"><pre><span></span><code>MemoType:  hex(&quot;mpcp/grant-id&quot;)
+MemoData:  hex(grantId)
+</code></pre></div>
+<p>This creates a permanent, on-chain audit trail. Auditors can independently query the ledger and sum all payments linked to a grant without trusting any MPCP-specific backend.</p>
+<p>This is a first-class ledger feature — no side-channel, no off-chain database required. EVM does have calldata but it is not indexed in the same way and is significantly more expensive per byte.</p>
+<hr />
+<h2 id="rlusd-fiat-denominated-settlement">RLUSD: Fiat-Denominated Settlement</h2>
+<p>Machine payments are operational expenses denominated in fiat. A fleet operator budgeting $50/day per vehicle needs stable, predictable costs — not exposure to XRP price movements.</p>
+<p>RLUSD (Ripple USD) is a regulated USD stablecoin native to XRPL. It enables:</p>
+<ul>
+<li>Fiat-denominated budgets (<code>budgetMinor</code> in USD cents)</li>
+<li>No price conversion at payment time</li>
+<li>Institutional-grade compliance (regulated stablecoin)</li>
+</ul>
+<p>MPCP policies express budgets in fiat (<code>currency: "USD"</code>, <code>minorUnit: 2</code>). The Trust Gateway converts to RLUSD at settlement. This separation means policy authors never need to think about on-chain asset mechanics.</p>
+<hr />
+<h2 id="didxrpl-for-identity">did:xrpl for Identity</h2>
+<p>MPCP uses DID-based key resolution for policy authority identity. XRPL has a native DID method (<code>did:xrpl</code>) that ties identity directly to the ledger:</p>
+<ul>
+<li>Policy authority keys are resolved from the XRPL ledger</li>
+<li>No separate identity infrastructure required</li>
+<li>Key rotation is an on-chain transaction, not an off-chain configuration change</li>
+</ul>
+<p>This integrates naturally with MPCP's key resolution pipeline and with fleet operators who already hold XRPL accounts.</p>
+<hr />
+<h2 id="nft-based-policy-anchoring-and-revocation">NFT-Based Policy Anchoring and Revocation</h2>
+<p>XRPL supports non-transferable NFTokens. MPCP uses these for two purposes:</p>
+<p><strong>Policy anchoring</strong> — The policy document hash can be minted as an NFT at grant issuance, creating a tamper-evident on-chain record that any auditor can verify independently.</p>
+<p><strong>On-chain revocation</strong> — Burning the NFT signals grant revocation. Merchants using Trust Bundles for offline verification can check NFT existence without contacting any hosted revocation service. The ledger is the revocation oracle.</p>
+<hr />
+<h2 id="low-fees">Low Fees</h2>
+<p>XRPL transaction fees are a fraction of a cent (typically ~0.00001 XRP). This makes MPCP viable for the full range of machine payment scenarios:</p>
+<table>
+<thead>
+<tr>
+<th>Payment type</th>
+<th>Typical amount</th>
+<th>XRPL fee</th>
+<th>Fee as %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Parking (30 min)</td>
+<td>$1.50</td>
+<td>~$0.0001</td>
+<td>0.007%</td>
+</tr>
+<tr>
+<td>EV charging session</td>
+<td>$8.00</td>
+<td>~$0.0001</td>
+<td>0.001%</td>
+</tr>
+<tr>
+<td>Toll</td>
+<td>$0.75</td>
+<td>~$0.0001</td>
+<td>0.013%</td>
+</tr>
+<tr>
+<td>API inference call</td>
+<td>$0.02</td>
+<td>~$0.0001</td>
+<td>0.5%</td>
+</tr>
+</tbody>
+</table>
+<p>EVM gas fees at congested periods would make sub-$1 payments economically unviable. Stripe/hosted rails charge 2–3% plus fixed fees, which would consume a meaningful fraction of micro-payments.</p>
+<hr />
+<h2 id="what-other-rails-would-need">What Other Rails Would Need</h2>
+<p>MPCP's authorization layer is designed to be extensible. Adding a new settlement rail to a future MPCP profile requires:</p>
+<ol>
+<li><strong>Budget pre-reservation</strong> — A mechanism to lock <code>budgetMinor</code> at grant issuance that the ledger enforces (not just the application)</li>
+<li><strong>Per-payment memo</strong> — A way to attach <code>grantId</code> to each settlement transaction for on-chain audit</li>
+<li><strong>Deterministic finality</strong> — Confirmation within a timeframe compatible with machine payment UX</li>
+<li><strong>Low per-transaction cost</strong> — Economically viable for sub-$10 payments</li>
+</ol>
+<p>XRPL satisfies all four natively. Future profiles may define how other rails satisfy these requirements — for example, an EVM profile using a smart contract escrow, or a Stripe profile using earmarked funds.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>XRPL</th>
+<th>Why it matters for MPCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Native escrow</td>
+<td>Yes</td>
+<td>Budget ceiling enforced by ledger, not application</td>
+</tr>
+<tr>
+<td>Deterministic finality</td>
+<td>3–5s</td>
+<td>Machine UX requires fast confirmation</td>
+</tr>
+<tr>
+<td>Memo field</td>
+<td>Yes</td>
+<td>On-chain grant-id audit trail</td>
+</tr>
+<tr>
+<td>RLUSD stablecoin</td>
+<td>Yes</td>
+<td>Fiat-denominated operational budgets</td>
+</tr>
+<tr>
+<td>did:xrpl identity</td>
+<td>Yes</td>
+<td>PA key resolution without external infrastructure</td>
+</tr>
+<tr>
+<td>NFT policy anchor</td>
+<td>Yes</td>
+<td>Tamper-evident policy record + burn-to-revoke</td>
+</tr>
+<tr>
+<td>Sub-cent fees</td>
+<td>Yes</td>
+<td>Viable for parking, tolls, micro-payments</td>
+</tr>
+</tbody>
+</table>
+<p>XRPL is not the only possible settlement layer for MPCP — it is the one that maps most naturally to the protocol's requirements in v1.0. Other rails may be added as MPCP profiles mature.</p>
 
 
 

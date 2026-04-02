@@ -646,6 +646,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../overview/why-xrpl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why XRPL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../overview/comparison-with-agent-protocols/" class="md-nav__link">
         
   
@@ -2020,14 +2048,9 @@
 <td>SignedBudgetAuthorization artifact</td>
 </tr>
 <tr>
-<td><code>spa</code></td>
-<td>object</td>
-<td>SignedPaymentAuthorization artifact</td>
-</tr>
-<tr>
 <td><code>settlement</code></td>
 <td>object</td>
-<td>Executed settlement result</td>
+<td>Executed settlement result (XRPL txHash + memo)</td>
 </tr>
 </tbody>
 </table>
@@ -2042,19 +2065,9 @@
 </thead>
 <tbody>
 <tr>
-<td><code>settlementIntent</code></td>
-<td>object</td>
-<td>Settlement intent (required when SPA has intentHash)</td>
-</tr>
-<tr>
-<td><code>paymentPolicyDecision</code></td>
-<td>object</td>
-<td>Payment policy decision (derived from SPA if omitted)</td>
-</tr>
-<tr>
 <td><code>ledgerAnchor</code></td>
 <td>object</td>
-<td>Optional ledger attestation for disputed settlements</td>
+<td>On-chain attestation (HCS or XRPL NFT anchor ref)</td>
 </tr>
 <tr>
 <td><code>policyGrantPublicKeyPem</code></td>
@@ -2066,14 +2079,9 @@
 <td>string</td>
 <td>SBA signing public key PEM — makes bundle self-contained</td>
 </tr>
-<tr>
-<td><code>spaPublicKeyPem</code></td>
-<td>string</td>
-<td>SPA signing public key PEM — makes bundle self-contained</td>
-</tr>
 </tbody>
 </table>
-<p>When <code>policyGrantPublicKeyPem</code>, <code>sbaPublicKeyPem</code>, and <code>spaPublicKeyPem</code> are present, verification can run without the corresponding environment variables.</p>
+<p>When <code>policyGrantPublicKeyPem</code> and <code>sbaPublicKeyPem</code> are present, verification can run without the corresponding environment variables.</p>
 <h2 id="example">Example</h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;policyGrant&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -2082,23 +2090,36 @@
 <span class="w">    </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2030-12-31T23:59:59Z&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
 <span class="w">    </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}],</span>
+<span class="w">    </span><span class="nt">&quot;budgetMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;50000&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;budgetEscrowRef&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl:escrow:rGateway:12345&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;authorizedGateway&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rGateway...&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:operator.example.com&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;sba&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="err">...</span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:fleet.example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget-auth-key-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;spa&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="err">...</span><span class="p">},</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:payments.example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payment-auth-key-1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;sba&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;authorization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant-1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;maxAmountMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;780&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;budgetScope&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;SESSION&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;allowedRails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;xrpl&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">}]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:web:fleet.example.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;budget-auth-key-1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
+<span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;settlement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;txHash&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ABC123...&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;780&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;asset&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer&quot;</span><span class="w"> </span><span class="p">},</span>
 <span class="w">    </span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rDestination&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;grantId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;grant-1&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;nowISO&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-01-15T12:00:00Z&quot;</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;settlementIntent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;rail&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;xrpl&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;amount&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19440000&quot;</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;policyGrantPublicKeyPem&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-----BEGIN PUBLIC KEY-----\n...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;sbaPublicKeyPem&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-----BEGIN PUBLIC KEY-----\n...&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;spaPublicKeyPem&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-----BEGIN PUBLIC KEY-----\n...&quot;</span>
+<span class="w">  </span><span class="nt">&quot;sbaPublicKeyPem&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-----BEGIN PUBLIC KEY-----\n...&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="verifier-support">Verifier Support</h2>
@@ -2106,10 +2127,9 @@
 <div class="highlight"><pre><span></span><code>mpcp<span class="w"> </span>verify<span class="w"> </span>settlement-bundle.json
 mpcp<span class="w"> </span>verify<span class="w"> </span>settlement-bundle.json<span class="w"> </span>--append-log<span class="w"> </span>audit.jsonl
 </code></pre></div>
-<p>Bundles are distinguished from full <code>SettlementVerificationContext</code> by the presence of <code>sba</code>/<code>spa</code> keys (artifact-keyed) rather than <code>signedBudgetAuthorization</code>/<code>signedPaymentAuthorization</code> (context-keyed).</p>
 <h2 id="schema">Schema</h2>
-<p>The bundle format is defined by <code>artifactBundleSchema</code> in <code>src/schema/artifactBundle.ts</code>. Each nested artifact conforms to its respective MPCP schema (PolicyGrant, SignedBudgetAuthorization, SignedPaymentAuthorization, SettlementIntent, SettlementResult).</p>
-<p><strong>Note:</strong> <code>paymentPolicyDecision</code> and <code>ledgerAnchor</code> are currently loosely typed (generic object) in the schema. They will be formalized with strict schemas in a later update.</p>
+<p>The bundle format is defined by <code>artifactBundleSchema</code> in <code>src/schema/artifactBundle.ts</code>. Each nested artifact conforms to its respective MPCP schema (PolicyGrant, SignedBudgetAuthorization, SettlementResult).</p>
+<p><strong>Note:</strong> <code>ledgerAnchor</code> is currently loosely typed (generic object) in the schema. It will be formalized with a strict schema in a later update.</p>
 
 
 

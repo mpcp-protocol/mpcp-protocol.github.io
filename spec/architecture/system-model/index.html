@@ -646,6 +646,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../overview/why-xrpl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why XRPL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../overview/comparison-with-agent-protocols/" class="md-nav__link">
         
   
@@ -1988,7 +2016,7 @@
 <tr>
 <td><strong>Authorization</strong></td>
 <td>Bounds runtime spending</td>
-<td>PolicyGrant, SBA, SPA</td>
+<td>PolicyGrant, SBA</td>
 </tr>
 <tr>
 <td><strong>Settlement</strong></td>
@@ -1998,23 +2026,24 @@
 </tbody>
 </table>
 <p>MPCP operates in the <strong>authorization</strong> layer. It does not replace or implement the settlement layer—it constrains what may be settled.</p>
-<p>The canonical flow is: <strong>Fleet Policy → PolicyGrant → SBA → SPA → SettlementIntent → Settlement</strong>.</p>
+<p>The canonical flow is: <strong>PolicyGrant → SignedBudgetAuthorization (SBA) → Trust Gateway → XRPL Settlement</strong>.</p>
 <p><img alt="MPCP Architecture Overview" src="../../diagrams/mpcp-architecture.svg" /></p>
 <p>→ <a href="../authorization-chain/">Authorization Chain (visual diagram)</a></p>
 <h2 id="trust-model">Trust Model</h2>
 <ul>
 <li><strong>Policy issuer</strong> — Authority that defines rules (fleet operator, service operator)</li>
-<li><strong>Machine wallet</strong> — Signs budgets and payment authorizations within policy</li>
+<li><strong>Machine wallet</strong> — Signs SBAs within policy bounds</li>
+<li><strong>Trust Gateway</strong> — Verifies the authorization chain, enforces the PA-signed budget ceiling, submits XRPL payment</li>
 <li><strong>Verifier</strong> — Validates the chain before allowing service or settlement</li>
-<li><strong>Settlement rail</strong> — Executes the actual payment</li>
+<li><strong>Settlement rail</strong> — Executes the actual payment (XRPL in v1.0)</li>
 </ul>
 <p>Each step produces verifiable artifacts. The verifier can independently validate the full chain without trusting any single party.</p>
 <h2 id="key-properties">Key Properties</h2>
 <ol>
-<li><strong>Decoupled</strong> — Policy, budget, and payment binding are separate concerns</li>
-<li><strong>Verifiable</strong> — Settlement can be checked against authorization chain</li>
-<li><strong>Offline-capable</strong> — Machine holds chain onboard; verifier validates locally</li>
-<li><strong>Rail-agnostic</strong> — Same authorization model for any settlement backend</li>
+<li><strong>Decoupled</strong> — Policy, budget, and settlement are separate concerns</li>
+<li><strong>Verifiable</strong> — Settlement can be checked against authorization chain; on-chain via <code>mpcp/grant-id</code> memo</li>
+<li><strong>Offline-capable</strong> — Machine holds chain onboard; offline merchants verify locally via Trust Bundle</li>
+<li><strong>XRPL-primary</strong> — v1.0 profile uses XRPL escrow + RLUSD; other rails supported via future profiles</li>
 </ol>
 <h2 id="see-also">See Also</h2>
 <ul>

@@ -646,6 +646,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../overview/why-xrpl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why XRPL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../overview/comparison-with-agent-protocols/" class="md-nav__link">
         
   
@@ -2662,24 +2690,19 @@ PENDING → REJECTED
 </ul>
 <p>This state model keeps MPCP deterministic and makes replay protection enforceable without requiring shared state in the verifier.</p>
 <hr />
-<h1 id="optional-intent-attestation">Optional Intent Attestation</h1>
-<p>To enhance auditability, MPCP can publish hashed commitments of payment intents to a public attestation layer.</p>
-<p>Example flow:</p>
-<div class="highlight"><pre><span></span><code>intent
-  ↓
-hash(intent)
-  ↓
-Merkle tree
-  ↓
-public ledger anchor
+<h1 id="optional-policy-attestation">Optional Policy Attestation</h1>
+<p>To enhance auditability, MPCP supports anchoring the policy document hash to a public ledger at grant issuance time.</p>
+<p>The <code>anchorRef</code> field on PolicyGrant points to an on-chain record:</p>
+<div class="highlight"><pre><span></span><code>&quot;hcs:{topicId}:{sequenceNumber}&quot;   — Hedera HCS message
+&quot;xrpl:nft:{tokenId}&quot;               — XRPL non-transferable NFToken
 </code></pre></div>
 <p>This provides:</p>
 <ul>
-<li>tamper-evident authorization history</li>
+<li>tamper-evident policy history</li>
 <li>public timestamp proofs</li>
 <li>dispute resolution capabilities</li>
 </ul>
-<p>The <strong>Intent Attestation Layer (IAL)</strong> can provide this functionality.</p>
+<p>See <a href="../policy-anchoring/">Policy Anchoring</a> for the full specification.</p>
 <hr />
 <h1 id="security-properties">Security Properties</h1>
 <p>The protocol prevents:</p>
@@ -2703,11 +2726,6 @@ public ledger anchor
 <li>IoT service payments</li>
 <li>AI agent marketplaces</li>
 </ul>
-<hr />
-<h1 id="parker-as-reference-implementation">Parker as Reference Implementation</h1>
-<p>The Parker system implements MPCP for autonomous parking payments.</p>
-<p>Its architecture demonstrates how policy enforcement, authorization artifacts, and settlement verification can operate together.</p>
-<p>Parker therefore serves as a reference implementation for the Machine Payment Control Protocol.</p>
 <hr />
 <h1 id="protocol-extensions">Protocol Extensions</h1>
 <p>MPCP may be extended through additional authorization artifacts that introduce new policy authorities or control layers.</p>

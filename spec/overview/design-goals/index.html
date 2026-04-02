@@ -16,7 +16,7 @@
         <link rel="prev" href="../problem-statement/">
       
       
-        <link rel="next" href="../comparison-with-agent-protocols/">
+        <link rel="next" href="../why-xrpl/">
       
       
         
@@ -726,10 +726,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-settlement-agnostic-policy" class="md-nav__link">
+  <a href="#4-xrpl-primary-settlement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Settlement-Agnostic Policy
+        4. XRPL-Primary Settlement
       
     </span>
   </a>
@@ -789,6 +789,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../why-xrpl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why XRPL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2010,10 +2038,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-settlement-agnostic-policy" class="md-nav__link">
+  <a href="#4-xrpl-primary-settlement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Settlement-Agnostic Policy
+        4. XRPL-Primary Settlement
       
     </span>
   </a>
@@ -2114,12 +2142,12 @@
 <li>Operators and auditors can trace from settlement receipt back to policy</li>
 <li>Deterministic verification rules</li>
 </ul>
-<h3 id="4-settlement-agnostic-policy">4. Settlement-Agnostic Policy</h3>
-<p>Policy and budget are expressed in abstract terms (caps, rails, destinations). Settlement details (tx hash, chain) are handled at execution and verification.</p>
+<h3 id="4-xrpl-primary-settlement">4. XRPL-Primary Settlement</h3>
+<p>Policy and budget are expressed in abstract terms (caps, rails, destinations). The v1.0 profile settles via XRPL: the Trust Gateway pre-reserves a budget escrow and submits XRPL Payments with <code>mpcp/grant-id</code> memos for on-chain audit.</p>
 <ul>
-<li>Works with XRPL, EVM, Stripe, hosted—any rail</li>
-<li>One authorization model, pluggable settlement backends</li>
-<li>Rail-agnostic from the start</li>
+<li>v1.0 profile: XRPL escrow + RLUSD</li>
+<li>Authorization model is designed to be extensible — other rails (EVM, Stripe) are future profiles</li>
+<li>Settlement details (txHash, chain) are handled at execution and verification</li>
 </ul>
 <h3 id="5-separation-of-concerns">5. Separation of Concerns</h3>
 <p>Policy evaluation is distinct from budget authorization, which is distinct from settlement execution. Each layer can be audited, tested, and replaced independently.</p>
@@ -2144,7 +2172,7 @@ XRPL Settlement (transaction hash + mpcp/grant-id memo)
 <li><strong>Separation of concerns</strong> — Each layer has a single responsibility</li>
 <li><strong>Minimal disclosure</strong> — No over-sharing of payment details</li>
 <li><strong>Verifiable chain</strong> — Signed artifacts at each step; on-chain audit via memo</li>
-<li><strong>Settlement-agnostic policy</strong> — Abstract constraints, concrete execution</li>
+<li><strong>Extensible settlement</strong> — Abstract policy constraints; v1.0 executes via XRPL</li>
 </ol>
 <h2 id="comparison-with-alternatives">Comparison with Alternatives</h2>
 <table>
@@ -2177,7 +2205,7 @@ XRPL Settlement (transaction hash + mpcp/grant-id memo)
 </tr>
 <tr>
 <td><strong>Settlement rails</strong></td>
-<td>Any</td>
+<td>XRPL/RLUSD (v1.0); other rails via future profiles</td>
 <td>Stablecoins on supported chains</td>
 <td>Cards, x402</td>
 </tr>

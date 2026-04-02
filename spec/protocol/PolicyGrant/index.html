@@ -646,6 +646,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../overview/why-xrpl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why XRPL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../overview/comparison-with-agent-protocols/" class="md-nav__link">
         
   
@@ -1366,17 +1394,6 @@
     <span class="md-ellipsis">
       
         Relationship to SBA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#relationship-to-spa" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Relationship to SPA
       
     </span>
   </a>
@@ -2214,17 +2231,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationship-to-spa" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Relationship to SPA
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#expiration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2405,11 +2411,7 @@
 <hr />
 <h2 id="purpose">Purpose</h2>
 <p>A <strong>PolicyGrant</strong> represents the result of a policy evaluation performed before a machine is allowed to initiate payment activity.</p>
-<p>The PolicyGrant defines the <strong>initial permission envelope</strong> for a session or payment scope. It constrains which rails, assets, and spending limits may later be authorized via MPCP artifacts such as:</p>
-<ul>
-<li><strong>SignedBudgetAuthorization (SBA)</strong></li>
-<li><strong>SignedPaymentAuthorization (SPA)</strong></li>
-</ul>
+<p>The PolicyGrant defines the <strong>initial permission envelope</strong> for a session or payment scope. It constrains which rails, assets, and spending limits may later be authorized via the <strong>SignedBudgetAuthorization (SBA)</strong>.</p>
 <p>PolicyGrant is typically produced by a policy engine during an <strong>entry phase</strong> when a machine, vehicle, or agent attempts to access a service.</p>
 <p>The PolicyGrant is a <strong>signed artifact</strong>. It is signed by the policy authority; verifiers use <code>issuer</code> and <code>issuerKeyId</code> to resolve the policy authority public key for signature verification.</p>
 <hr />
@@ -2424,14 +2426,12 @@
 <p>PolicyGrant solves this by creating a <strong>verifiable policy snapshot</strong> that later artifacts must reference.</p>
 <hr />
 <h2 id="policy-lifecycle-context">Policy Lifecycle Context</h2>
-<p>Policy evaluation typically occurs in three phases:</p>
+<p>Policy evaluation follows this chain:</p>
 <div class="highlight"><pre><span></span><code>PolicyGrant
      ↓
 SignedBudgetAuthorization (SBA)
      ↓
-SignedPaymentAuthorization (SPA)
-     ↓
-Settlement verification
+Trust Gateway → XRPL Settlement
 </code></pre></div>
 <p>PolicyGrant establishes the <strong>upper policy boundary</strong> that subsequent artifacts must respect.</p>
 <p>For example:</p>
@@ -2471,7 +2471,7 @@ Settlement verification
 <td>policyHash</td>
 <td>string</td>
 <td>yes</td>
-<td>SHA-256 hash of the canonical policy document from which this grant was issued. Computed as <code>SHA256("MPCP:Policy:&lt;version&gt;:" \|\| canonicalJson(policyDocument))</code>. Downstream artifacts (SBA, SPA) MUST carry the same value.</td>
+<td>SHA-256 hash of the canonical policy document from which this grant was issued. Computed as <code>SHA256("MPCP:Policy:&lt;version&gt;:" \|\| canonicalJson(policyDocument))</code>. Downstream SBA artifacts MUST carry the same value.</td>
 </tr>
 <tr>
 <td>subjectId</td>
@@ -2652,20 +2652,11 @@ SBA.maxAmount ≤ PolicyGrant.maxSpend
 </code></pre></div>
 <p>The SBA must reference the same <strong>policyHash</strong> used to produce the PolicyGrant.</p>
 <hr />
-<h2 id="relationship-to-spa">Relationship to SPA</h2>
-<p>A <strong>SignedPaymentAuthorization</strong> must ultimately derive from a policy decision that was allowed by the PolicyGrant.</p>
-<p>Therefore:</p>
-<div class="highlight"><pre><span></span><code>SPA.rail ∈ PolicyGrant.allowedRails
-SPA.asset ∈ PolicyGrant.allowedAssets
-SPA.amount ≤ PolicyGrant.maxSpend
-</code></pre></div>
-<hr />
 <h2 id="expiration">Expiration</h2>
 <p>PolicyGrant defines the <strong>maximum validity window</strong> for downstream artifacts.</p>
 <p>Implementations MUST ensure:</p>
 <ul>
 <li>SBA expiration does not exceed PolicyGrant expiration</li>
-<li>SPA expiration does not exceed PolicyGrant expiration</li>
 </ul>
 <hr />
 <h2 id="policy-hashing">Policy Hashing</h2>
@@ -2678,7 +2669,7 @@ SPA.amount ≤ PolicyGrant.maxSpend
 <div class="highlight"><pre><span></span><code>policyHash = SHA256(&quot;MPCP:Policy:1.0:&quot; || &#39;{&quot;allowedAssets&quot;:[...],&quot;allowedRails&quot;:[...],...}&#39;)
 </code></pre></div>
 <p>The <code>policyHash</code> is not a hash of the PolicyGrant artifact itself — it is a hash of the <strong>source policy</strong> that the grant was derived from.</p>
-<p>Downstream artifacts (SBA and SPA) MUST carry the same <code>policyHash</code>. During settlement verification, the verifier checks that <code>PolicyGrant.policyHash</code>, <code>SBA.policyHash</code>, and <code>SPA.policyHash</code> are all equal, confirming the entire authorization chain derives from the same policy snapshot.</p>
+<p>Downstream SBA artifacts MUST carry the same <code>policyHash</code>. During settlement verification, the Trust Gateway checks that <code>PolicyGrant.policyHash</code> and <code>SBA.policyHash</code> are equal, confirming the entire authorization chain derives from the same policy snapshot.</p>
 <hr />
 <h2 id="signing-requirements">Signing Requirements</h2>
 <p>PolicyGrant MUST be cryptographically signed by the policy authority. Verifiers that have a public key configured MUST verify the signature and MUST reject unsigned grants.</p>
@@ -2804,7 +2795,7 @@ for full details.</p>
 <hr />
 <h2 id="summary">Summary</h2>
 <p>PolicyGrant establishes the <strong>policy boundary</strong> for machine payments.</p>
-<p>It ensures that downstream artifacts (SBA and SPA) are always derived from a <strong>validated policy evaluation</strong>.</p>
+<p>It ensures that downstream SBA artifacts are always derived from a <strong>validated policy evaluation</strong>.</p>
 <hr />
 <h2 id="see-also">See Also</h2>
 <ul>
