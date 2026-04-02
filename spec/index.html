@@ -1946,7 +1946,7 @@
 <p>Autonomous vehicles, AI agents, and machines increasingly pay for real-world services like parking, charging, and tolls.</p>
 <h2 id="how-mpcp-works">How MPCP works</h2>
 <p>A machine payment is accepted only if the recipient can verify a chain of signed artifacts:</p>
-<p><strong><a href="protocol/FleetPolicyAuthorization/">Fleet Policy</a> → <a href="protocol/PolicyGrant/">PolicyGrant</a> → <a href="protocol/SignedBudgetAuthorization/">SignedBudgetAuthorization</a> → Trust Gateway → XRPL Settlement</strong></p>
+<p><strong><a href="protocol/FleetPolicyAuthorization/">Fleet Policy</a> → <a href="protocol/PolicyGrant/">PolicyGrant</a> → <a href="protocol/SignedBudgetAuthorization/">SignedBudgetAuthorization</a> → <a href="architecture/actors/#trust-gateway">Trust Gateway</a> → <a href="protocol/rails/">XRPL Settlement</a></strong></p>
 <p>Each step narrows what the machine is allowed to do.</p>
 <p>→ <a href="architecture/fleet-ev-reference-flow/">See the full reference flow</a></p>
 <p>MPCP is not a settlement rail — it is the authorization layer above settlement.</p>

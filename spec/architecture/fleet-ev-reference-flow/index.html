@@ -2601,7 +2601,6 @@ public verification key
 <li><code>sba.authorization.maxAmountMinor</code> = <code>"780"</code> (this payment only, in USD cents); the Trust Gateway enforces cumulative ≤ <code>policyGrant.budgetMinor</code></li>
 <li><code>chargingQuote</code> is not an MPCP artifact but is operationally important — the operator must verify that the SBA <code>maxAmountMinor</code> and <code>destinationAllowlist</code> cover the quoted amount and destination</li>
 <li><code>settlement.txHash</code> is the XRPL transaction submitted by the Trust Gateway; the <code>mpcp/grant-id</code> memo links the on-chain payment to the grant for audit</li>
-<li>There is no SPA or SettlementIntent — the authorization chain ends at the SBA; the Trust Gateway handles all settlement parameters</li>
 </ul>
 <p>In a production deployment, the exact bundle shape may vary, but it should preserve the same key property:</p>
 <p><strong>a verifier must be able to reconstruct and validate the full authorization chain from policy issuance to on-chain settlement.</strong></p>
