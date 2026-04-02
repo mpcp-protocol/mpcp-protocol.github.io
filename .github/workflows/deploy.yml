@@ -28,12 +28,14 @@ jobs:
         with:
           repository: mpcp-protocol/mpcp-spec
           path: mpcp-spec
+          token: ${{ secrets.MPCP_DEPLOY_TOKEN }}
 
       - name: Checkout mpcp-reference
         uses: actions/checkout@v4
         with:
           repository: mpcp-protocol/mpcp-reference
           path: mpcp-reference
+          token: ${{ secrets.MPCP_DEPLOY_TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
