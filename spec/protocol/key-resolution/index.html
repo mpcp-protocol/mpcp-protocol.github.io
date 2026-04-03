@@ -1268,6 +1268,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#tls-validation-and-issuer-domain-spoofing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS validation and issuer domain spoofing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#deriving-the-url-from-issuer" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2282,6 +2293,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#tls-validation-and-issuer-domain-spoofing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS validation and issuer domain spoofing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#deriving-the-url-from-issuer" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2630,6 +2652,17 @@
 <div class="highlight"><pre><span></span><code>GET https://{issuer-domain}/.well-known/mpcp-keys.json
 </code></pre></div>
 <p>The endpoint MUST be served over HTTPS. Verifiers MUST validate the TLS certificate. Plaintext HTTP MUST NOT be used.</p>
+<h3 id="tls-validation-and-issuer-domain-spoofing">TLS validation and issuer domain spoofing</h3>
+<p>Standard TLS validation (hostname match to certificate SAN/CN, chain to a trusted anchor) mitigates
+most <strong>issuer domain spoofing</strong> attacks (e.g. homoglyph or look-alike domains serving a forged
+<code>mpcp-keys.json</code>). Verifiers MUST NOT disable hostname verification or accept self-signed
+certificates unless the deployment uses an explicit, documented trust override (e.g. private PKI).</p>
+<p><strong>High-assurance deployments:</strong> Operators SHOULD additionally use <strong>certificate pinning</strong> (or
+equivalent application-layer trust anchors) for the issuer's HTTPS endpoint when fetching
+<code>/.well-known/mpcp-keys.json</code>, so that a mis-issued or fraudulently obtained public CA certificate
+cannot silently substitute keys. Pinning MUST be combined with a rotation strategy (backup pins,
+versioned app updates, or operational procedures) to avoid bricking verifiers when the PA rotates
+TLS certificates.</p>
 <h3 id="deriving-the-url-from-issuer">Deriving the URL from <code>issuer</code></h3>
 <table>
 <thead>

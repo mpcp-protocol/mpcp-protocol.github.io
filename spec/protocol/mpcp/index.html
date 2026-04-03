@@ -2438,6 +2438,23 @@ allowlist. The gateway MUST verify <code>payment.destination ∈ PolicyGrant.des
 before settling. For deployments requiring dynamic merchant management, the PA can issue XRPL
 Credentials (XLS-70) to approved merchants and reference them via <code>merchantCredentialIssuer</code>
 and <code>merchantCredentialType</code> on the PolicyGrant. See <a href="../PolicyGrant/#destination-enforcement">PolicyGrant — Destination Enforcement</a>.</p>
+<h3 id="merchant-terminal-impersonation-interaction-layer">Merchant terminal impersonation (interaction layer)</h3>
+<p>A malicious or compromised <strong>merchant terminal</strong> (QR code, NFC tag, payment link, or in-person
+challenge) could present a payment destination controlled by an attacker. The <strong>agent or wallet
+cannot</strong>, by itself, cryptographically prove that the terminal belongs to an approved merchant
+before it constructs an SBA.</p>
+<p><strong>Mitigation:</strong> Destination assurance is enforced at <strong>settlement</strong> by the Trust Gateway (and by
+offline verifiers where applicable): the gateway MUST reject payments whose destination is not
+allowed under the PA-signed <code>destinationAllowlist</code> and/or <code>merchantCredentialIssuer</code> /
+<code>merchantCredentialType</code> constraints. The agent SHOULD still apply the same allowlist subset
+when present (defense in depth). Deployments that need <strong>stronger interaction-layer assurance</strong>
+MAY require merchants to present a signed challenge or attestation verifiable against the Trust
+Bundle or an on-chain merchant credential before the agent offers payment.</p>
+<h3 id="issuer-https-endpoint-spoofing">Issuer HTTPS endpoint spoofing</h3>
+<p>An attacker operating a look-alike domain could attempt to serve a forged <code>/.well-known/mpcp-keys.json</code>.
+MPCP requires HTTPS and <strong>TLS certificate validation</strong> for well-known fetches; verifiers MUST
+validate hostnames and certificate chains. High-value deployments SHOULD use <strong>certificate pinning</strong>
+or equivalent for the PA issuer endpoint. See <a href="../key-resolution/#tls-validation-and-issuer-domain-spoofing">Key Resolution — TLS validation and issuer domain spoofing</a>.</p>
 <h3 id="agent-sba-signing-key-compromise">Agent SBA Signing Key Compromise</h3>
 <p>If an agent's SBA signing key is compromised, the attacker can forge SBAs up to the remaining
 budget. Exposure is bounded by the grant's <code>budgetMinor</code> and <code>expiresAt</code>. However, if multiple
@@ -2734,7 +2751,11 @@ checks for rails or deployments that do not use XRPL Credentials. See the
 </tr>
 <tr>
 <td>SUBJECT_NOT_ATTESTED</td>
-<td><code>subjectCredentialIssuer</code> is set but the agent does not hold a matching on-chain credential</td>
+<td><code>subjectCredentialIssuer</code> is set but the credential Subject account does not hold a matching on-chain credential</td>
+</tr>
+<tr>
+<td>SUBJECT_ACTOR_MISMATCH</td>
+<td><code>subjectCredentialIssuer</code> is set and either <code>SBA.authorization.actorId</code> does not equal the credential Subject account, or <code>subjectId</code> is <code>did:xrpl:…:{rAddress}</code> and <code>actorId</code> ≠ <code>{rAddress}</code></td>
 </tr>
 <tr>
 <td>OFFLINE_CUMULATIVE_EXCEEDED</td>

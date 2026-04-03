@@ -2211,7 +2211,7 @@
 <td>actorId</td>
 <td>string</td>
 <td>yes</td>
-<td>Actor identifier (vehicle, agent, robot, or any autonomous payment actor)</td>
+<td>Actor identifier (vehicle, agent, robot, or any autonomous payment actor). When the PolicyGrant uses XRPL credential-based subject attestation (<code>subjectCredentialIssuer</code> / <code>subjectCredentialType</code>), <code>actorId</code> MUST be the agent's <strong>XRPL classic address</strong> (<code>r...</code>) — the same account that holds the on-chain credential — so verifiers can bind the SBA to the attested subject. See <a href="../PolicyGrant/#subject-attestation">PolicyGrant — Subject Attestation</a>.</td>
 </tr>
 <tr>
 <td>scopeId</td>

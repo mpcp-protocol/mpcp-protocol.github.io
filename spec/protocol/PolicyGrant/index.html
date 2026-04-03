@@ -1756,10 +1756,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#error-code_1" class="md-nav__link">
+  <a href="#error-codes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Error Code
+        Error codes
       
     </span>
   </a>
@@ -1817,7 +1817,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#error-code_2" class="md-nav__link">
+  <a href="#error-code_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Error code
@@ -2885,10 +2885,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#error-code_1" class="md-nav__link">
+  <a href="#error-codes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Error Code
+        Error codes
       
     </span>
   </a>
@@ -2946,7 +2946,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#error-code_2" class="md-nav__link">
+  <a href="#error-code_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Error code
@@ -3684,12 +3684,30 @@ agent's XRPL account using XLS-70 Credentials:</p>
 <li><code>subjectCredentialIssuer</code> — the XRPL address of the credential issuer</li>
 <li><code>subjectCredentialType</code> — the hex-encoded credential type</li>
 </ul>
+<p><strong>Canonical subject identifier (XRPL):</strong> Deployments using credential-based attestation SHOULD
+encode <code>subjectId</code> as <code>did:xrpl:{network}:{rAddress}</code> (classic address <code>r...</code> on the intended
+ledger, with <code>{network}</code> disambiguating mainnet vs testnet or other deployments). This makes the
+grant subject align with a verifiable on-chain identity. When <code>subjectId</code> uses another format,
+implementations MUST still use a single unambiguous mapping from grant subject to the XRPL account
+that holds the credential.</p>
+<p><strong>Binding <code>actorId</code> to the credential Subject:</strong> When <code>subjectCredentialIssuer</code> is present, the
+SBA's <code>authorization.actorId</code> MUST equal the XRPL <strong>classic address</strong> of the on-chain credential
+<strong>Subject</strong> (the account that holds the credential). This prevents a compromised agent that shares
+no unique signing key from impersonating another fleet agent's <code>actorId</code> while presenting a
+different XRPL settlement identity: the gateway correlates the attested account with the
+self-reported actor field.</p>
+<p>When <code>PolicyGrant.subjectId</code> uses the <code>did:xrpl:{network}:{rAddress}</code> form, <code>authorization.actorId</code>
+MUST equal that <code>{rAddress}</code>; the gateway MUST reject with <code>SUBJECT_ACTOR_MISMATCH</code> if the grant
+binds a DID subject and the SBA's <code>actorId</code> does not match the DID's address component.</p>
 <p><strong>Gateway enforcement (SHOULD):</strong> Before accepting SBAs from an agent, the gateway SHOULD
-verify on-chain that the agent's account holds a valid, non-expired credential matching the
-grant's <code>subjectCredentialIssuer</code> and <code>subjectCredentialType</code>:</p>
+verify on-chain that the account <code>SBA.authorization.actorId</code> holds a valid, non-expired credential
+matching the grant's <code>subjectCredentialIssuer</code> and <code>subjectCredentialType</code>:</p>
 <div class="highlight"><pre><span></span><code>if PolicyGrant.subjectCredentialIssuer is present:
+    if PolicyGrant.subjectId matches did:xrpl:*:{rAddress}:
+        if SBA.authorization.actorId ≠ rAddress:
+            → reject with SUBJECT_ACTOR_MISMATCH
     credential = lookupCredential(
-        subject: agent.xrplAddress,
+        subject: SBA.authorization.actorId,
         issuer:  PolicyGrant.subjectCredentialIssuer,
         type:    PolicyGrant.subjectCredentialType
     )
@@ -3703,7 +3721,7 @@ grant's <code>subjectCredentialIssuer</code> and <code>subjectCredentialType</co
 <li>Other agents' credentials are unaffected — they continue operating normally</li>
 <li>No grant reissuance needed for uncompromised agents</li>
 </ol>
-<h3 id="error-code_1">Error Code</h3>
+<h3 id="error-codes_1">Error codes</h3>
 <table>
 <thead>
 <tr>
@@ -3714,7 +3732,11 @@ grant's <code>subjectCredentialIssuer</code> and <code>subjectCredentialType</co
 <tbody>
 <tr>
 <td><code>SUBJECT_NOT_ATTESTED</code></td>
-<td><code>subjectCredentialIssuer</code> is set but the agent does not hold a matching on-chain credential</td>
+<td><code>subjectCredentialIssuer</code> is set but the credential Subject account does not hold a matching on-chain credential</td>
+</tr>
+<tr>
+<td><code>SUBJECT_ACTOR_MISMATCH</code></td>
+<td><code>subjectCredentialIssuer</code> is set and either <code>SBA.authorization.actorId</code> does not equal the credential Subject account, or <code>subjectId</code> is <code>did:xrpl:…:{rAddress}</code> and <code>actorId</code> ≠ <code>{rAddress}</code></td>
 </tr>
 </tbody>
 </table>
@@ -3740,7 +3762,7 @@ produce large aggregate exposure if no cumulative field is used.</p>
 not share state; a fleet-wide cumulative bound requires synchronized infrastructure outside
 the scope of this specification. The PA SHOULD set <code>offlineMaxCumulativePayment</code> assuming
 worst-case fan-out across independent verifiers when modeling exposure.</p>
-<h3 id="error-code_2">Error code</h3>
+<h3 id="error-code_1">Error code</h3>
 <table>
 <thead>
 <tr>
