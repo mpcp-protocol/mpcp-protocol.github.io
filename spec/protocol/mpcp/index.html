@@ -2431,6 +2431,15 @@ allowlist. The gateway MUST verify <code>payment.destination ∈ PolicyGrant.des
 before settling. For deployments requiring dynamic merchant management, the PA can issue XRPL
 Credentials (XLS-70) to approved merchants and reference them via <code>merchantCredentialIssuer</code>
 and <code>merchantCredentialType</code> on the PolicyGrant. See <a href="../PolicyGrant/#destination-enforcement">PolicyGrant — Destination Enforcement</a>.</p>
+<h3 id="agent-sba-signing-key-compromise">Agent SBA Signing Key Compromise</h3>
+<p>If an agent's SBA signing key is compromised, the attacker can forge SBAs up to the remaining
+budget. Exposure is bounded by the grant's <code>budgetMinor</code> and <code>expiresAt</code>. However, if multiple
+agents share the same signing key, revoking the compromised key disrupts the entire fleet.</p>
+<p><strong>Mitigations:</strong> Each agent SHOULD have a unique signing key. For XRPL deployments, the fleet
+operator SHOULD issue an XLS-70 Credential to each agent's account. The PolicyGrant binds to
+the agent via <code>subjectCredentialIssuer</code> and <code>subjectCredentialType</code>. On compromise, the
+operator deletes that agent's credential — other agents are unaffected. See
+<a href="../PolicyGrant/#subject-attestation">PolicyGrant — Subject Attestation</a>.</p>
 <h3 id="cumulative-budget-overspend">Cumulative Budget Overspend</h3>
 <p>The Trust Gateway is stateless and checks only that the current payment amount does not exceed <code>SBA.maxAmountMinor</code>. It does not track prior payments in the session.</p>
 <p><strong>Session authority responsibility:</strong> The session authority MUST maintain a running total of amounts spent within the budget scope and MUST only issue new SBAs within the remaining authorized envelope.</p>
@@ -2708,6 +2717,10 @@ as a freshness signal. See <a href="../trust-bundles/#bundle-signer-key-compromi
 <tr>
 <td>DESTINATION_NOT_CREDENTIALED</td>
 <td><code>merchantCredentialIssuer</code> is set but destination does not hold a matching on-chain credential</td>
+</tr>
+<tr>
+<td>SUBJECT_NOT_ATTESTED</td>
+<td><code>subjectCredentialIssuer</code> is set but the agent does not hold a matching on-chain credential</td>
 </tr>
 <tr>
 <td>SCOPE_UNSUPPORTED</td>

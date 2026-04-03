@@ -1689,6 +1689,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#subject-attestation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subject Attestation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subject Attestation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-agent-signing-keys-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-Agent Signing Keys (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xrpl-credential-based-subject-attestation-should-for-xrpl-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XRPL Credential-Based Subject Attestation (SHOULD for XRPL deployments)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-code_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2674,6 +2735,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#subject-attestation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subject Attestation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subject Attestation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-agent-signing-keys-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-Agent Signing Keys (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xrpl-credential-based-subject-attestation-should-for-xrpl-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XRPL Credential-Based Subject Attestation (SHOULD for XRPL deployments)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-code_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2914,6 +3036,18 @@ Trust Gateway → XRPL Settlement
 <td>string</td>
 <td>optional</td>
 <td>Hex-encoded credential type that approved merchants must hold (e.g. <code>hex("mpcp:approved-merchant")</code>). Used with <code>merchantCredentialIssuer</code>.</td>
+</tr>
+<tr>
+<td>subjectCredentialIssuer</td>
+<td>string</td>
+<td>optional</td>
+<td>XRPL address of the credential issuer that attests the subject's identity. When present, the gateway SHOULD verify on-chain that <code>subjectId</code>'s XRPL account holds a valid credential from this issuer. See <strong>Subject Attestation</strong> section below.</td>
+</tr>
+<tr>
+<td>subjectCredentialType</td>
+<td>string</td>
+<td>optional</td>
+<td>Hex-encoded credential type the subject must hold (e.g. <code>hex("mpcp:fleet-agent")</code>). Used with <code>subjectCredentialIssuer</code>.</td>
 </tr>
 <tr>
 <td>offlineMaxSinglePayment</td>
@@ -3320,6 +3454,73 @@ dynamic additions.</p>
 <tr>
 <td><code>DESTINATION_NOT_CREDENTIALED</code></td>
 <td><code>merchantCredentialIssuer</code> is set but destination does not hold a matching credential</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="subject-attestation">Subject Attestation</h2>
+<h3 id="overview_2">Overview</h3>
+<p>The <code>subjectId</code> field identifies the entity receiving the grant (vehicle, agent, wallet). By
+default, <code>subjectId</code> is self-reported and informational only — it cannot be cryptographically
+verified. This means a compromised agent sharing a signing key with other agents can issue SBAs
+that appear to come from any agent in the fleet.</p>
+<p><strong>Problem:</strong> When multiple agents share the same SBA signing key, revoking a compromised
+agent's grant affects all agents using that key. The fleet operator cannot isolate the
+compromised agent without disrupting the entire fleet.</p>
+<h3 id="per-agent-signing-keys-should">Per-Agent Signing Keys (SHOULD)</h3>
+<p>Each agent or vehicle wallet SHOULD have a <strong>unique SBA signing key</strong>. This ensures:</p>
+<ul>
+<li>Revoking one agent's grant does not affect other agents</li>
+<li>SBAs can be attributed to a specific agent for audit purposes</li>
+<li>Compromised agents can be isolated without fleet-wide disruption</li>
+</ul>
+<p>Fleet operators SHOULD register each agent's public key in the Trust Bundle or JWKS endpoint
+under a unique <code>kid</code> that includes the agent identity (e.g. <code>"sba-key:vehicle-1284"</code>).</p>
+<h3 id="xrpl-credential-based-subject-attestation-should-for-xrpl-deployments">XRPL Credential-Based Subject Attestation (SHOULD for XRPL deployments)</h3>
+<p>For XRPL deployments, the fleet operator or PA SHOULD issue an on-chain credential to each
+agent's XRPL account using XLS-70 Credentials:</p>
+<ul>
+<li><code>Issuer</code> = Fleet operator's or PA's XRPL address</li>
+<li><code>Subject</code> = Agent's XRPL account</li>
+<li><code>CredentialType</code> = hex-encoded type (e.g. <code>hex("mpcp:fleet-agent")</code> or
+  <code>hex("mpcp:authorized-agent")</code>)</li>
+</ul>
+<p>The PolicyGrant binds to the specific agent via:</p>
+<ul>
+<li><code>subjectCredentialIssuer</code> — the XRPL address of the credential issuer</li>
+<li><code>subjectCredentialType</code> — the hex-encoded credential type</li>
+</ul>
+<p><strong>Gateway enforcement (SHOULD):</strong> Before accepting SBAs from an agent, the gateway SHOULD
+verify on-chain that the agent's account holds a valid, non-expired credential matching the
+grant's <code>subjectCredentialIssuer</code> and <code>subjectCredentialType</code>:</p>
+<div class="highlight"><pre><span></span><code>if PolicyGrant.subjectCredentialIssuer is present:
+    credential = lookupCredential(
+        subject: agent.xrplAddress,
+        issuer:  PolicyGrant.subjectCredentialIssuer,
+        type:    PolicyGrant.subjectCredentialType
+    )
+    if credential does not exist or is expired:
+        → reject with SUBJECT_NOT_ATTESTED
+</code></pre></div>
+<p><strong>Isolation on compromise:</strong> When a single agent is compromised, the fleet operator:</p>
+<ol>
+<li>Deletes the agent's on-chain credential via <code>CredentialDelete</code></li>
+<li>The gateway rejects further SBAs from that agent (credential check fails)</li>
+<li>Other agents' credentials are unaffected — they continue operating normally</li>
+<li>No grant reissuance needed for uncompromised agents</li>
+</ol>
+<h3 id="error-code_1">Error Code</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SUBJECT_NOT_ATTESTED</code></td>
+<td><code>subjectCredentialIssuer</code> is set but the agent does not hold a matching on-chain credential</td>
 </tr>
 </tbody>
 </table>

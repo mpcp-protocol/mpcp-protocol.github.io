@@ -2129,6 +2129,7 @@
 <p>The wallet is the MPCP actor that signs SignedBudgetAuthorizations. Settlement is executed by the Trust Gateway.</p>
 <blockquote>
 <p><strong>Note on Actor Identity:</strong> The <code>actorId</code> field in SBA artifacts is self-reported by the wallet. Production deployments SHOULD establish actor attestation via device key binding (e.g., a hardware-backed key whose public key is registered with the fleet operator). Without attestation, <code>actorId</code> cannot be cryptographically verified and is informational only.</p>
+<p><strong>Per-agent keys (SHOULD):</strong> Each vehicle or agent SHOULD have a unique SBA signing key. Shared keys prevent isolation of a compromised agent — revoking the shared key disrupts all agents using it. For XRPL deployments, the fleet operator SHOULD issue an XLS-70 Credential to each agent's account (<code>CredentialType = hex("mpcp:fleet-agent")</code>). The PolicyGrant can bind to the agent via <code>subjectCredentialIssuer</code> and <code>subjectCredentialType</code>. On compromise of one agent, the operator deletes that agent's credential — other agents are unaffected. See <a href="../../protocol/PolicyGrant/#subject-attestation">Subject Attestation</a>.</p>
 </blockquote>
 <h2 id="ai-agent">AI Agent</h2>
 <p>An AI agent acting under human authorization, using MPCP to bound its spending authority.</p>
@@ -2178,7 +2179,8 @@
 <p><strong>Examples:</strong> Travel booking agent, subscription manager, event budget agent.</p>
 <blockquote>
 <p>The <code>actorId</code> field in SBA artifacts is used for agent identity (e.g. <code>"ai-trip-planner-v2"</code>).
-Agent attestation follows the same key binding recommendations as vehicle wallets.</p>
+Agent attestation follows the same per-agent key and XRPL Credential recommendations as
+vehicle wallets. See <a href="../../protocol/PolicyGrant/#subject-attestation">Subject Attestation</a>.</p>
 </blockquote>
 <h2 id="trust-gateway">Trust Gateway</h2>
 <p>A mandatory online enforcement actor in MPCP's XRPL profile. The Trust Gateway holds the
