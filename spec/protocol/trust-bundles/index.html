@@ -1544,6 +1544,100 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#bundle-signer-key-compromise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bundle Signer Key Compromise
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bundle Signer Key Compromise">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#threat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exposure-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exposure Window
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-1-short-bundle-lifetimes-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 1: Short Bundle Lifetimes (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-2-emergency-bundle-refresh-must-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 2: Emergency Bundle Refresh (MUST support)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-3-on-chain-freshness-signal-should-for-xrpl-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 3: On-Chain Freshness Signal (SHOULD for XRPL deployments)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-4-embedded-revocation-lists-future-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 4: Embedded Revocation Lists (Future Extension)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defense-in-depth-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defense-in-Depth Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#future-extensions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2552,6 +2646,100 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#bundle-signer-key-compromise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bundle Signer Key Compromise
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bundle Signer Key Compromise">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#threat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threat
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exposure-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exposure Window
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-1-short-bundle-lifetimes-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 1: Short Bundle Lifetimes (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-2-emergency-bundle-refresh-must-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 2: Emergency Bundle Refresh (MUST support)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-3-on-chain-freshness-signal-should-for-xrpl-deployments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 3: On-Chain Freshness Signal (SHOULD for XRPL deployments)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-4-embedded-revocation-lists-future-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 4: Embedded Revocation Lists (Future Extension)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defense-in-depth-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defense-in-Depth Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#future-extensions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2840,22 +3028,183 @@
 <li>begin refreshing a bundle before it expires to avoid a verification gap</li>
 </ul>
 <p>Bundle refresh is performed by fetching an updated Trust Bundle document from the bundle issuer's distribution endpoint (deployment-specific) and verifying its signature before replacing the stored bundle.</p>
+<p>Verifiers MUST also support an <strong>emergency refresh</strong> mechanism for key compromise scenarios.
+See <a href="#bundle-signer-key-compromise">Bundle Signer Key Compromise</a> for the full procedure.</p>
 <p>High-assurance deployments SHOULD set <code>expiresAt</code> to short intervals (hours, not days) to limit the window during which a revoked key remains trusted. See <a href="../key-resolution/#key-revocation">Key Revocation</a>.</p>
 <hr />
 <h2 id="security-considerations">Security Considerations</h2>
 <ul>
 <li>Trust Bundles reduce the trust surface by scoping approved issuers to a specific category and geography</li>
-<li>Compromise of a bundle signer key allows an attacker to distribute bundles with injected issuer keys — short <code>expiresAt</code> windows limit the damage window</li>
+<li>Compromise of a bundle signer key allows an attacker to distribute bundles with injected issuer keys — short <code>expiresAt</code> windows limit the damage window. See <a href="#bundle-signer-key-compromise">Bundle Signer Key Compromise</a> for detailed mitigations</li>
 <li>Root keys MUST be installed securely and MUST NOT be changeable by software update alone in high-assurance deployments</li>
 <li>Verifiers MUST NOT load unsigned or expired bundles</li>
 <li>Trust Bundles that were signed before an issuer key was revoked will continue to include the compromised key until they expire. Deployments SHOULD use short Trust Bundle lifetimes (hours, not days) in high-assurance environments. See <a href="../key-resolution/#key-revocation">Key Revocation</a> for guidance on limiting the exposure window</li>
 <li>Trust Bundle builders SHOULD check the JWKS <code>active</code> field and, for XRPL deployments, the on-chain key credential before embedding each key in a new bundle</li>
 </ul>
 <hr />
+<h2 id="bundle-signer-key-compromise">Bundle Signer Key Compromise</h2>
+<h3 id="threat">Threat</h3>
+<p>The <code>bundleIssuer</code> (typically a PA, fleet operator, or consortium root) signs Trust Bundles
+with a root key. If this key is compromised, an attacker can:</p>
+<ol>
+<li>Create fraudulent Trust Bundles containing injected issuer keys</li>
+<li>Distribute them to offline merchants (via the bundle refresh channel)</li>
+<li>Merchants accept forged SBAs signed by the attacker's injected keys</li>
+</ol>
+<p>Offline merchants have no way to distinguish a legitimate bundle from a forged one until the
+bundle expires or they reconnect and receive a replacement.</p>
+<h3 id="exposure-window">Exposure Window</h3>
+<p>The exposure is bounded by the bundle's <code>expiresAt</code>. A bundle with a 24-hour lifetime limits
+the attacker to 24 hours of forged acceptance. A bundle with a 2-hour lifetime limits it to
+2 hours.</p>
+<h3 id="mitigation-1-short-bundle-lifetimes-should">Mitigation 1: Short Bundle Lifetimes (SHOULD)</h3>
+<p>High-assurance deployments SHOULD set <code>expiresAt</code> to short intervals:</p>
+<table>
+<thead>
+<tr>
+<th>Environment</th>
+<th>Recommended max lifetime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High-assurance (fleet EV charging, tolls)</td>
+<td>2–6 hours</td>
+</tr>
+<tr>
+<td>Standard (parking, general IoT)</td>
+<td>12–24 hours</td>
+</tr>
+<tr>
+<td>Low-assurance (testing, development)</td>
+<td>Up to 7 days</td>
+</tr>
+</tbody>
+</table>
+<p>Shorter lifetimes reduce the exposure window but increase the refresh frequency. Deployments
+MUST balance security against the connectivity constraints of their merchant devices.</p>
+<h3 id="mitigation-2-emergency-bundle-refresh-must-support">Mitigation 2: Emergency Bundle Refresh (MUST support)</h3>
+<p>Verifiers that load Trust Bundles MUST support an emergency refresh mechanism. When a bundle
+signer key is compromised, the operator issues a replacement bundle signed with a new key and
+triggers an out-of-band refresh:</p>
+<p><strong>Refresh procedure:</strong></p>
+<ol>
+<li>Operator rotates the bundle signing key — new key is distributed to verifiers via the
+   pre-configured root key set (firmware update, TLS-pinned fetch, or secure channel).</li>
+<li>Operator issues a new Trust Bundle signed with the new key, with <code>expiresAt</code> set to a
+   short window.</li>
+<li>Operator triggers an emergency refresh signal to all verifiers. The signal mechanism is
+   deployment-specific:</li>
+<li>Push notification (MQTT, webhook, SMS)</li>
+<li>Shortened polling interval (verifier checks every N minutes instead of hours)</li>
+<li>Physical intervention (firmware flash for high-assurance devices)</li>
+<li>Verifiers fetch the new bundle, verify its signature against the new root key, and replace
+   the compromised bundle.</li>
+</ol>
+<p><strong>Verifier behaviour during key rotation:</strong></p>
+<ul>
+<li>If the verifier has both an old bundle (signed by the compromised key) and a new bundle
+  (signed by the rotated key), it MUST prefer the new bundle.</li>
+<li>If the verifier cannot fetch a new bundle and the old bundle has not yet expired, it MAY
+  continue using the old bundle — accepting the residual risk — or it MAY switch to rejecting
+  all offline artifacts until a valid bundle is loaded (fail-closed).</li>
+<li>Implementations SHOULD expose a configuration flag for fail-closed vs fail-open behaviour
+  during bundle rotation.</li>
+</ul>
+<h3 id="mitigation-3-on-chain-freshness-signal-should-for-xrpl-deployments">Mitigation 3: On-Chain Freshness Signal (SHOULD for XRPL deployments)</h3>
+<p>For XRPL deployments, the bundle signer SHOULD maintain an on-chain credential for its active
+bundle signing key using XLS-70 Credentials:</p>
+<ul>
+<li><code>Issuer</code> = Bundle signer's XRPL address</li>
+<li><code>Subject</code> = Bundle signer's XRPL address (self-issued)</li>
+<li><code>CredentialType</code> = hex-encoded <code>"mpcp:trust-bundle-signer:{bundleKeyId}"</code></li>
+</ul>
+<p><strong>On compromise:</strong> The signer deletes the credential. Verifiers that reconnect and check the
+ledger see that the credential no longer exists.</p>
+<p><strong>Verifier behaviour on reconnect (SHOULD):</strong></p>
+<p>When a verifier that has been operating offline regains connectivity, it SHOULD check the
+on-chain credential for the bundle signer's key before continuing to trust the loaded bundle:</p>
+<div class="highlight"><pre><span></span><code>function checkBundleFreshness(bundle):
+    signerAddress = resolveXrplAddress(bundle.bundleIssuer)
+    credentialType = hexEncode(&quot;mpcp:trust-bundle-signer:&quot; + bundle.bundleKeyId)
+    credential = lookupCredential(
+        subject: signerAddress,
+        issuer:  signerAddress,
+        type:    credentialType
+    )
+    if credential does not exist or is expired:
+        discard bundle — signer key may be compromised
+        trigger emergency refresh
+</code></pre></div>
+<p>This provides a definitive, ledger-based signal that is independent of the bundle refresh
+channel. Even if the attacker controls the bundle distribution endpoint, they cannot forge
+an on-chain credential deletion.</p>
+<h3 id="mitigation-4-embedded-revocation-lists-future-extension">Mitigation 4: Embedded Revocation Lists (Future Extension)</h3>
+<p>Trust Bundles MAY include an optional <code>revokedGrantIds</code> field containing a list (or compact
+bloom filter) of revoked <code>grantId</code> values. Offline verifiers that receive a bundle with this
+field SHOULD check incoming SBAs against the list and reject any whose <code>grantId</code> matches.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;bundleId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;charging-eu-ionity-v2&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;revokedGrantIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;grant_7ab3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;grant_9f2c&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Alternatively, a <strong>bloom filter</strong> representation reduces bundle size for large revocation lists:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;revokedGrantFilter&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bloom&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;bits&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-bit-array&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hashCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1024</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This mechanism is not yet normative. Implementations that support it SHOULD treat it as a
+best-effort check — false positives from the bloom filter SHOULD trigger an online revocation
+check if connectivity is available, rather than an outright rejection.</p>
+<h3 id="defense-in-depth-summary">Defense-in-Depth Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Mechanism</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Containment</td>
+<td>Short <code>expiresAt</code></td>
+<td>Limits exposure window to hours</td>
+</tr>
+<tr>
+<td>Response</td>
+<td>Emergency bundle refresh</td>
+<td>Replaces compromised bundle across fleet</td>
+</tr>
+<tr>
+<td>Detection</td>
+<td>On-chain freshness signal</td>
+<td>Verifiers detect key compromise on reconnect</td>
+</tr>
+<tr>
+<td>Prevention</td>
+<td>HSM for root keys</td>
+<td>Signing key cannot be extracted</td>
+</tr>
+<tr>
+<td>Future</td>
+<td>Embedded revocation lists</td>
+<td>Offline grant-level revocation</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2 id="future-extensions">Future Extensions</h2>
 <p>Trust Bundles MAY be extended in future versions to support:</p>
 <ul>
-<li><strong>Embedded revocation lists</strong> — CRL or bloom filter of revoked <code>grantId</code> values for offline revocation checking</li>
+<li><strong>Embedded revocation lists</strong> — CRL or bloom filter of revoked <code>grantId</code> values for offline revocation checking. See <a href="#mitigation-4-embedded-revocation-lists-future-extension">Mitigation 4</a> for a preview of the proposed structure</li>
 <li><strong>DID document caching</strong> — pre-resolved DID documents for approved issuers</li>
 <li><strong>Verifiable Credential chains</strong> — VC-based bundle attestation for cross-domain trust</li>
 <li><strong>Merkle-compressed key sets</strong> — compact representation for constrained devices</li>

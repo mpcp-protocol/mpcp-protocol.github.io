@@ -2460,6 +2460,14 @@ bounds exposure per grant, but aggregate exposure is the sum of all active <code
 issue an XRPL Credential (XLS-70) to the gateway account; on compromise, the PA deletes the
 credential to revoke the gateway's on-chain authorization. Operators SHOULD monitor for
 on-chain payments without corresponding SBAs. See <a href="../trust-model/#gateway-seed-security">Gateway Seed Security</a>.</p>
+<h3 id="trust-bundle-signer-key-compromise">Trust Bundle Signer Key Compromise</h3>
+<p>If the root key used to sign Trust Bundles is compromised, an attacker can distribute
+fraudulent bundles containing injected issuer keys. Offline merchants will accept forged
+SBAs until the compromised bundle expires.</p>
+<p><strong>Mitigations:</strong> Short bundle lifetimes (hours, not days) limit the exposure window.
+Verifiers MUST support emergency bundle refresh. For XRPL deployments, the bundle signer
+SHOULD maintain an on-chain credential for its signing key; verifiers check this on reconnect
+as a freshness signal. See <a href="../trust-bundles/#bundle-signer-key-compromise">Trust Bundles — Bundle Signer Key Compromise</a>.</p>
 <h3 id="settlement-tampering">Settlement Tampering</h3>
 <p>Verification ensures that executed settlement transactions match authorized parameters before the session is finalized.</p>
 <hr />
