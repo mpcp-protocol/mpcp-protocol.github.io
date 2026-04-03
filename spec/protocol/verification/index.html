@@ -2047,7 +2047,8 @@
 <li><strong>Schema</strong> — PolicyGrant and SBA parse and validate against expected structure</li>
 <li><strong>Signatures</strong> — PolicyGrant and SBA signatures are valid (resolve public keys via <code>issuer</code> + <code>issuerKeyId</code> using the <a href="../key-resolution/">Key Resolution</a> algorithm; in offline deployments, keys are resolved from a pre-loaded <a href="../trust-bundles/">Trust Bundle</a>)</li>
 <li><strong>Linkage</strong> — <code>SBA.authorization.grantId</code> references a valid PolicyGrant; constraint subsets are respected</li>
-<li><strong>Policy</strong> — Budget limits, rail/asset/destination constraints, expiration; when <code>subjectCredentialIssuer</code> is present, confirm <code>authorization.actorId</code> equals the XRPL classic address of the credential Subject (see <a href="../PolicyGrant/#subject-attestation">Subject Attestation</a>)</li>
+<li><strong>Conformance (MPCP v1)</strong> — PolicyGrant satisfies <a href="../PolicyGrant/#mpcp-conformance-mandatory-xrpl">MPCP conformance</a>: <code>allowedRails</code> is exactly <code>["xrpl"]</code>; <code>authorizedGateway</code> and <code>velocityLimit</code> present; <code>revocationEndpoint</code> absent.</li>
+<li><strong>Policy</strong> — Budget limits, rail/asset/destination constraints, expiration; <code>authorizedGateway</code> matches this gateway; when <code>gatewayCredentialIssuer</code> / <code>gatewayCredentialType</code> are set, verify gateway on-chain credential; enforce <code>velocityLimit</code>; when <code>subjectCredentialIssuer</code> is present, confirm <code>authorization.actorId</code> equals the XRPL classic address of the credential Subject (see <a href="../PolicyGrant/#subject-attestation">Subject Attestation</a>); durable <code>budgetMinor</code> spend state (see <a href="../trust-model/#gateway-durable-spend-state-must">Trust Model — Gateway durable spend state</a>)</li>
 <li><strong>Purpose</strong> — When <code>PolicyGrant.allowedPurposes</code> is present and the settlement request includes a <code>purpose</code> field, verify <code>purpose ∈ allowedPurposes</code>. See <a href="../PolicyGrant/#purpose-enforcement">PolicyGrant — Purpose Enforcement</a>.</li>
 <li><strong>Destination</strong> — When <code>PolicyGrant.destinationAllowlist</code> or <code>PolicyGrant.merchantCredentialIssuer</code> is present, verify the payment destination is approved. See <a href="../PolicyGrant/#destination-enforcement">PolicyGrant — Destination Enforcement</a>.</li>
 <li><strong>Grant liveness (XRPL Credential)</strong> — When <code>PolicyGrant.activeGrantCredentialIssuer</code> is present, verify the active-grant XLS-70 Credential exists on the subject's XRPL account for this <code>grantId</code>. Reject with <code>ACTIVE_GRANT_CREDENTIAL_MISSING</code> if absent or expired. See <a href="../PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</li>
@@ -2096,7 +2097,7 @@ monitoring), not additional protocol fields.</p>
 </tr>
 <tr>
 <td>SBA → budget</td>
-<td>Current payment amount ≤ <code>maxAmountMinor</code>; rail, asset, destination in allowlists. Check is stateless — session authority manages cumulative budget tracking.</td>
+<td>Current payment amount ≤ <code>maxAmountMinor</code>; rail (<code>["xrpl"]</code> only), asset, destination in allowlists. Trust Gateway also enforces durable cumulative spend vs <code>budgetMinor</code>, <code>velocityLimit</code>, and gateway binding. Session authority tracks SBA-scope cumulative totals.</td>
 </tr>
 <tr>
 <td>Purpose</td>

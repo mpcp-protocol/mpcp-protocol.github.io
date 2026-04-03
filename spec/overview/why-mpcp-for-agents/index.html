@@ -2160,12 +2160,10 @@ PolicyGrant.budgetMinor = 80000  (PA-signed ceiling → $800.00 total, enforced 
 <p>The agent cannot forge a larger SBA — it doesn't hold the SBA signing key. And even if it
 did, the Trust Gateway rejects any SBA that would push cumulative spend past <code>budgetMinor</code>.</p>
 <h3 id="human-revocation-mid-delegation">Human revocation mid-delegation</h3>
-<div class="highlight"><pre><span></span><code>GET {revocationEndpoint}?grantId={grantId}
-Response: { &quot;revoked&quot;: boolean, &quot;revokedAt&quot;: &quot;ISO8601&quot; }
-</code></pre></div>
-<p>Alice can cancel her AI trip planner's budget at any time. Merchants who check the
-revocation endpoint before processing payment will refuse. The MPCP verifier stays stateless —
-revocation is a separate online check the merchant makes using <code>checkRevocation()</code>.</p>
+<p>Alice can cancel her AI trip planner's budget at any time by <strong>CredentialDelete</strong> on XRPL for the
+active-grant credential (<code>activeGrantCredentialIssuer</code>). The Trust Gateway MUST reject settlement
+when the credential is missing (<code>ACTIVE_GRANT_CREDENTIAL_MISSING</code>). Conforming PolicyGrants do not
+use HTTP <code>revocationEndpoint</code>.</p>
 <h3 id="merchant-category-filter-with-auditability">Merchant category filter with auditability</h3>
 <p><code>allowedPurposes</code> documents the human's intent in the signed PolicyGrant:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;allowedPurposes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;travel:hotel&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;travel:flight&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;travel:transport&quot;</span><span class="p">]</span>
@@ -2201,7 +2199,7 @@ cryptographic spending layer on top.</p>
 </tr>
 <tr>
 <td>Human needs to cancel mid-delegation</td>
-<td>XRPL: <code>CredentialDelete</code> on active-grant credential; non-XRPL: <code>revocationEndpoint</code> → <code>checkRevocation()</code></td>
+<td>XRPL: <code>CredentialDelete</code> on active-grant credential (<code>activeGrantCredentialIssuer</code>)</td>
 </tr>
 <tr>
 <td>Agent should only pay for certain categories</td>
@@ -2226,7 +2224,7 @@ cryptographic spending layer on top.</p>
 <ul>
 <li><a href="../../profiles/human-agent-profile/">Human-to-Agent Delegation Profile</a> — full deployment guide</li>
 <li><a href="../comparison-with-agent-protocols/">Comparison with Agent Protocols</a> — x402, AP2, ACP, TAPC</li>
-<li><a href="../../protocol/PolicyGrant/">PolicyGrant</a> — <code>activeGrantCredentialIssuer</code>, <code>revocationEndpoint</code>, <code>allowedPurposes</code></li>
+<li><a href="../../protocol/PolicyGrant/">PolicyGrant</a> — <code>activeGrantCredentialIssuer</code>, <code>authorizedGateway</code>, <code>velocityLimit</code>, <code>allowedPurposes</code></li>
 <li><a href="../../protocol/SignedBudgetAuthorization/">SignedBudgetAuthorization</a> — TRIP scope</li>
 <li><a href="../../architecture/actors/">Actors</a> — AI Agent actor</li>
 </ul>

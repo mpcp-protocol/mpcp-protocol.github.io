@@ -2033,7 +2033,7 @@ XRPL Receipt (txHash)
 <h2 id="policygrant">PolicyGrant</h2>
 <p>The <strong>PolicyGrant</strong> is the result of policy evaluation at session entry. It defines the initial permission envelope:</p>
 <ul>
-<li><strong>allowedRails</strong> — Which payment rails (xrpl, evm, stripe, hosted) are permitted</li>
+<li><strong>allowedRails</strong> — <strong>MPCP v1:</strong> exactly <code>["xrpl"]</code> on conforming PolicyGrants</li>
 <li><strong>allowedAssets</strong> — Which assets may be used (array of <code>Asset</code> objects with <code>kind</code>, and kind-specific fields)</li>
 <li><strong>policyHash</strong> — Hash of the policy snapshot</li>
 <li><strong>expiresAt</strong> — Maximum validity for downstream artifacts</li>

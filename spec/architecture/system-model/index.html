@@ -2021,7 +2021,7 @@
 <tr>
 <td><strong>Settlement</strong></td>
 <td>Executes payment</td>
-<td>XRPL, EVM, Stripe, hosted</td>
+<td><strong>XRPL</strong> (MPCP v1.0)</td>
 </tr>
 </tbody>
 </table>
@@ -2043,7 +2043,7 @@
 <li><strong>Decoupled</strong> — Policy, budget, and settlement are separate concerns</li>
 <li><strong>Verifiable</strong> — Settlement can be checked against authorization chain; on-chain via <code>mpcp/grant-id</code> memo</li>
 <li><strong>Offline-capable</strong> — Machine holds chain onboard; offline merchants verify locally via Trust Bundle</li>
-<li><strong>XRPL-primary</strong> — v1.0 profile uses XRPL escrow + RLUSD; other rails supported via future profiles</li>
+<li><strong>XRPL-only (v1.0)</strong> — Conforming deployments use XRPL escrow + XRPL assets (e.g. RLUSD IOU); future spec revisions may register additional rails</li>
 </ol>
 <h2 id="see-also">See Also</h2>
 <ul>

@@ -1670,10 +1670,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#xrpl-credential-recommended" class="md-nav__link">
+  <a href="#xrpl-credential-conforming" class="md-nav__link">
     <span class="md-ellipsis">
       
-        XRPL Credential (recommended)
+        XRPL Credential (conforming)
       
     </span>
   </a>
@@ -1681,10 +1681,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#legacy-http-endpoint-contract" class="md-nav__link">
+  <a href="#historic-http-grants-non-conforming" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Legacy HTTP endpoint contract
+        Historic HTTP grants (non-conforming)
       
     </span>
   </a>
@@ -2221,10 +2221,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#xrpl-credential-recommended" class="md-nav__link">
+  <a href="#xrpl-credential-conforming" class="md-nav__link">
     <span class="md-ellipsis">
       
-        XRPL Credential (recommended)
+        XRPL Credential (conforming)
       
     </span>
   </a>
@@ -2232,10 +2232,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#legacy-http-endpoint-contract" class="md-nav__link">
+  <a href="#historic-http-grants-non-conforming" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Legacy HTTP endpoint contract
+        Historic HTTP grants (non-conforming)
       
     </span>
   </a>
@@ -2383,7 +2383,7 @@ human.</p>
 <ul>
 <li>A human wants to delegate bounded spending to an AI agent (travel, subscriptions, event budgets)</li>
 <li>Payments span multiple sessions or days (use <code>budgetScope: "TRIP"</code>)</li>
-<li>The human may need to cancel mid-delegation — on XRPL use <code>activeGrantCredentialIssuer</code> (CredentialDelete); non-XRPL MAY use <code>revocationEndpoint</code></li>
+<li>The human may need to cancel mid-delegation — use <code>activeGrantCredentialIssuer</code> and <strong>CredentialDelete</strong> on XRPL (MPCP v1 does not define HTTP <code>revocationEndpoint</code> on conforming grants)</li>
 <li>Merchant categories should be explicitly constrained (use <code>allowedPurposes</code>)</li>
 <li>Offline-capable verification is required at the merchant side</li>
 </ul>
@@ -2401,6 +2401,8 @@ human.</p>
 <span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-04-13T23:59:59Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;allowedPurposes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;travel:hotel&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;travel:flight&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;travel:transport&quot;</span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;activeGrantCredentialIssuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rPaAddress...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;authorizedGateway&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rTrustGateway...&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;velocityLimit&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;maxPayments&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;windowSeconds&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">86400</span><span class="w"> </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alice-did-key-1&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
@@ -2429,11 +2431,15 @@ human.</p>
 </tr>
 <tr>
 <td><code>activeGrantCredentialIssuer</code></td>
-<td><strong>XRPL:</strong> PA's XRPL address for the active-grant credential; revocation = <code>CredentialDelete</code> (see <a href="../../protocol/PolicyGrant/#revocation">PolicyGrant — Revocation</a>)</td>
+<td>PA's XRPL address for the active-grant credential; revocation = <code>CredentialDelete</code> (see <a href="../../protocol/PolicyGrant/#revocation">PolicyGrant — Revocation</a>)</td>
 </tr>
 <tr>
-<td><code>revocationEndpoint</code></td>
-<td><strong>Legacy HTTP</strong> cancellation URL for non-XRPL rails only</td>
+<td><code>authorizedGateway</code></td>
+<td><strong>Required</strong> — XRPL address of the Trust Gateway that may settle this grant</td>
+</tr>
+<tr>
+<td><code>velocityLimit</code></td>
+<td><strong>Required</strong> — PA-signed <code>{ maxPayments, windowSeconds }</code> cap on settlement rate (see <a href="../../protocol/PolicyGrant/#velocity-limit-enforcement">PolicyGrant — Velocity</a>)</td>
 </tr>
 <tr>
 <td><code>scope</code></td>
@@ -2449,9 +2455,9 @@ human.</p>
 <li>The PA server issues the PolicyGrant, signing with a domain key</li>
 <li><code>issuer</code> is the PA server's domain (e.g. <code>wallet.alice.example.com</code>) rather than Alice's personal DID</li>
 <li>Key resolution uses HTTPS well-known: <code>https://wallet.alice.example.com/.well-known/mpcp-keys.json</code></li>
-<li>For <strong>XRPL</strong>, the PA SHOULD issue the active-grant credential from <code>activeGrantCredentialIssuer</code>
-  and revoke via <code>CredentialDelete</code> — no HTTP endpoint required. For <strong>non-XRPL</strong> transitional
-  deployments, the PA MAY host <code>revocationEndpoint</code> instead.</li>
+<li>For conforming grants, the PA SHOULD issue the active-grant credential from
+  <code>activeGrantCredentialIssuer</code> and revoke via <code>CredentialDelete</code>. The <code>revocationEndpoint</code> field
+  MUST NOT appear on conforming PolicyGrants.</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wallet.alice.example.com&quot;</span><span class="p">,</span>
@@ -2541,29 +2547,16 @@ the full specification.</p>
 </code></pre></div>
 <hr />
 <h2 id="revocation">Revocation</h2>
-<h3 id="xrpl-credential-recommended">XRPL Credential (recommended)</h3>
-<p>When <code>activeGrantCredentialIssuer</code> is set, the Trust Gateway and online merchants rely on
-<strong>ledger queries</strong> for grant liveness — not HTTP. See <a href="../../protocol/PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</p>
-<h3 id="legacy-http-endpoint-contract">Legacy HTTP endpoint contract</h3>
-<p>When only <code>revocationEndpoint</code> is present (non-XRPL):</p>
-<div class="highlight"><pre><span></span><code>GET {revocationEndpoint}?grantId={grantId}
-Response: { &quot;revoked&quot;: boolean, &quot;revokedAt&quot;: &quot;ISO8601&quot; }
-</code></pre></div>
+<h3 id="xrpl-credential-conforming">XRPL Credential (conforming)</h3>
+<p>Conforming PolicyGrants MUST omit <code>revocationEndpoint</code>. When <code>activeGrantCredentialIssuer</code> is set,
+the Trust Gateway and online merchants rely on <strong>ledger queries</strong> for grant liveness. See
+<a href="../../protocol/PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</p>
+<h3 id="historic-http-grants-non-conforming">Historic HTTP grants (non-conforming)</h3>
+<p>Pre-v1 artifacts MAY carry <code>revocationEndpoint</code> without credentials. SDKs MAY still support
+<code>checkRevocation()</code> for those grants; such flows are <strong>outside MPCP v1 conformance</strong>.</p>
 <h3 id="merchant-responsibility">Merchant responsibility</h3>
-<p>Merchants and service providers SHOULD perform the appropriate check before accepting a payment
-(credential lookup when <code>activeGrantCredentialIssuer</code> is set; HTTP when only
-<code>revocationEndpoint</code> is set). HTTP checks are a <strong>separate online step</strong> when used.</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="p">,</span><span class="w"> </span><span class="nx">revokedAt</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="p">(</span>
-<span class="w">  </span><span class="nx">grant</span><span class="p">.</span><span class="nx">revocationEndpoint</span><span class="p">,</span>
-<span class="w">  </span><span class="nx">grant</span><span class="p">.</span><span class="nx">grantId</span><span class="p">,</span>
-<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">timeoutMs</span><span class="o">:</span><span class="w"> </span><span class="mf">3000</span><span class="w"> </span><span class="p">}</span>
-<span class="p">);</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">revoked</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="c1">// reject payment</span>
-<span class="p">}</span>
-</code></pre></div>
+<p>Merchants and service providers SHOULD perform credential lookup when <code>activeGrantCredentialIssuer</code>
+is set. For legacy HTTP-only grants, HTTP checks are a separate online step when supported.</p>
 <h3 id="offline-exception">Offline exception</h3>
 <p>If the merchant cannot reach the revocation service (no ledger access, HTTP timeout, etc.), the
 merchant makes a risk-based decision. The MPCP spec recommends:</p>
@@ -2580,7 +2573,7 @@ frequent SBA refresh.</p>
 <h2 id="security-considerations">Security Considerations</h2>
 <h3 id="key-compromise">Key compromise</h3>
 <p>If the human's DID key is compromised:
-1. Revoke all active PolicyGrants (<code>CredentialDelete</code> on XRPL, or HTTP revocation where used)
+1. Revoke all active PolicyGrants (<code>CredentialDelete</code> on XRPL)
 2. Rotate the DID key or create a new DID
 3. Reissue PolicyGrants under the new key</p>
 <h3 id="agent-key-compromise">Agent key compromise</h3>
@@ -2617,8 +2610,8 @@ frequent SBA refresh.</p>
 </tr>
 <tr>
 <td>Revocation</td>
-<td>Credential + Trust Bundle / HTTP legacy</td>
-<td>Credential (XRPL) or HTTP — human cancels delegation</td>
+<td>Credential + Trust Bundle</td>
+<td>Credential (XRPL) — human cancels via CredentialDelete</td>
 </tr>
 <tr>
 <td>Budget scope</td>
@@ -2642,7 +2635,7 @@ frequent SBA refresh.</p>
 <hr />
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../../protocol/PolicyGrant/">PolicyGrant</a> — <code>activeGrantCredentialIssuer</code>, <code>revocationEndpoint</code>, <code>allowedPurposes</code></li>
+<li><a href="../../protocol/PolicyGrant/">PolicyGrant</a> — <code>activeGrantCredentialIssuer</code>, <code>authorizedGateway</code>, <code>velocityLimit</code>, <code>allowedPurposes</code></li>
 <li><a href="../../protocol/SignedBudgetAuthorization/">SignedBudgetAuthorization</a> — TRIP scope</li>
 <li><a href="../../architecture/actors/">Actors</a> — AI Agent actor</li>
 <li><a href="../../overview/comparison-with-agent-protocols/">Comparison with Agent Protocols</a></li>

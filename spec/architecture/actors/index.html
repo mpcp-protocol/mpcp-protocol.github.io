@@ -2143,7 +2143,7 @@
 <li>Declares the payment <code>purpose</code> in each settlement request so the Trust Gateway can verify it against the PA-signed <code>allowedPurposes</code></li>
 <li>Sets SBA <code>destinationAllowlist</code> as a subset of the PolicyGrant's PA-signed <code>destinationAllowlist</code> (when present)</li>
 <li>Maintains cumulative spend counter across all sessions in the trip/project</li>
-<li>SHOULD verify grant is not revoked before issuing each SBA — on XRPL, active-grant credential lookup when <code>activeGrantCredentialIssuer</code> is set; otherwise legacy <code>revocationEndpoint</code> when present (agents are online by design)</li>
+<li>SHOULD verify grant is not revoked before issuing each SBA — on XRPL, active-grant credential lookup when <code>activeGrantCredentialIssuer</code> is set (conforming grants omit <code>revocationEndpoint</code>; agents are online by design)</li>
 </ul>
 <p><strong>Contrast with Vehicle Wallet:</strong></p>
 <table>
@@ -2189,14 +2189,16 @@ XRPL gateway seed and is the only entity that submits payment transactions on be
 <p><strong>Responsibilities:</strong></p>
 <ul>
 <li>Creates an XRPL budget escrow at grant issuance, pre-reserving the full <code>budgetMinor</code> XRP</li>
-<li>Enforces the PA-signed <code>budgetMinor</code> as a hard ceiling — maintains an independent spend counter</li>
+<li>Enforces the PA-signed <code>budgetMinor</code> as a hard ceiling — maintains a <strong>durable</strong> independent spend counter (survives restart; see <a href="../../protocol/trust-model/#gateway-durable-spend-state-must">Trust Model — Gateway durable spend state</a>)</li>
+<li>Enforces PA-signed <code>velocityLimit</code> (see <a href="../../protocol/PolicyGrant/#velocity-limit-enforcement">PolicyGrant — Velocity limit enforcement</a>)</li>
 <li>Verifies each SBA signature before submitting a XRPL Payment transaction</li>
 <li>Enforces <code>allowedPurposes</code> from the PA-signed grant — rejects payments whose declared purpose is not in the allowlist (see <a href="../../protocol/PolicyGrant/#purpose-enforcement">Purpose Enforcement</a>)</li>
 <li>Enforces <code>destinationAllowlist</code> and/or <code>merchantCredentialIssuer</code> from the PA-signed grant — rejects payments to unapproved destinations (see <a href="../../protocol/PolicyGrant/#destination-enforcement">Destination Enforcement</a>); this is the authoritative check against <strong>merchant terminal impersonation</strong> at settlement (see <a href="../../protocol/mpcp/#merchant-terminal-impersonation-interaction-layer">Threat Model — Merchant terminal impersonation</a>)</li>
 <li>When <code>subjectCredentialIssuer</code> is present on the grant, verifies <code>SBA.authorization.actorId</code> matches the attested XRPL credential Subject and rejects with <code>SUBJECT_ACTOR_MISMATCH</code> or <code>SUBJECT_NOT_ATTESTED</code> as defined in <a href="../../protocol/PolicyGrant/#subject-attestation">Subject Attestation</a></li>
 <li>Attaches <code>mpcp/grant-id</code> memo to every XRPL payment for on-chain audit traceability</li>
 <li>Releases the escrow on grant revocation (EscrowFinish with preimage) or expiry (EscrowCancel)</li>
-<li>Rejects payments if <code>authorizedGateway</code> in the PA-signed grant does not match its own address</li>
+<li>Rejects payments if <code>authorizedGateway</code> in the PA-signed grant does not match its own XRPL address (<strong>required</strong> on conforming grants)</li>
+<li>When <code>gatewayCredentialIssuer</code> and <code>gatewayCredentialType</code> are present, verifies its XRPL account holds the matching on-chain credential before each settlement (see <a href="../../protocol/PolicyGrant/#gateway-credential-binding-optional">Gateway credential binding</a>)</li>
 </ul>
 <p><strong>Why it is mandatory:</strong> Without the Trust Gateway, a compromised or prompt-injected agent could
 self-report any budget ceiling. The gateway enforces the PA-signed limit independently — it never
@@ -2243,7 +2245,7 @@ See <a href="../../protocol/trust-model/">Trust Model</a>.</p>
 </ul>
 <h2 id="settlement-rail">Settlement Rail</h2>
 <p>Executes the actual payment.</p>
-<p><strong>Examples:</strong> XRPL + RLUSD, EVM stablecoins, Stripe, hosted providers.</p>
+<p><strong>Examples:</strong> XRPL native XRP and IOUs (e.g. RLUSD).</p>
 <p>MPCP does not replace settlement systems—it <strong>controls authorization above them</strong>.</p>
 <h2 id="see-also">See Also</h2>
 <ul>

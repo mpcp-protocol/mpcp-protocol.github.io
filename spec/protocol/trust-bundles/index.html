@@ -3205,7 +3205,7 @@ as a sanity check — see <a href="#clock-sanity-checks-for-bundles">Clock sanit
 <div class="highlight"><pre><span></span><code>artifact → issuer → lookup key in bundle → verify signature → check expiry and constraints
 </code></pre></div>
 <h3 id="revocation-in-offline-mode">Revocation in Offline Mode</h3>
-<p>PolicyGrants may carry <code>activeGrantCredentialIssuer</code> (XRPL) or a legacy <code>revocationEndpoint</code>
+<p>PolicyGrants carry <code>activeGrantCredentialIssuer</code> (XRPL) for on-chain revocation; historic artifacts may include a legacy <code>revocationEndpoint</code> (non-conforming)
 (HTTP). Offline verifiers cannot query either. Deployments that use offline verification MUST
 accept the risk that a revoked grant may be accepted — the grant remains valid until
 <code>expiresAt</code> or the bundle is refreshed and revocation state is re-checked when online.</p>

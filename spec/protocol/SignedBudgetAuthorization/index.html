@@ -1396,10 +1396,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#stateless-verification-model" class="md-nav__link">
+  <a href="#budget-and-verification-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Stateless Verification Model
+        Budget and verification roles
       
     </span>
   </a>
@@ -1407,10 +1407,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cumulative-enforcement" class="md-nav__link">
+  <a href="#cumulative-enforcement-session-authority" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cumulative Enforcement
+        Cumulative enforcement (session authority)
       
     </span>
   </a>
@@ -2076,10 +2076,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#stateless-verification-model" class="md-nav__link">
+  <a href="#budget-and-verification-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Stateless Verification Model
+        Budget and verification roles
       
     </span>
   </a>
@@ -2087,10 +2087,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cumulative-enforcement" class="md-nav__link">
+  <a href="#cumulative-enforcement-session-authority" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cumulative Enforcement
+        Cumulative enforcement (session authority)
       
     </span>
   </a>
@@ -2253,7 +2253,7 @@
 <td>allowedRails</td>
 <td>Rail[]</td>
 <td>yes</td>
-<td>Permitted payment rails (xrpl, evm, stripe, hosted)</td>
+<td><strong>Conforming SBAs:</strong> MUST be exactly <code>["xrpl"]</code>. Must match the PolicyGrant rail set.</td>
 </tr>
 <tr>
 <td>allowedAssets</td>
@@ -2352,10 +2352,10 @@
 <li><code>budgetScope: "VEHICLE"</code> with <code>scopeId</code> = vehicle identifier</li>
 <li><code>budgetScope: "FLEET"</code> with <code>scopeId</code> = fleet identifier</li>
 </ul>
-<h2 id="stateless-verification-model">Stateless Verification Model</h2>
-<p>MPCP verifiers are stateless. They do not track cumulative spending across payments.</p>
-<p>This ensures that MPCP verification is deployable across independent, parallel, or ephemeral verifier instances without shared state.</p>
-<p>Budget enforcement is split between two roles:</p>
+<h2 id="budget-and-verification-roles">Budget and verification roles</h2>
+<p>Budget enforcement is split between roles. <strong>Merchant verifiers</strong> (offline acceptance) are stateless
+per payment. The <strong>Trust Gateway</strong> is <strong>not</strong> stateless for the PA-signed <code>budgetMinor</code> ceiling —
+it MUST maintain durable cumulative spend state and velocity counters (see <a href="../trust-model/#gateway-durable-spend-state-must">Trust Model — Gateway durable spend state</a> and <a href="../PolicyGrant/#velocity-limit-enforcement">PolicyGrant — Velocity limit enforcement</a>).</p>
 <table>
 <thead>
 <tr>
@@ -2366,11 +2366,11 @@
 <tbody>
 <tr>
 <td>Session authority (agent)</td>
-<td>Tracks cumulative spending per scope. Presents SBAs within the remaining authorized envelope.</td>
+<td>Tracks cumulative spending per scope. Presents SBAs within the remaining authorized envelope (<code>maxAmountMinor</code>).</td>
 </tr>
 <tr>
 <td>Trust Gateway</td>
-<td>Independently enforces the PA-signed <code>budgetMinor</code> ceiling. Rejects payments that would exceed remaining budget.</td>
+<td>Enforces PA-signed <code>budgetMinor</code>, <code>authorizedGateway</code>, <code>velocityLimit</code>, and optional gateway credentials; persists spend state across restarts.</td>
 </tr>
 <tr>
 <td>Merchant verifier</td>
@@ -2378,21 +2378,20 @@
 </tr>
 </tbody>
 </table>
-<p>The Trust Gateway's stateless check is:</p>
-<div class="highlight"><pre><span></span><code>paymentAmount ≤ signerState.remaining (enforced from PA-signed budgetMinor)
+<p>Per-payment check at the gateway (in addition to durable <code>budgetMinor</code> tally):</p>
+<div class="highlight"><pre><span></span><code>currentPayment ≤ remainingAuthorizedEnvelope (from SBA and grant constraints)
 </code></pre></div>
 <p>Both values are in the <strong>on-chain asset's atomic units</strong> — the comparison is a direct numeric check with no currency conversion required. The session authority is responsible for converting the fiat budget into on-chain units at SBA issuance time, using the exchange rate and asset precision applicable at that moment.</p>
-<p>This confirms the current payment fits within the authorized envelope. The PA-signed <code>budgetMinor</code> in the PolicyGrant is the cryptographic attestation of the ceiling — the gateway enforces this independently of the agent.</p>
-<p>Verifiers MUST NOT attempt to track or reconstruct cumulative session spending.</p>
-<h2 id="cumulative-enforcement">Cumulative Enforcement</h2>
-<p>To enable accurate cumulative budget enforcement within a session, callers MAY pass the running total of prior spending to the verifier via <code>cumulativeSpentMinor</code>.</p>
-<p>When provided, the verifier applies:</p>
+<h2 id="cumulative-enforcement-session-authority">Cumulative enforcement (session authority)</h2>
+<p>To align session-level totals with the gateway, callers MAY pass the running total of prior spending via <code>cumulativeSpentMinor</code> when invoking verifier helpers.</p>
+<p>When provided, a <strong>stateless helper</strong> may apply:</p>
 <div class="highlight"><pre><span></span><code>cumulativeSpentMinor + currentPayment &lt;= maxAmountMinor
 </code></pre></div>
-<p>instead of the bare single-payment check. This allows a stateless verifier to correctly reject payments that would exceed the cumulative budget even if each individual payment would fit.</p>
+<p>instead of the bare single-payment check. This does not replace the gateway's durable <code>budgetMinor</code>
+enforcement.</p>
 <p><strong>Session authority responsibility:</strong>
 - MUST track cumulative spending per scope (SESSION, DAY, VEHICLE, FLEET)
-- MUST pass <code>cumulativeSpentMinor</code> to the verifier for correct enforcement
+- MAY pass <code>cumulativeSpentMinor</code> to verifier helpers for local checks
 - MUST NOT present SBAs when cumulative spending would exceed <code>maxAmountMinor</code></p>
 <p><strong>Offline trust assumption:</strong>
 In offline or air-gapped environments (e.g., vehicles without real-time connectivity), cumulative enforcement relies on the session authority (typically the vehicle wallet) maintaining the spending counter in trusted local storage. The verifier cannot independently verify the counter's accuracy in offline mode; this is an accepted trust assumption for offline deployments.</p>

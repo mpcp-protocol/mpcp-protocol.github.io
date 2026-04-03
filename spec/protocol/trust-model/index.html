@@ -1296,6 +1296,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gateway-durable-spend-state-must" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway durable spend state (MUST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#agent-vehicle-wallet-third-highest-trust" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2132,6 +2143,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gateway-durable-spend-state-must" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway durable spend state (MUST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#agent-vehicle-wallet-third-highest-trust" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2334,9 +2356,10 @@ that encode:</p>
 <ul>
 <li><code>budgetMinor</code> — maximum XRP (in drops) the session may spend</li>
 <li><code>expiresAt</code> — hard grant expiry</li>
-<li><code>allowedRails</code> — permitted payment rails</li>
+<li><code>allowedRails</code> — <strong>conforming grants:</strong> exactly <code>["xrpl"]</code> only</li>
 <li><code>allowedPurposes</code> — merchant category allowlist</li>
-<li><code>authorizedGateway</code> — the single XRPL address permitted to submit payments</li>
+<li><code>authorizedGateway</code> — the single XRPL address permitted to submit payments (<strong>required</strong> on conforming grants)</li>
+<li><code>velocityLimit</code> — PA-signed cap on settlement frequency (<strong>required</strong> on conforming grants)</li>
 <li><code>offlineMaxSinglePayment</code> — per-transaction cap for offline merchant acceptance</li>
 <li><code>budgetEscrowRef</code> — reference to the on-chain XRPL escrow that pre-reserves the budget</li>
 </ul>
@@ -2357,6 +2380,7 @@ individual payments after grant issuance.</p>
 <li>Attaches <code>mpcp/grant-id</code> memo to every on-chain payment for audit traceability</li>
 <li>Releases the escrow on grant revocation (EscrowFinish with preimage) or expiry (EscrowCancel)</li>
 <li>When <code>subjectCredentialIssuer</code> is present on the grant, verifies on-chain subject credentials and that <code>SBA.authorization.actorId</code> equals the credential Subject's classic address — mitigating <strong>actorId spoofing</strong> across agents that might otherwise share reporting conventions (see <a href="../PolicyGrant/#subject-attestation">Subject Attestation</a>)</li>
+<li>Enforces <code>PolicyGrant.velocityLimit</code> — rejects settlements that would exceed the PA-signed payment rate cap (see <a href="../PolicyGrant/#velocity-limit-enforcement">Velocity limit enforcement</a>)</li>
 </ol>
 <p><strong>What the Gateway cannot do:</strong></p>
 <ul>
@@ -2367,6 +2391,23 @@ individual payments after grant issuance.</p>
 <p><strong>Why it is mandatory:</strong> Without the Trust Gateway, an agent could self-report any budget ceiling.
 The gateway enforces the PA-signed limit independently of agent behavior — a compromised or
 prompt-injected agent cannot cause overspending.</p>
+<hr />
+<h3 id="gateway-durable-spend-state-must">Gateway durable spend state (MUST)</h3>
+<p>The Trust Gateway MUST <strong>persist</strong> cumulative settled amounts (or equivalent durable state) for
+each active <code>grantId</code> so that <strong><code>budgetMinor</code> enforcement survives process restarts</strong>. In-memory-only
+counters are insufficient: after restart, the gateway MUST either:</p>
+<ol>
+<li><strong>Reload</strong> cumulative spend from durable storage (database, replicated state store, etc.), or</li>
+<li><strong>Reconstruct</strong> cumulative spend from authoritative XRPL history (e.g. sum successful
+   <code>Payment</code> transactions that carry the <code>mpcp/grant-id</code> memo for this <code>grantId</code>), or</li>
+<li><strong>Refuse settlement</strong> (e.g. <code>GATEWAY_SPEND_STATE_UNAVAILABLE</code>) until spend state is confirmed
+   by an operator or backfill job.</li>
+</ol>
+<p>Until state is restored, the gateway MUST NOT assume zero prior spend. This closes the attack where
+a compromised agent replays spend against a freshly restarted gateway that has lost its counter.</p>
+<p>The gateway MUST apply the same durability expectation to <strong>velocity</strong> accounting for
+<code>PolicyGrant.velocityLimit</code> (counts of settlements per sliding window).</p>
+<p>See <a href="../mpcp/#step-2--verify-policy-constraints">MPCP — Settlement verification Step 2</a>.</p>
 <hr />
 <h3 id="agent-vehicle-wallet-third-highest-trust">Agent / Vehicle Wallet (third-highest trust)</h3>
 <p>The agent creates per-payment <strong>SignedBudgetAuthorizations</strong> within the limits established by
@@ -2498,7 +2539,7 @@ overspending because:</p>
 </tr>
 <tr>
 <td>Revocation checked</td>
-<td>✅ gateway checks credential or HTTP on each payment</td>
+<td>✅ gateway checks XRPL active-grant credential when <code>activeGrantCredentialIssuer</code> is set</td>
 <td>⚠️ best-effort (TTL cache; no ledger)</td>
 </tr>
 </tbody>

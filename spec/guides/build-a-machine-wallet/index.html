@@ -2094,7 +2094,7 @@
 <p>When a payment is requested, the wallet:</p>
 <ol>
 <li>Checks the request against policy (rail, asset, purpose, destination)</li>
-<li>Checks revocation status (optional, via <code>revocationEndpoint</code>)</li>
+<li>Checks grant liveness (optional XRPL active-grant credential when <code>activeGrantCredentialIssuer</code> is set)</li>
 <li>Signs a per-payment SBA (amount + destination for this payment)</li>
 <li>Sends the SBA to the Trust Gateway for settlement</li>
 </ol>
@@ -2152,18 +2152,8 @@
 <li><strong>Rail and asset</strong> — Permitted by PolicyGrant <code>allowedRails</code> and <code>allowedAssets</code></li>
 <li><strong>Destination</strong> — Expected recipient (cross-check with quote)</li>
 <li><strong>Expiration</strong> — PolicyGrant not expired</li>
-<li><strong>Revocation</strong> — Check <code>revocationEndpoint</code> if present (fail-open for offline)</li>
+<li><strong>Grant liveness</strong> — When <code>activeGrantCredentialIssuer</code> is set and the wallet is online, query XRPL for the active-grant credential; if absent, refuse new SBAs. Conforming grants omit <code>revocationEndpoint</code>.</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">policyGrant</span><span class="p">.</span><span class="nx">revocationEndpoint</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="p">(</span>
-<span class="w">    </span><span class="nx">policyGrant</span><span class="p">.</span><span class="nx">revocationEndpoint</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">policyGrant</span><span class="p">.</span><span class="nx">grantId</span><span class="p">,</span>
-<span class="w">  </span><span class="p">);</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">revoked</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s2">&quot;Grant revoked&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
 <h2 id="trust-bundle-for-offline-merchants">Trust Bundle for Offline Merchants</h2>
 <p>Pre-load a Trust Bundle so merchants can verify the wallet's SBA signatures without a network call:</p>
 <div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">verifyTrustBundle</span><span class="p">,</span><span class="w"> </span><span class="nx">resolveFromTrustBundle</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>

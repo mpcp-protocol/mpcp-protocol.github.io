@@ -2520,7 +2520,10 @@
                         Merchant
                    (no MPCP knowledge required)
 </code></pre></div>
-<p>The gateway runs the full MPCP stack internally. Externally it presents:</p>
+<p>The gateway runs the full MPCP stack internally — <strong>MPCP v1 settlement is XRPL-only</strong> (conforming
+PolicyGrants use <code>allowedRails: ["xrpl"]</code>, <code>authorizedGateway</code>, and <code>velocityLimit</code>). Outward-facing
+APIs (e.g. x402, card rails) are <strong>adapter layers</strong>; they do not define alternate MPCP settlement
+rails. Externally it presents:</p>
 <ul>
 <li><strong>Inward</strong> (budget owner → gateway): a lightweight session configuration API</li>
 <li><strong>Outward</strong> (gateway → merchant): a standard payment protocol such as <a href="https://x402.org">x402</a></li>
@@ -2663,8 +2666,11 @@ Content-Type: application/json
   budget: $800         grantId: ...,
   purposes: [...]  →   policyHash: sha256(canonicalize(session config)),
   expiresAt: ...       allowedPurposes: [...],
-}                      expiresAt: ...,
-                       revocationEndpoint: internal
+}                      allowedRails: [&quot;xrpl&quot;],
+                       authorizedGateway: &lt;gateway XRPL addr&gt;,
+                       velocityLimit: { maxPayments, windowSeconds },
+                       expiresAt: ...,
+                       activeGrantCredentialIssuer: ... (when using on-chain liveness)
                     }
 </code></pre></div>
 <p>The gateway derives <code>policyHash</code> by canonicalizing the session config as a policy document and computing its SHA-256. This hash is stored in the internal PolicyGrant and appears in every SBA issued against that session.</p>

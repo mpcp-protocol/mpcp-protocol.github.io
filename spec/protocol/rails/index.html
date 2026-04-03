@@ -1362,10 +1362,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-a-new-rail" class="md-nav__link">
+  <a href="#future-rails" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding a New Rail
+        Future rails
       
     </span>
   </a>
@@ -2098,10 +2098,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-a-new-rail" class="md-nav__link">
+  <a href="#future-rails" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding a New Rail
+        Future rails
       
     </span>
   </a>
@@ -2165,43 +2165,37 @@
 <p>Part of the <a href="../mpcp/">Machine Payment Control Protocol (MPCP)</a>.</p>
 <hr />
 <h2 id="overview">Overview</h2>
-<p>A <strong>payment rail</strong> is the settlement system that executes the actual XRP/stablecoin transfer
-after MPCP authorization succeeds. MPCP controls <em>authorization</em> above settlement rails — it
-does not replace them.</p>
-<p>MPCP is designed to support multiple payment rails under a common authorization model.
-The <strong>XRPL profile</strong> is the current reference implementation and uses escrow-based budget
-enforcement as a core mechanism.</p>
+<p>A <strong>payment rail</strong> is the settlement system that executes the actual asset transfer after MPCP
+authorization succeeds. MPCP controls <em>authorization</em> above settlement rails — it does not replace
+them.</p>
+<p><strong>MPCP v1.0</strong> defines <strong>one normative rail: XRPL.</strong> Conforming PolicyGrants MUST use
+<code>allowedRails: ["xrpl"]</code> only. Additional rail identifiers described in older revisions of this
+document are <strong>reserved for future protocol versions</strong> and MUST NOT appear in conforming v1.0
+artifacts.</p>
+<p>The <strong>XRPL profile</strong> is the reference implementation and uses escrow-based budget enforcement as a
+core mechanism.</p>
 <hr />
 <h2 id="rail-identifiers">Rail Identifiers</h2>
-<p>Rails are identified by short string identifiers in <code>PolicyGrant.allowedRails</code>:</p>
 <table>
 <thead>
 <tr>
 <th>Identifier</th>
-<th>Description</th>
+<th>Status in MPCP v1.0</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>xrpl</code></td>
-<td>XRP Ledger (reference implementation)</td>
+<td><strong>Normative</strong> — required for conformance</td>
 </tr>
 <tr>
-<td><code>evm</code></td>
-<td>EVM-compatible chains (Ethereum, Polygon, etc.)</td>
-</tr>
-<tr>
-<td><code>stellar</code></td>
-<td>Stellar network</td>
-</tr>
-<tr>
-<td><code>stripe</code></td>
-<td>Stripe (card / ACH)</td>
+<td><code>evm</code>, <code>stellar</code>, <code>stripe</code>, <code>hosted</code>, and others</td>
+<td><strong>Reserved</strong> — MUST NOT appear in conforming PolicyGrants or SBAs</td>
 </tr>
 </tbody>
 </table>
-<p>Custom identifiers SHOULD follow a <code>{organization}:{rail}</code> namespace convention to avoid
-conflicts (e.g. <code>"acme:internal"</code>).</p>
+<p>Custom identifiers for experimental deployments are <strong>non-conforming</strong> until registered in a future
+spec revision.</p>
 <hr />
 <h2 id="xrpl-reference-implementation">XRPL — Reference Implementation</h2>
 <p>XRPL is the reference rail for MPCP. It demonstrates the full enforcement model:</p>
@@ -2249,13 +2243,15 @@ carries a <code>mpcp/grant-id</code> memo that links it to the grant for on-chai
 </tbody>
 </table>
 <p>The gateway holds the preimage in memory during the session. If the server restarts, the
-preimage is lost — the escrow is released naturally at <code>CancelAfter</code>.</p>
+preimage may be lost — the escrow is released naturally at <code>CancelAfter</code>. <strong>Cumulative spend
+enforcement</strong> nevertheless MUST rely on durable gateway state or memo-based reconstruction (see
+<a href="../trust-model/#gateway-durable-spend-state-must">Trust Model — Gateway durable spend state</a>).</p>
 <hr />
 <h2 id="escrow-uri-scheme">Escrow URI Scheme</h2>
-<p>The <code>budgetEscrowRef</code> field uses a generic URI scheme that can accommodate any rail:</p>
+<p>The <code>budgetEscrowRef</code> field uses a generic URI scheme for documentation extensibility:</p>
 <div class="highlight"><pre><span></span><code>&quot;{rail}:{mechanism}:{identifier...}&quot;
 </code></pre></div>
-<p>Examples:</p>
+<p><strong>MPCP v1.0 conforming grants</strong> use XRPL only:</p>
 <table>
 <thead>
 <tr>
@@ -2270,50 +2266,20 @@ preimage is lost — the escrow is released naturally at <code>CancelAfter</code
 <td><code>xrpl:escrow:{account}:{sequence}</code></td>
 <td>EscrowObject identified by owner account and offer sequence</td>
 </tr>
-<tr>
-<td>Ethereum</td>
-<td><code>eth:timelock:{contract}:{lockId}</code></td>
-<td>TimelockController or custom escrow contract</td>
-</tr>
-<tr>
-<td>Stellar</td>
-<td><code>stellar:claimable:{balanceId}</code></td>
-<td>Claimable balance (closest Stellar analogue to escrow)</td>
-</tr>
 </tbody>
 </table>
-<p>The URI components after the rail identifier are rail-specific. Verifiers that do not recognize
-a rail SHOULD treat <code>budgetEscrowRef</code> as opaque metadata.</p>
+<p>The URI components after the rail identifier are rail-specific. Verifiers that encounter unknown
+rails SHOULD treat <code>budgetEscrowRef</code> as opaque metadata.</p>
 <hr />
-<h2 id="adding-a-new-rail">Adding a New Rail</h2>
-<p>To extend MPCP to a new settlement rail, implementors MUST provide:</p>
+<h2 id="future-rails">Future rails</h2>
+<p>To extend MPCP beyond XRPL in a <strong>future</strong> protocol version, a revision MUST specify:</p>
 <ol>
-<li>
-<p><strong>Budget reservation mechanism</strong> — equivalent to XRPL escrow. The reserved amount MUST be
-   provably locked and released only under the same conditions (grant expiry or revocation).</p>
-</li>
-<li>
-<p><strong>Per-payment memo / tagging</strong> — each settlement transaction MUST carry the <code>grantId</code> in
-   an on-chain field to enable audit. The tagging field and encoding are rail-specific.</p>
-</li>
-<li>
-<p><strong>Trust Gateway integration</strong> — the gateway component for the new rail MUST:</p>
-</li>
-<li>Enforce the PA-signed <code>budgetMinor</code> as a hard ceiling</li>
-<li>Verify <code>authorizedGateway</code> identity if applicable to the rail</li>
-<li>
-<p>Submit settlement transactions (not the agent)</p>
-</li>
-<li>
-<p><strong><code>budgetEscrowRef</code> format</strong> — define the URI format using the <code>{rail}:{mechanism}:{id}</code>
-   scheme and document it so verifiers can parse it.</p>
-</li>
-<li>
-<p><strong><code>allowedRails</code> identifier</strong> — register a short string identifier and document it.</p>
-</li>
+<li><strong>Budget reservation mechanism</strong> — equivalent to XRPL escrow.</li>
+<li><strong>Per-payment memo / tagging</strong> — each settlement transaction MUST carry <code>grantId</code> for audit.</li>
+<li><strong>Trust Gateway integration</strong> — enforce PA-signed ceilings and identity rules for that rail.</li>
+<li><strong><code>budgetEscrowRef</code> format</strong> and <strong><code>allowedRails</code></strong> identifier registration.</li>
 </ol>
-<p>Implementors SHOULD submit a profile document to the MPCP spec repository describing the
-rail-specific behavior, escrow mechanism, and audit tagging format.</p>
+<p>Until such a revision is published, implementations MUST treat XRPL as the sole conforming rail.</p>
 <hr />
 <h2 id="xrpl-offline-mode-tiered-trust">XRPL Offline Mode (Tiered Trust)</h2>
 <p>For XRPL, offline mode uses the Trust Bundle + <code>offlineMaxSinglePayment</code> cap:</p>
@@ -2325,24 +2291,22 @@ rail-specific behavior, escrow mechanism, and audit tagging format.</p>
 </code></pre></div>
 <p>The cumulative budget guarantee is deferred until the merchant comes back online and syncs
 with the Trust Gateway.</p>
-<p>For other rails, an equivalent offline profile SHOULD be defined. The key requirement is that
-the offline-accepted amount per transaction is bounded by a PA-signed cap.</p>
 <hr />
 <h2 id="what-mpcp-does-not-control">What MPCP Does Not Control</h2>
 <p>MPCP does not:</p>
 <ul>
-<li>Choose the settlement rail at runtime (the agent or policy selects from <code>allowedRails</code>)</li>
-<li>Execute settlement directly (the Trust Gateway or merchant's processor does this)</li>
-<li>Define the escrow smart contract or ledger object structure beyond the URI reference</li>
+<li>Choose the settlement rail at runtime outside the PolicyGrant allowlist (v1.0: XRPL only)</li>
+<li>Execute settlement directly (the Trust Gateway submits on-ledger)</li>
+<li>Define the escrow ledger object structure beyond the URI reference</li>
 </ul>
 <p>MPCP controls the <strong>authorization chain</strong> that leads to settlement. Settlement itself is
 delegated to the rail.</p>
 <hr />
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../trust-model/">Trust Model</a> — Escrow as proof-of-reservation</li>
-<li><a href="../PolicyGrant/">PolicyGrant</a> — <code>budgetMinor</code>, <code>budgetEscrowRef</code>, <code>authorizedGateway</code></li>
-<li><a href="../trust-bundles/">Trust Bundles</a> — Offline key distribution for multi-rail deployments</li>
+<li><a href="../trust-model/">Trust Model</a> — Escrow as proof-of-reservation; gateway durable spend state</li>
+<li><a href="../PolicyGrant/">PolicyGrant</a> — <code>budgetMinor</code>, <code>budgetEscrowRef</code>, <code>authorizedGateway</code>, <code>velocityLimit</code>, conformance</li>
+<li><a href="../trust-bundles/">Trust Bundles</a> — Offline key distribution</li>
 <li><a href="../../architecture/actors/">Actors</a> — Trust Gateway role</li>
 </ul>
 

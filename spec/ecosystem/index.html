@@ -2425,7 +2425,7 @@
 <li><strong>PolicyGrant display</strong> — parse a received grant into human- or agent-readable form</li>
 <li><strong>SBA creation and signing</strong> — <code>createSession(grant, signingKey)</code> → signs SBAs within authorized scope</li>
 <li><strong>Budget enforcement</strong> — tracks cumulative spend, rejects requests that would exceed the grant ceiling</li>
-<li><strong>Revocation</strong> — checks XRPL active-grant credential when <code>activeGrantCredentialIssuer</code> is set; otherwise legacy <code>revocationEndpoint</code> for non-XRPL rails</li>
+<li><strong>Revocation</strong> — checks XRPL active-grant credential when <code>activeGrantCredentialIssuer</code> is set (conforming grants omit <code>revocationEndpoint</code>)</li>
 <li><strong>Persistence</strong> — pluggable storage adapters (in-memory, localStorage, React Native AsyncStorage)</li>
 <li><strong>Platform support</strong> — browser bundle (Web Crypto API), React Native, Node.js</li>
 </ul>

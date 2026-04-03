@@ -2126,7 +2126,7 @@ MPCP is the right authorization layer for human-to-agent spending delegation.</p
 </tr>
 <tr>
 <td><strong>Settlement rails</strong></td>
-<td>Any (XRPL, EVM, Stripe, hosted)</td>
+<td><strong>XRPL</strong> (MPCP v1.0 conformance)</td>
 <td>Stablecoins (USDC, EURC)</td>
 <td>Cards, x402</td>
 <td>Rail-agnostic (unspecified)</td>
@@ -2142,7 +2142,7 @@ MPCP is the right authorization layer for human-to-agent spending delegation.</p
 </tr>
 <tr>
 <td><strong>Human revocation</strong></td>
-<td>Yes — XRPL Credentials and/or <code>revocationEndpoint</code></td>
+<td>Yes — XRPL Credentials (<code>activeGrantCredentialIssuer</code> / CredentialDelete)</td>
 <td>No</td>
 <td>Yes (mandate expiry)</td>
 <td>N/A</td>
@@ -2181,8 +2181,9 @@ and serves the response.</p>
    charging, hotel bookings, transport — often in environments where connectivity is intermittent.</p>
 </li>
 <li>
-<p><strong>Stablecoins vs rail-agnostic</strong> — x402 is built around stablecoins on specific chains. MPCP
-   defines the authorization chain; the settlement rail is a pluggable backend.</p>
+<p><strong>Stablecoins vs XRPL-native settlement</strong> — x402 is built around stablecoins on specific chains.
+   MPCP v1.0 defines the authorization chain with <strong>XRPL</strong> as the normative settlement rail (e.g.
+   RLUSD IOU on XRPL).</p>
 </li>
 </ol>
 <hr />
@@ -2202,8 +2203,8 @@ uses Verifiable Digital Credentials (VDCs): Payment Mandate, Cart Mandate, and I
    payment: the machine holds PolicyGrant + SBA onboard and signs payments when disconnected.</p>
 </li>
 <li>
-<p><strong>Cards vs multi-rail</strong> — AP2's initial focus is card payments, with x402 for crypto. MPCP is
-   rail-agnostic from the start: XRPL, EVM, Stripe, hosted.</p>
+<p><strong>Cards vs XRPL</strong> — AP2's initial focus is card payments, with x402 for crypto. MPCP v1.0
+   standardizes on <strong>XRPL</strong> for settlement while keeping a rich authorization model.</p>
 </li>
 <li>
 <p><strong>Scope</strong> — AP2 addresses accountability, authenticity, and authorization across agent commerce.
@@ -2253,7 +2254,7 @@ TAPC negotiation.</p>
 <li>Machines or AI agents need to spend autonomously within policy limits</li>
 <li>Payments may work <strong>offline</strong> (vehicles in garages, agents in low-connectivity environments)</li>
 <li>You need <strong>pre-authorized budgets</strong> (session/trip spending envelopes) rather than per-request payment</li>
-<li>You want <strong>any settlement rail</strong> (XRPL, EVM, Stripe, hosted) with a single authorization model</li>
+<li>You want <strong>XRPL settlement</strong> with a single authorization model (PolicyGrant → SBA → Trust Gateway)</li>
 <li>The human needs to <strong>revoke</strong> the agent's spending authority mid-delegation</li>
 <li>Verification and auditability of the authorization chain matter</li>
 </ul>
