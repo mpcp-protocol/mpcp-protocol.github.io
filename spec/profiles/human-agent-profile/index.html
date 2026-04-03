@@ -2403,7 +2403,7 @@ human.</p>
 </tr>
 <tr>
 <td><code>allowedPurposes</code></td>
-<td>Merchant category allowlist — enforced by the AI agent, not the verifier</td>
+<td>Merchant category allowlist — enforced by the AI agent and the Trust Gateway (see <a href="../../protocol/PolicyGrant/#purpose-enforcement">Purpose Enforcement</a>)</td>
 </tr>
 <tr>
 <td><code>revocationEndpoint</code></td>
@@ -2494,18 +2494,21 @@ context.</p>
 See <a href="../../protocol/key-resolution/">Key Resolution</a>.</p>
 <hr />
 <h2 id="allowedpurposes-merchant-category-filter"><code>allowedPurposes</code> — Merchant Category Filter</h2>
-<p><code>allowedPurposes</code> is an <strong>agent-enforced</strong> constraint, not a cryptographic enforcement by the
-MPCP verifier. It documents the human's intent and appears in the audit trail.</p>
+<p><code>allowedPurposes</code> is enforced at <strong>two levels</strong>: the agent (first line of defense) and the
+Trust Gateway (trusted enforcement point). It is PA-signed and tamper-proof.</p>
 <p><strong>Agent responsibility:</strong> Before issuing an SBA, the agent MUST check whether the merchant
-category (purpose) is in the <code>allowedPurposes</code> list. If not, the agent refuses to issue an SBA —
-no payment proceeds.</p>
-<p><strong>Verifier behavior:</strong> The Trust Gateway does NOT enforce <code>allowedPurposes</code>. Operators relying
-on purpose enforcement MUST trust the agent's compliance or implement independent category
-verification.</p>
+category (purpose) is in the <code>allowedPurposes</code> list. If not, the agent MUST refuse to issue
+an SBA — no payment proceeds.</p>
+<p><strong>Gateway responsibility:</strong> The Trust Gateway SHOULD enforce <code>allowedPurposes</code> from the
+PA-signed grant. When the settlement request includes a <code>purpose</code> field, the gateway checks it
+against <code>PolicyGrant.allowedPurposes</code> and rejects with <code>PURPOSE_NOT_ALLOWED</code> on mismatch.
+This ensures that a compromised agent that bypasses its own check is still blocked.</p>
+<p>See <a href="../../protocol/PolicyGrant/#purpose-enforcement">PolicyGrant — Purpose Enforcement</a> for
+the full specification.</p>
 <p><strong>Example enforcement in agent:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">purposeAllowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">grant</span><span class="p">.</span><span class="nx">allowedPurposes</span><span class="o">?</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">merchantCategory</span><span class="p">)</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
 <span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">purposeAllowed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="c1">// refuse to issue SBA</span>
+<span class="w">  </span><span class="c1">// refuse to issue SBA — purpose not permitted by grant</span>
 <span class="p">}</span>
 </code></pre></div>
 <hr />
@@ -2552,7 +2555,7 @@ frequent SBA refresh.</p>
 <p>If the agent's SBA signing key is compromised, the attacker is bounded by:
 - The <code>maxAmountMinor</code> in the SBA
 - The <code>expiresAt</code> in the SBA
-- The <code>allowedPurposes</code> and <code>destinationAllowlist</code></p>
+- The <code>allowedPurposes</code> and <code>destinationAllowlist</code> (both PA-signed on the PolicyGrant and gateway-enforced — see <a href="../../protocol/PolicyGrant/#destination-enforcement">Destination Enforcement</a>)</p>
 <p>Revoke the PolicyGrant immediately to stop new SBAs from being issued.</p>
 <hr />
 <h2 id="comparison-with-fleet-profile">Comparison with Fleet Profile</h2>
@@ -2592,8 +2595,8 @@ frequent SBA refresh.</p>
 </tr>
 <tr>
 <td>Merchant categories</td>
-<td>destinationAllowlist (crypto)</td>
-<td>allowedPurposes (semantic, agent-enforced)</td>
+<td>destinationAllowlist (crypto, PA + gateway-enforced)</td>
+<td>allowedPurposes (semantic, agent + gateway-enforced)</td>
 </tr>
 <tr>
 <td>Use case</td>

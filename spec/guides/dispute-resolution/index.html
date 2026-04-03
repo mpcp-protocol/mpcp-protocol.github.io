@@ -2201,6 +2201,18 @@
 <td>Payment destination not in SBA <code>destinationAllowlist</code></td>
 </tr>
 <tr>
+<td><code>destination_not_allowed</code></td>
+<td>Payment destination not in PA-signed <code>PolicyGrant.destinationAllowlist</code> and no on-chain credential match</td>
+</tr>
+<tr>
+<td><code>destination_not_credentialed</code></td>
+<td><code>merchantCredentialIssuer</code> set but destination lacks matching on-chain credential</td>
+</tr>
+<tr>
+<td><code>purpose_not_allowed</code></td>
+<td>Payment purpose not in <code>PolicyGrant.allowedPurposes</code></td>
+</tr>
+<tr>
 <td><code>budget_exceeded</code></td>
 <td>Sum of on-chain payments &gt; <code>budgetMinor</code> (Trust Gateway failure)</td>
 </tr>

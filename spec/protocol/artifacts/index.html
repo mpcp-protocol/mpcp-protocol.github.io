@@ -2045,7 +2045,7 @@ XRPL Receipt (txHash)
 <ul>
 <li><strong>maxAmountMinor</strong> — Maximum spend for this payment in the policy's minor currency units. The Trust Gateway converts to on-chain asset units at settlement time.</li>
 <li><strong>allowedRails</strong>, <strong>allowedAssets</strong> — Must be subsets of PolicyGrant</li>
-<li><strong>destinationAllowlist</strong> — Optional list of permitted destination addresses</li>
+<li><strong>destinationAllowlist</strong> — Optional list of permitted destination addresses (must be a subset of <code>PolicyGrant.destinationAllowlist</code> when present)</li>
 <li><strong>budgetScope</strong> — SESSION, DAY, VEHICLE, FLEET, or TRIP (multi-session; see <a href="../../profiles/human-agent-profile/#trip-scope-semantics">Human-to-Agent Profile</a>)</li>
 </ul>
 <p>The SBA is cryptographically signed. A verifier checks the signature over <code>SHA256("MPCP:SBA:1.0:" || canonicalJson(authorization))</code>.</p>

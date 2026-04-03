@@ -2207,7 +2207,9 @@ individual payments after grant issuance.</p>
 <li>Creates the XRPL budget escrow at grant issuance (pre-reserving <code>budgetMinor</code> XRP)</li>
 <li>Receives the PA-signed <code>budgetMinor</code> and enforces it as a hard ceiling for all payments</li>
 <li>Holds the XRPL gateway seed — no other actor can submit payments on this gateway's behalf</li>
-<li>Verifies the SBA signature and purpose before signing each XRPL Payment transaction</li>
+<li>Verifies the SBA signature before signing each XRPL Payment transaction</li>
+<li>Enforces <code>allowedPurposes</code> from the PA-signed grant — rejects payments whose declared purpose is not in the allowlist (see <a href="../PolicyGrant/#purpose-enforcement">Purpose Enforcement</a>)</li>
+<li>Enforces <code>destinationAllowlist</code> and/or <code>merchantCredentialIssuer</code> from the PA-signed grant — rejects payments to unapproved destinations (see <a href="../PolicyGrant/#destination-enforcement">Destination Enforcement</a>)</li>
 <li>Attaches <code>mpcp/grant-id</code> memo to every on-chain payment for audit traceability</li>
 <li>Releases the escrow on grant revocation (EscrowFinish with preimage) or expiry (EscrowCancel)</li>
 </ol>
@@ -2227,17 +2229,21 @@ the PolicyGrant and enforced by the gateway:</p>
 <ul>
 <li>SBA <code>maxAmountMinor</code> ≤ remaining gateway budget</li>
 <li>SBA <code>allowedPurposes</code> ⊆ PolicyGrant <code>allowedPurposes</code></li>
+<li>SBA <code>destinationAllowlist</code> ⊆ PolicyGrant <code>destinationAllowlist</code> (when PA field is present)</li>
 <li>SBA signed with agent's own key (not the gateway key)</li>
 </ul>
 <p><strong>What the agent cannot do:</strong></p>
 <ul>
 <li>Submit XRPL payments directly (no access to gateway seed)</li>
 <li>Exceed the PA-signed ceiling (gateway rejects overspends)</li>
-<li>Approve a purpose not in the PolicyGrant <code>allowedPurposes</code> list</li>
+<li>Pay for a purpose not in the PolicyGrant <code>allowedPurposes</code> list (gateway enforces)</li>
 </ul>
-<p><strong>Agent trust level:</strong> The gateway trusts that the SBA signature is valid and the purpose is
-permitted. It does not trust the agent's self-reported budget state — it maintains its own
-independent spend counter.</p>
+<p><strong>Agent trust level:</strong> The gateway does not trust the agent's self-reported budget state — it
+maintains its own independent spend counter. The gateway also independently enforces the
+PA-signed <code>allowedPurposes</code> against the declared purpose in the settlement request, and
+enforces the PA-signed <code>destinationAllowlist</code> (or on-chain merchant credentials) against the
+payment destination, so a compromised agent that skips its own purpose or destination check
+is still blocked at the gateway.</p>
 <hr />
 <h3 id="merchant-service-provider-lowest-trust">Merchant / Service Provider (lowest trust)</h3>
 <p>Merchants verify the SBA signature and PolicyGrant signature before accepting payment. They
@@ -2323,6 +2329,16 @@ overspending because:</p>
 <td>Cumulative budget enforced</td>
 <td>✅ gateway counter + escrow</td>
 <td>❌ not enforced</td>
+</tr>
+<tr>
+<td>Purpose enforced</td>
+<td>✅ gateway checks <code>allowedPurposes</code></td>
+<td>❌ not enforced (agent-only)</td>
+</tr>
+<tr>
+<td>Destination enforced</td>
+<td>✅ gateway checks <code>destinationAllowlist</code> / credentials</td>
+<td>❌ not enforced (agent-only)</td>
 </tr>
 <tr>
 <td>On-chain confirmation</td>

@@ -2137,7 +2137,9 @@
 <ul>
 <li>Receives a PolicyGrant from a human principal (DID-signed) and acts as its spending subject</li>
 <li>Acts as <strong>session authority</strong> — creates and signs SBAs (typically with TRIP scope)</li>
-<li>Enforces <code>allowedPurposes</code> before issuing each SBA — refuses payments for disallowed merchant categories</li>
+<li>Enforces <code>allowedPurposes</code> before issuing each SBA — refuses payments for disallowed merchant categories (first line of defense; the Trust Gateway independently enforces the same check)</li>
+<li>Declares the payment <code>purpose</code> in each settlement request so the Trust Gateway can verify it against the PA-signed <code>allowedPurposes</code></li>
+<li>Sets SBA <code>destinationAllowlist</code> as a subset of the PolicyGrant's PA-signed <code>destinationAllowlist</code> (when present)</li>
 <li>Maintains cumulative spend counter across all sessions in the trip/project</li>
 <li>SHOULD check <code>revocationEndpoint</code> before issuing each SBA (agents are online by design)</li>
 </ul>
@@ -2185,7 +2187,9 @@ XRPL gateway seed and is the only entity that submits payment transactions on be
 <ul>
 <li>Creates an XRPL budget escrow at grant issuance, pre-reserving the full <code>budgetMinor</code> XRP</li>
 <li>Enforces the PA-signed <code>budgetMinor</code> as a hard ceiling — maintains an independent spend counter</li>
-<li>Verifies each SBA signature and purpose before submitting a XRPL Payment transaction</li>
+<li>Verifies each SBA signature before submitting a XRPL Payment transaction</li>
+<li>Enforces <code>allowedPurposes</code> from the PA-signed grant — rejects payments whose declared purpose is not in the allowlist (see <a href="../../protocol/PolicyGrant/#purpose-enforcement">Purpose Enforcement</a>)</li>
+<li>Enforces <code>destinationAllowlist</code> and/or <code>merchantCredentialIssuer</code> from the PA-signed grant — rejects payments to unapproved destinations (see <a href="../../protocol/PolicyGrant/#destination-enforcement">Destination Enforcement</a>)</li>
 <li>Attaches <code>mpcp/grant-id</code> memo to every XRPL payment for on-chain audit traceability</li>
 <li>Releases the escrow on grant revocation (EscrowFinish with preimage) or expiry (EscrowCancel)</li>
 <li>Rejects payments if <code>authorizedGateway</code> in the PA-signed grant does not match its own address</li>
