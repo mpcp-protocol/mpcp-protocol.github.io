@@ -1239,6 +1239,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#algorithm-deprecation-version-gated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm deprecation (version-gated)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2264,6 +2275,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#algorithm-deprecation-version-gated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm deprecation (version-gated)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2591,6 +2613,7 @@
 <span class="w">  </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EdDSA&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-32-byte-public-key&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="p">}</span>
@@ -2601,6 +2624,7 @@
 <span class="w">  </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EC&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secp256k1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ES256K&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-x-coordinate&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-y-coordinate&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
@@ -2645,7 +2669,35 @@
 </tr>
 </tbody>
 </table>
+<p>Recommended JWK fields for MPCP keys:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>alg</code></td>
+<td><a href="https://www.rfc-editor.org/rfc/rfc7518.html">RFC 7518</a> JWS algorithm for signatures produced with this key. <strong>RECOMMENDED.</strong> Use <code>"EdDSA"</code> for Ed25519 (<code>kty</code> OKP, <code>crv</code> Ed25519) and <code>"ES256K"</code> for secp256k1 (<code>kty</code> EC, <code>crv</code> secp256k1). If <code>alg</code> is omitted, verifiers MUST infer the algorithm from <code>kty</code> and <code>crv</code> as above. If <code>alg</code> is present and <strong>conflicts</strong> with <code>kty</code>/<code>crv</code>, verifiers MUST reject the key.</td>
+</tr>
+</tbody>
+</table>
 <p>Private key material (<code>d</code>) MUST NOT be present in key set documents.</p>
+<h3 id="algorithm-deprecation-version-gated">Algorithm deprecation (version-gated)</h3>
+<p><strong>MPCP v1.0</strong> normative signing algorithms for artifact verification are <strong>Ed25519</strong> (EdDSA) and
+<strong>secp256k1</strong> (ES256K, <strong>low-S only</strong> — see <a href="../hashing/#ecdsa-secp256k1-low-s">Hashing</a>).</p>
+<p>Future <strong>minor</strong> specification revisions MAY:</p>
+<ul>
+<li>Register additional algorithms and JWK <code>alg</code> values.</li>
+<li>Mark algorithms as <strong>deprecated</strong> in this document; conforming verifiers <strong>MUST NOT</strong> accept
+  newly issued artifacts signed with a deprecated algorithm after the revision’s effective date.</li>
+<li>Require key set publishers to set <code>active: false</code> on JWKs for deprecated algorithms and to
+  rotate to supported keys.</li>
+</ul>
+<p>Implementations SHOULD surface the spec version they implement so operators can enforce alignment
+with PA key rotation.</p>
 <hr />
 <h2 id="https-well-known-endpoint">HTTPS Well-Known Endpoint</h2>
 <h3 id="endpoint">Endpoint</h3>
@@ -2699,6 +2751,7 @@ TLS certificates.</p>
 <span class="w">      </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EdDSA&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">    </span><span class="p">},</span>
@@ -2707,6 +2760,7 @@ TLS certificates.</p>
 <span class="w">      </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EC&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secp256k1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ES256K&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>

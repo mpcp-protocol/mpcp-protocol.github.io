@@ -1438,6 +1438,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Bundle Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-settlement-bundle-trust-gateway-and-audits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full settlement bundle (Trust Gateway and audits)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merchant-minimal-bundle-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merchant-minimal bundle (privacy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1962,6 +2001,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Bundle Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-settlement-bundle-trust-gateway-and-audits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full settlement bundle (Trust Gateway and audits)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merchant-minimal-bundle-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merchant-minimal bundle (privacy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2027,12 +2105,14 @@
 <li>audit trails and compliance</li>
 </ul>
 <h2 id="bundle-format">Bundle Format</h2>
-<p>The bundle is a JSON object with artifact-keyed fields. Required fields:</p>
+<p>The bundle is a JSON object with artifact-keyed fields.</p>
+<h3 id="full-settlement-bundle-trust-gateway-and-audits">Full settlement bundle (Trust Gateway and audits)</h3>
 <table>
 <thead>
 <tr>
 <th>Field</th>
 <th>Type</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -2040,21 +2120,26 @@
 <tr>
 <td><code>policyGrant</code></td>
 <td>object</td>
-<td>Policy grant constraining the session</td>
+<td><strong>yes</strong></td>
+<td>Full PA-signed PolicyGrant</td>
 </tr>
 <tr>
 <td><code>sba</code></td>
 <td>object</td>
-<td>SignedBudgetAuthorization artifact</td>
+<td><strong>yes</strong></td>
+<td>SignedBudgetAuthorization</td>
 </tr>
 <tr>
 <td><code>settlement</code></td>
 <td>object</td>
+<td><strong>yes</strong></td>
 <td>Executed settlement result (XRPL txHash + memo)</td>
 </tr>
 </tbody>
 </table>
-<p>Optional fields:</p>
+<h3 id="merchant-minimal-bundle-privacy">Merchant-minimal bundle (privacy)</h3>
+<p>Bundles MAY <strong>omit</strong> <code>policyGrant</code> when using <a href="../PolicyGrant/#merchant-privacy-and-grant-presentation-policygrant-exposure">gateway-only PolicyGrant presentation</a>. Verifiers MUST follow <a href="../verification/#sba-only-merchant-context">SBA-only merchant context</a> and MUST NOT claim PolicyGrant PA signature verification.</p>
+<h3 id="optional-fields">Optional fields</h3>
 <table>
 <thead>
 <tr>

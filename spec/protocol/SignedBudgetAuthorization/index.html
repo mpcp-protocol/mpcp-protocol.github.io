@@ -1346,6 +1346,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#policy-linkage-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy linkage fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#structure" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2026,6 +2037,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#policy-linkage-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Policy linkage fields
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#structure" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2170,6 +2192,11 @@
 <p>Unlike application-specific budget concepts, SBA is generic and may be used across parking, charging, tolling, robotics, AI agents, and other machine-payment environments.</p>
 <p>The <strong>SignedBudgetAuthorization (SBA)</strong> establishes the maximum spending envelope available to a machine for a defined payment scope.</p>
 <p>It is issued after a PolicyGrant and presented to the Trust Gateway, which verifies the SBA signature and enforces the budget ceiling before submitting each XRPL payment.</p>
+<hr />
+<h2 id="policy-linkage-fields">Policy linkage fields</h2>
+<p><code>grantId</code> and <code>policyHash</code> are the <strong>canonical linkage</strong> from an SBA to its PolicyGrant. They are the
+<strong>only PolicyGrant-origin fields</strong> required inside the SBA payload for binding to PA policy.</p>
+<p>Deployments using <a href="../PolicyGrant/#merchant-privacy-and-grant-presentation-policygrant-exposure">gateway-only PolicyGrant presentation</a> send the <strong>full PolicyGrant only to the Trust Gateway</strong>; merchants receive the <strong>SBA</strong> (which includes <code>grantId</code> and <code>policyHash</code>) without a copy of the grant. See <a href="../verification/#verification-contexts">Verification — Verification contexts</a>.</p>
 <hr />
 <h2 id="structure">Structure</h2>
 <h3 id="budgetauthorization-inner-payload">BudgetAuthorization (inner payload)</h3>
@@ -2437,7 +2464,7 @@ In offline or air-gapped environments (e.g., vehicles without real-time connecti
 </ol>
 <p>Then validate the signature over SHA256("MPCP:SBA:<version>:" || canonicalJson(authorization)).
 2. Check <code>expiresAt</code> has not passed
-3. When verifying against a payment decision or settlement context: ensure sessionId, policyHash, budgetScope, allowedRails, allowedAssets, optional destination constraints, and amount constraints match</p>
+3. When verifying against a payment decision or settlement context: ensure sessionId, policyHash, budgetScope, allowedRails, allowedAssets, optional destination constraints, and amount constraints match — <strong>except</strong> in <a href="../verification/#sba-only-merchant-context">SBA-only merchant context</a>, where PolicyGrant subset checks are skipped because the grant is not available.</p>
 <hr />
 <h2 id="relationship-to-pipeline">Relationship to Pipeline</h2>
 <div class="highlight"><pre><span></span><code>PolicyGrant

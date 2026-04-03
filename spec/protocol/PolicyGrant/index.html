@@ -1351,6 +1351,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#merchant-privacy-and-grant-presentation-policygrant-exposure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merchant privacy and grant presentation (PolicyGrant exposure)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Merchant privacy and grant presentation (PolicyGrant exposure)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gateway-only-policygrant-presentation-recommended-for-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway-only PolicyGrant presentation (RECOMMENDED for privacy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-chain-presentation-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full-chain presentation (default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#structure" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2552,6 +2591,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#merchant-privacy-and-grant-presentation-policygrant-exposure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Merchant privacy and grant presentation (PolicyGrant exposure)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Merchant privacy and grant presentation (PolicyGrant exposure)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gateway-only-policygrant-presentation-recommended-for-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway-only PolicyGrant presentation (RECOMMENDED for privacy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-chain-presentation-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full-chain presentation (default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#structure" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3199,6 +3277,35 @@ only if all of the following hold:</p>
 <p>Verifiers and Trust Gateways MUST reject non-conforming PolicyGrants at settlement. Fields such as
 <code>gatewayCredentialIssuer</code> / <code>gatewayCredentialType</code> are <strong>optional</strong> strengtheners for on-chain
 gateway authorization.</p>
+<hr />
+<h2 id="merchant-privacy-and-grant-presentation-policygrant-exposure">Merchant privacy and grant presentation (PolicyGrant exposure)</h2>
+<p>PolicyGrants can carry sensitive or linkable data (<code>subjectId</code>, <code>allowedPurposes</code>, credential issuer
+addresses, destination policy, etc.). Operators SHOULD <strong>minimize</strong> what each merchant receives.</p>
+<h3 id="gateway-only-policygrant-presentation-recommended-for-privacy">Gateway-only PolicyGrant presentation (RECOMMENDED for privacy)</h3>
+<p>Deployments MAY use <strong>gateway-only PolicyGrant presentation</strong>:</p>
+<ol>
+<li><strong>Trust Gateway (settlement path):</strong> MUST receive the <strong>full, PA-signed PolicyGrant</strong> and the
+   <strong>SBA</strong> for every online settlement. The gateway runs the full verification chain (PolicyGrant
+   signature, <code>policyHash</code> consistency, SBA ⊆ grant constraints, velocity, credentials, etc.).</li>
+<li><strong>Merchants and other verifiers:</strong> MAY receive <strong>only the SBA</strong> (plus payment quote metadata).
+   The SBA carries <strong><code>grantId</code></strong> and <strong><code>policyHash</code></strong> — the <strong>minimum grant linkage</strong> in the SBA
+   payload. No other PolicyGrant fields are required on the wire to the merchant for this mode.</li>
+<li><strong>Assurance trade-off:</strong> A verifier without the PolicyGrant <strong>cannot</strong> verify the PA signature on
+   the grant or cryptographically confirm that SBA constraints are subsets of hidden grant fields.
+   It CAN still verify the <strong>SBA signature</strong> (session authority), <strong><code>expiresAt</code></strong>, payment envelope
+   fields on the SBA, and treat <strong><code>policyHash</code></strong> as an opaque commitment to the policy the PA
+   published. <strong>Strong policy enforcement</strong> for fields not present on the SBA relies on the
+   <strong>Trust Gateway</strong> (and on operators not issuing over-broad SBAs).</li>
+<li><strong>Offline merchants:</strong> Without a PolicyGrant, local verification cannot read PA-signed
+   <code>offlineMaxSinglePayment</code> from the grant. Operators SHOULD either (a) include necessary caps in
+   <strong>Trust Bundle</strong> or merchant configuration, (b) issue SBAs whose <strong><code>maxAmountMinor</code></strong> is already
+   within the intended offline cap, or (c) use a <strong>PA-signed redacted excerpt</strong> artifact (separate
+   profile) if offline verifiers must enforce grant caps without seeing the full grant.</li>
+</ol>
+<h3 id="full-chain-presentation-default">Full-chain presentation (default)</h3>
+<p>When the merchant receives the <strong>full PolicyGrant</strong> and SBA, verifiers MUST verify both signatures
+and subset constraints as described in <a href="../verification/">Verification</a>.</p>
+<p>See also <a href="../SignedBudgetAuthorization/#policy-linkage-fields">SignedBudgetAuthorization — Policy linkage fields</a>.</p>
 <hr />
 <h2 id="structure">Structure</h2>
 <h3 id="policygrant-payload">PolicyGrant (payload)</h3>

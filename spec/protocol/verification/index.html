@@ -1178,6 +1178,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#verification-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification contexts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verification contexts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-chain-trust-gateway-or-merchant-holds-policygrant-sba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full-chain (Trust Gateway or merchant holds PolicyGrant + SBA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sba-only-merchant-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SBA-only merchant context
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#clock-synchronization-and-drift" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1965,6 +2004,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#verification-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification contexts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verification contexts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-chain-trust-gateway-or-merchant-holds-policygrant-sba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full-chain (Trust Gateway or merchant holds PolicyGrant + SBA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sba-only-merchant-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SBA-only merchant context
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#clock-synchronization-and-drift" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2054,6 +2132,21 @@
 <li><strong>Grant liveness (XRPL Credential)</strong> — When <code>PolicyGrant.activeGrantCredentialIssuer</code> is present, verify the active-grant XLS-70 Credential exists on the subject's XRPL account for this <code>grantId</code>. Reject with <code>ACTIVE_GRANT_CREDENTIAL_MISSING</code> if absent or expired. See <a href="../PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</li>
 </ol>
 <p>If any check fails, verification fails with a specific reason. On success, the gateway submits the XRPL transaction and returns the <code>txHash</code> receipt.</p>
+<h2 id="verification-contexts">Verification contexts</h2>
+<h3 id="full-chain-trust-gateway-or-merchant-holds-policygrant-sba">Full-chain (Trust Gateway or merchant holds PolicyGrant + SBA)</h3>
+<p>Use the <strong>Verification Pipeline</strong> above. Verifiers MUST validate the PolicyGrant PA signature and
+that SBA fields are subsets of (or consistent with) the grant.</p>
+<h3 id="sba-only-merchant-context">SBA-only merchant context</h3>
+<p>When using <a href="../PolicyGrant/#merchant-privacy-and-grant-presentation-policygrant-exposure">gateway-only PolicyGrant presentation</a>, the merchant receives <strong>only the SBA</strong> (which includes <code>grantId</code> and <code>policyHash</code>). Verifiers MUST:</p>
+<ul>
+<li>Verify the <strong>SBA signature</strong> using Trust Bundle or configured session-authority keys.</li>
+<li>Verify <strong><code>expiresAt</code></strong> and payment envelope fields (<code>maxAmountMinor</code>, <code>allowedRails</code>, <code>allowedAssets</code>, optional <code>destinationAllowlist</code> on the SBA).</li>
+<li>Treat <strong><code>policyHash</code></strong> as an opaque commitment; MAY compare it to a <strong>published policy registry</strong> if the deployment provides one.</li>
+</ul>
+<p>Verifiers MUST <strong>NOT</strong> claim <strong>PolicyGrant signature verification</strong> or hidden <strong>subset</strong> checks
+(<code>allowedPurposes</code>, PA-signed <code>destinationAllowlist</code> not mirrored on the SBA, <code>budgetMinor</code>,
+<code>velocityLimit</code>, etc.) in this context — those are enforced by the <strong>Trust Gateway</strong> when the full
+grant is presented at settlement.</p>
 <h2 id="clock-synchronization-and-drift">Clock synchronization and drift</h2>
 <p>Artifact validity (<code>expiresAt</code> on PolicyGrant, SBA, and Trust Bundle) is evaluated against the
 verifier's notion of <strong>current time</strong>.</p>
@@ -2093,7 +2186,7 @@ monitoring), not additional protocol fields.</p>
 </tr>
 <tr>
 <td>SBA signature</td>
-<td>Signature valid; expiresAt not passed; <code>authorization.grantId</code> references a valid PolicyGrant</td>
+<td>Signature valid; expiresAt not passed; in full-chain mode, <code>authorization.grantId</code> references the presented PolicyGrant</td>
 </tr>
 <tr>
 <td>SBA → budget</td>

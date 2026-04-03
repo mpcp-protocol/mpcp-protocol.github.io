@@ -2858,14 +2858,15 @@ npm<span class="w"> </span>start
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="what-the-sdk-checks">What the SDK checks</h3>
-<p>The merchant SDK performs a full MPCP verification chain on every request:</p>
+<p>The merchant SDK performs a full MPCP verification chain on every request <strong>when the PolicyGrant is available</strong> (default):</p>
 <ol>
 <li><strong>PolicyGrant signature</strong> — verifies the grant was signed by the claimed policy authority (resolves key via <code>/.well-known/mpcp-keys.json</code> or Trust Bundle)</li>
-<li><strong>SBA signature</strong> — verifies the agent signed the budget authorization with the key recorded in the grant</li>
+<li><strong>SBA signature</strong> — verifies the session authority signed the SBA (Trust Bundle / configured SBA keys)</li>
 <li><strong>Grant liveness</strong> — when <code>activeGrantCredentialIssuer</code> is set, credential lookup on XRPL (cached by TTL); conforming grants have no <code>revocationEndpoint</code></li>
 <li><strong>Budget bounds</strong> — confirms the requested amount does not exceed <code>maxAmountMinor</code>, accounting for cumulative spend if <code>trackSpend: true</code></li>
 <li><strong>Destination allowlist</strong> — if <code>merchantId</code> is set, confirms it appears in the grant's <code>destinationAllowlist</code></li>
 </ol>
+<p><strong>Privacy mode (SBA-only):</strong> Deployments MAY send <strong>only the SBA</strong> to merchants so sensitive grant fields are not exposed; the <strong>Trust Gateway</strong> receives the full PolicyGrant at settlement. In that mode the SDK verifies the <strong>SBA</strong> (including <code>grantId</code> and <code>policyHash</code>) but <strong>does not</strong> verify the PA signature on a grant it never sees. See <a href="../../protocol/PolicyGrant/#merchant-privacy-and-grant-presentation-policygrant-exposure">PolicyGrant — Merchant privacy</a> and <a href="../../protocol/verification/#sba-only-merchant-context">Verification — SBA-only merchant context</a>.</p>
 <blockquote>
 <p><strong>Merchant identity at interaction time:</strong> A compromised or fake terminal could still try to steer the user toward an attacker-controlled destination before an SBA is built. The merchant SDK checks the grant and SBA, but <strong>definitive destination policy</strong> for XRPL settlement is enforced by the <strong>Trust Gateway</strong> (<code>destinationAllowlist</code> / <code>merchantCredentialIssuer</code> on the PA-signed grant). See <a href="../../protocol/mpcp/#merchant-terminal-impersonation-interaction-layer">Threat Model — Merchant terminal impersonation</a>.</p>
 </blockquote>

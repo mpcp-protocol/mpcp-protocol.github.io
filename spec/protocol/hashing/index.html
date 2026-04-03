@@ -1172,6 +1172,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ecdsa-secp256k1-low-s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ECDSA secp256k1 (low-S)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1965,6 +1976,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ecdsa-secp256k1-low-s" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ECDSA secp256k1 (low-S)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2035,6 +2057,18 @@
 <li><strong>Deterministic verification</strong> — Same input → same hash across implementations</li>
 <li><strong>Future versions</strong> — Domain prefixes isolate 1.0 from 1.1, 2.0, etc.</li>
 </ul>
+<h2 id="ecdsa-secp256k1-low-s">ECDSA secp256k1 (low-S)</h2>
+<p>For <strong>secp256k1</strong>, ECDSA signatures are <strong>malleable</strong>: for a given message and public key, both
+<code>(r, s)</code> and <code>(r, n - s)</code> (where <code>n</code> is the curve order) may verify unless implementations restrict
+the form.</p>
+<p><strong>MUST:</strong> Verifiers MUST reject signatures where the <code>s</code> component is in the <strong>high-S</strong> half of the
+curve order. Only <strong>low-S</strong> signatures (as standardized for Bitcoin and XRPL — see
+<a href="https://github.com/bitcoin/bips/blob/master/bip-0146.mediawiki">BIP-146</a> / Bitcoin <strong>low-S</strong>
+policy) MUST be accepted.</p>
+<p><strong>MUST:</strong> Signers MUST produce <strong>low-S</strong> signatures so that verification is deterministic and
+malleability cannot be used to duplicate transaction IDs or artifact hashes across deployments.</p>
+<p>This requirement applies to all MPCP artifacts and to any JWK with <code>kty</code> EC and <code>crv</code> secp256k1
+listed in <a href="../key-resolution/">Key Resolution</a>.</p>
 <h2 id="see-also">See Also</h2>
 <ul>
 <li><a href="../verification/">Verification</a></li>

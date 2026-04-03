@@ -1853,6 +1853,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#optional-session-proof-of-possession-dpop-style-secop-7b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional session proof-of-possession (DPoP-style) (SECOP 7b)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#revocation-latency" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2437,6 +2448,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#optional-session-proof-of-possession-dpop-style-secop-7b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional session proof-of-possession (DPoP-style) (SECOP 7b)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#revocation-latency" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2661,6 +2683,14 @@ Content-Type: application/json
 <p>The gateway implements these MPCP components internally, invisible to both sides:</p>
 <h3 id="policy-authority-internal">Policy Authority (internal)</h3>
 <p>When a budget owner creates a session, the gateway mints a PolicyGrant from the session parameters and stores it internally. No external PA server is required.</p>
+<p><strong>PA signing key separation (SHOULD — SECOP 7a):</strong> The key that signs <strong>PolicyGrants</strong> SHOULD be
+stored in a <strong>separate</strong> HSM or KMS from (a) the gateway application runtime and (b) the <strong>XRPL
+settlement</strong> / escrow key. This limits blast radius if the app tier or settlement tier is
+compromised.</p>
+<p><strong>PA signing audit trail (SHOULD — SECOP 7a):</strong> Each PolicyGrant issuance SHOULD append an
+<strong>append-only audit record</strong> (who authorized, timestamp, <code>issuerKeyId</code>, <code>grantId</code>, and policy
+commitment / <code>policyHash</code>) to a log or SIEM <strong>independent</strong> of mutable application logs, so
+operators can detect or reconstruct unauthorized grant minting.</p>
 <div class="highlight"><pre><span></span><code>Session config  →  internal PolicyGrant
 {                    {
   budget: $800         grantId: ...,
@@ -2793,6 +2823,22 @@ the full threat analysis. Key recommendations:</p>
 <li>Scope to a single agent process; do not share across agents</li>
 <li>Revoke immediately if the token may be compromised</li>
 </ul>
+<h3 id="optional-session-proof-of-possession-dpop-style-secop-7b">Optional session proof-of-possession (DPoP-style) (SECOP 7b)</h3>
+<p>A bearer <code>sessionToken</code> alone can be replayed if exfiltrated. Implementations MAY bind session usage
+to a <strong>session-scoped asymmetric key</strong> (Ed25519 RECOMMENDED) held only by the agent:</p>
+<ol>
+<li><strong>Registration:</strong> At session creation (or first use), the client generates a <strong>session key pair</strong>
+   and sends the <strong>public key</strong> to the gateway, which stores it alongside the session record.</li>
+<li><strong>Request proof:</strong> Each sensitive request (e.g. <code>POST /proxy</code>) sends <code>Authorization: Bearer
+   &lt;sessionToken&gt;</code> <strong>and</strong> a proof header such as <code>X-Mpcp-Session-Proof: &lt;base64url(signature)&gt;</code>.</li>
+<li><strong>Signed payload:</strong> The signature MUST be over<br />
+<code>SHA256("MPCP:GatewaySession:1.0:" || canonicalJson({ "sessionId": "&lt;id&gt;", "method": "POST", "path": "/proxy", "bodySha256": "&lt;hex of SHA-256 of raw body&gt;", "ts": "&lt;RFC3339&gt;" }))</code><br />
+   using the <strong>session private key</strong> (same canonical JSON rules as <a href="../../protocol/mpcp/#canonical-json-definition">MPCP canonical JSON</a>).</li>
+<li><strong>Verification:</strong> The gateway rejects the request if the proof is missing, stale beyond a
+   configured skew, or invalid.</li>
+</ol>
+<p>A stolen bearer token is then <strong>insufficient</strong> without the session private key. Session private keys
+MUST remain in agent secure storage and MUST NOT be sent to merchants.</p>
 <h3 id="revocation-latency">Revocation latency</h3>
 <p>Revocation takes effect before the next payment attempt (the wallet Session checks before signing each SBA). There is no window where a previously-authorized in-flight payment is retroactively cancelled. Payments already completed before revocation are unaffected.</p>
 <hr />

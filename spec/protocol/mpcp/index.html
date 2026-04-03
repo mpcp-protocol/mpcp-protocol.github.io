@@ -2243,6 +2243,8 @@ Trust Gateway → XRPL Settlement → Receipt (txHash)
 <p>These relationships ensure that each stage of MPCP cryptographically and logically constrains the following stage, preventing unauthorized mutations or spending outside policy limits.</p>
 <hr />
 <h1 id="settlement-verification">Settlement Verification</h1>
+<p>The Trust Gateway <strong>always</strong> runs <strong>full-chain</strong> verification (PolicyGrant + SBA). Merchants that
+receive <strong>only the SBA</strong> use the weaker <strong><a href="../verification/#sba-only-merchant-context">SBA-only merchant context</a></strong> — see <a href="../PolicyGrant/#merchant-privacy-and-grant-presentation-policygrant-exposure">PolicyGrant — Merchant privacy</a>.</p>
 <p>Before submitting settlement, the Trust Gateway verifies:</p>
 <ul>
 <li>PolicyGrant schema validity</li>
@@ -2397,6 +2399,9 @@ emit settlement event
 <li>many EVM chains</li>
 </ul>
 <p>Useful when authorization artifacts must be verified by smart contracts.</p>
+<p><strong>Signature malleability:</strong> ECDSA permits a second valid signature (high-<strong>S</strong> vs low-<strong>S</strong>) for the
+same message and key. Implementations using secp256k1 MUST <strong>reject high-S</strong> signatures and only
+accept <strong>low-S</strong> normalized signatures (see <a href="../hashing/#ecdsa-secp256k1-low-s">Hashing — ECDSA secp256k1 (low-S)</a> and BIP-146 / Bitcoin low-S standard).</p>
 <h3 id="verification-requirements">Verification Requirements</h3>
 <p>Regardless of scheme, signature verification MUST validate:</p>
 <ul>
@@ -2472,6 +2477,17 @@ Bundle or an on-chain merchant credential before the agent offers payment.</p>
 MPCP requires HTTPS and <strong>TLS certificate validation</strong> for well-known fetches; verifiers MUST
 validate hostnames and certificate chains. High-value deployments SHOULD use <strong>certificate pinning</strong>
 or equivalent for the PA issuer endpoint. See <a href="../key-resolution/#tls-validation-and-issuer-domain-spoofing">Key Resolution — TLS validation and issuer domain spoofing</a>.</p>
+<h3 id="cross-merchant-linkability-privacy">Cross-merchant linkability (privacy)</h3>
+<p>The same SBA and PolicyGrant fields — especially <strong><code>grantId</code></strong>, <strong><code>sessionId</code></strong>, and <strong><code>actorId</code></strong> —
+may appear across multiple merchants. Colluding or data-sharing merchants could <strong>correlate</strong> a
+subject's activity across touchpoints.</p>
+<p><strong>Mitigations today:</strong> Use <strong>short-lived</strong> grants and SBAs, partition budgets per merchant class, and
+prefer <strong><a href="../PolicyGrant/#merchant-privacy-and-grant-presentation-policygrant-exposure">gateway-only PolicyGrant presentation</a></strong> so merchants never receive the full grant (reducing behavioral fields
+exposed alongside identifiers on the SBA).</p>
+<p><strong>Future extension (explicit):</strong> A future revision MAY define <strong>privacy-preserving payment modes</strong>,
+e.g. per-merchant or per-session <strong>pseudonymous grant aliases</strong>, <strong>rotating actor handles</strong>, or
+<strong>blinded policy commitments</strong> that hide stable identifiers while preserving gateway verifiability.
+Such modes are <strong>not</strong> normative in MPCP v1.0.</p>
 <h3 id="agent-sba-signing-key-compromise">Agent SBA Signing Key Compromise</h3>
 <p>If an agent's SBA signing key is compromised, the attacker can forge SBAs up to the remaining
 budget. Exposure is bounded by the grant's <code>budgetMinor</code> and <code>expiresAt</code>. However, if multiple
