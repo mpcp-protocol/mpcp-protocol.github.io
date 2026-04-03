@@ -1433,6 +1433,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#key-revocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Revocation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Revocation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mechanism-1-jwks-active-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mechanism 1: JWKS active Field
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mechanism-2-xrpl-credential-key-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mechanism 2: XRPL Credential Key Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-both-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining Both Mechanisms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust-bundle-freshness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Bundle Freshness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2375,6 +2447,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#key-revocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Revocation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Revocation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mechanism-1-jwks-active-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mechanism 1: JWKS active Field
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mechanism-2-xrpl-credential-key-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mechanism 2: XRPL Credential Key Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-both-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining Both Mechanisms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust-bundle-freshness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Bundle Freshness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2425,7 +2569,8 @@
 <span class="w">  </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-32-byte-public-key&quot;</span>
+<span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-32-byte-public-key&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="secp256k1">secp256k1</h3>
@@ -2435,7 +2580,8 @@
 <span class="w">  </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EC&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secp256k1&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-x-coordinate&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-y-coordinate&quot;</span>
+<span class="w">  </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url-encoded-y-coordinate&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Required JWK fields for MPCP keys:</p>
@@ -2470,6 +2616,10 @@
 <tr>
 <td><code>y</code></td>
 <td>y-coordinate for EC keys (base64url-encoded).</td>
+</tr>
+<tr>
+<td><code>active</code></td>
+<td>Optional boolean (default <code>true</code>). When <code>false</code>, the key is revoked. Verifiers MUST reject signatures made with a key whose <code>active</code> field is <code>false</code>. See <a href="#key-revocation">Key Revocation</a>.</td>
 </tr>
 </tbody>
 </table>
@@ -2516,7 +2666,8 @@
 <span class="w">      </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
+<span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="w">    </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;policy-auth-key-2&quot;</span><span class="p">,</span>
@@ -2524,12 +2675,13 @@
 <span class="w">      </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EC&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secp256k1&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
+<span class="w">      </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The document is a plain JSON object. The <code>keys</code> array contains one or more JWK entries. An authority MAY publish multiple keys to support key rotation.</p>
+<p>The document is a plain JSON object. The <code>keys</code> array contains one or more JWK entries. An authority MAY publish multiple keys to support key rotation. Keys with <code>active: false</code> are retained in the document for audit traceability but MUST NOT be used for signature verification. See <a href="#key-revocation">Key Revocation</a>.</p>
 <h3 id="http-response-requirements">HTTP Response Requirements</h3>
 <table>
 <thead>
@@ -2560,23 +2712,31 @@
 <div class="highlight"><pre><span></span><code>function resolvePublicKey(issuer, issuerKeyId):
     # 1. Trust Bundle lookup (offline / pre-distributed)
     jwk = resolveFromTrustBundle(issuer, issuerKeyId)
-    if jwk: return jwk
+    if jwk:
+        if jwk.active == false: raise KEY_REVOKED
+        return jwk
 
     # 2. HTTPS well-known (online)
     url = deriveKeySetUrl(issuer)
     keySetDoc = httpGet(url)               # HTTPS required; TLS validated
     keys = parseKeySet(keySetDoc)
     jwk = keys.find(k =&gt; k.kid == issuerKeyId)
-    if jwk: return jwk
+    if jwk:
+        if jwk.active == false: raise KEY_REVOKED
+        return jwk
 
-    # 3. DID resolution (optional, online)
+    # 3. XRPL Credential check (optional, online — see Key Revocation)
+    if xrplKeyCredentialCheckEnabled(issuer):
+        if not verifyKeyCredential(issuer, issuerKeyId): raise KEY_REVOKED
+
+    # 4. DID resolution (optional, online)
     if issuer starts with &quot;did:&quot; and not &quot;did:web:&quot;:
         jwk = resolveDid(issuer, issuerKeyId)   # method-specific; see DID section below
         if jwk: return jwk
 
     raise KEY_NOT_FOUND
 </code></pre></div>
-<p>If no resolution path succeeds, the verifier MUST fail the signature check and reject the artifact.</p>
+<p>If no resolution path succeeds, the verifier MUST fail the signature check and reject the artifact. If a key is found but marked as revoked (<code>active: false</code>) or lacks a valid on-chain credential, the verifier MUST reject with <code>KEY_REVOKED</code>.</p>
 <hr />
 <h2 id="trust-bundle-resolution">Trust Bundle Resolution</h2>
 <p><a href="../trust-bundles/">Trust Bundles</a> are the primary resolution mechanism for deployments that operate without network access at verification time.</p>
@@ -2739,6 +2899,10 @@ follow the same general pattern with method-specific resolution logic as defined
 <td><code>issuerKeyId</code> not present in the resolved key set</td>
 </tr>
 <tr>
+<td><code>KEY_REVOKED</code></td>
+<td>Key found but <code>active</code> is <code>false</code>, or XRPL key credential does not exist or is expired</td>
+</tr>
+<tr>
 <td><code>KEY_SET_FETCH_FAILED</code></td>
 <td>Well-known endpoint unreachable or returned non-200</td>
 </tr>
@@ -2752,6 +2916,120 @@ follow the same general pattern with method-specific resolution logic as defined
 </tr>
 </tbody>
 </table>
+<hr />
+<h2 id="key-revocation">Key Revocation</h2>
+<h3 id="overview_1">Overview</h3>
+<p>If a PA signing key is compromised, an attacker can forge PolicyGrants with unlimited budgets.
+MPCP provides two complementary revocation mechanisms — one off-chain (JWKS <code>active</code> field) and
+one on-chain (XRPL Credentials) — to ensure that revoked keys are rejected as quickly as
+possible.</p>
+<h3 id="mechanism-1-jwks-active-field">Mechanism 1: JWKS <code>active</code> Field</h3>
+<p>Every JWK entry in a key set document MAY include an <code>active</code> field (boolean, default <code>true</code>).
+When a PA rotates or revokes a key, it sets <code>active: false</code> for that key in the JWKS endpoint
+response.</p>
+<p><strong>Verifier behaviour (MUST):</strong></p>
+<ol>
+<li>After resolving a key via HTTPS well-known or Trust Bundle, check the <code>active</code> field.</li>
+<li>If <code>active</code> is explicitly <code>false</code>, reject the artifact with <code>KEY_REVOKED</code>.</li>
+<li>If <code>active</code> is absent or <code>true</code>, proceed with verification.</li>
+</ol>
+<p><strong>PA behaviour on compromise:</strong></p>
+<ol>
+<li>Set <code>active: false</code> on the compromised key in the JWKS endpoint immediately.</li>
+<li>Issue new Trust Bundles that either omit the compromised key or include it with
+   <code>active: false</code>.</li>
+<li>Rotate to a new key (<code>kid</code>) for all subsequent grant signing.</li>
+</ol>
+<p><strong>Limitations:</strong> Verifiers that cache the key set document will continue to trust the
+compromised key until the cache expires. Implementations SHOULD use short <code>Cache-Control</code>
+<code>max-age</code> values (minutes, not hours) for the JWKS endpoint. Trust Bundles that embedded the
+key before revocation remain valid until their <code>expiresAt</code> — deployments SHOULD use short
+Trust Bundle lifetimes (hours, not days) for high-assurance environments.</p>
+<h3 id="mechanism-2-xrpl-credential-key-lifecycle">Mechanism 2: XRPL Credential Key Lifecycle</h3>
+<p>For deployments on XRPL, the PA can maintain an on-chain credential for each active signing
+key using XLS-70 Credentials. This provides a definitive, ledger-based revocation signal that
+does not depend on JWKS cache expiry.</p>
+<p><strong>Setup:</strong></p>
+<ol>
+<li>For each active signing key, the PA issues a <code>CredentialCreate</code> transaction to its own
+   XRPL account:</li>
+<li><code>Issuer</code> = PA's XRPL address</li>
+<li><code>Subject</code> = PA's XRPL address (self-issued)</li>
+<li><code>CredentialType</code> = hex-encoded string <code>"mpcp:pa-signing-key:{kid}"</code>
+     (e.g. <code>hex("mpcp:pa-signing-key:policy-auth-key-1")</code>)</li>
+<li>Optional <code>Expiration</code> aligned with the key's intended lifetime</li>
+<li>PA calls <code>CredentialAccept</code> to activate the credential on-ledger.</li>
+</ol>
+<p><strong>Revocation on compromise:</strong></p>
+<ol>
+<li>PA submits <code>CredentialDelete</code> for the compromised key's credential.</li>
+<li>The credential is removed from the ledger immediately.</li>
+<li>Any verifier or Trust Bundle builder that checks the ledger will see that the credential
+   no longer exists.</li>
+</ol>
+<p><strong>Verifier behaviour (SHOULD for XRPL deployments):</strong></p>
+<p>After resolving a key via JWKS or Trust Bundle, and before accepting the key for verification,
+the verifier SHOULD check on-chain that the PA holds a valid, non-expired credential for the
+key:</p>
+<div class="highlight"><pre><span></span><code>function verifyKeyCredential(issuer, issuerKeyId):
+    paXrplAddress = resolveXrplAddress(issuer)
+    credentialType = hexEncode(&quot;mpcp:pa-signing-key:&quot; + issuerKeyId)
+    credential = lookupCredential(
+        subject: paXrplAddress,
+        issuer:  paXrplAddress,
+        type:    credentialType
+    )
+    return credential exists and is not expired
+</code></pre></div>
+<p>If the credential does not exist or is expired, the verifier MUST reject the artifact with
+<code>KEY_REVOKED</code>.</p>
+<p><strong>Trust Bundle builder behaviour (SHOULD):</strong></p>
+<p>When building or refreshing a Trust Bundle, the builder SHOULD check each included key's
+on-chain credential before embedding it. Keys whose credentials have been deleted MUST NOT
+be included in new Trust Bundles.</p>
+<h3 id="combining-both-mechanisms">Combining Both Mechanisms</h3>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Speed of revocation</th>
+<th>Requires connectivity</th>
+<th>Requires XRPL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JWKS <code>active: false</code></td>
+<td>Next JWKS fetch (cache-dependent)</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>XRPL Credential delete</td>
+<td>Immediate (ledger finality ~4s)</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>For maximum safety, PA operators SHOULD use both mechanisms simultaneously:</p>
+<ol>
+<li>Set <code>active: false</code> in the JWKS endpoint (covers non-XRPL verifiers).</li>
+<li>Delete the on-chain credential (covers XRPL-aware verifiers with near-instant effect).</li>
+<li>Issue updated Trust Bundles omitting the revoked key (covers offline verifiers on next
+   bundle refresh).</li>
+</ol>
+<h3 id="trust-bundle-freshness">Trust Bundle Freshness</h3>
+<p>Trust Bundles that were signed before a key was revoked will continue to include the
+compromised key until they expire. To limit the exposure window:</p>
+<ul>
+<li>Deployments SHOULD set Trust Bundle <code>expiresAt</code> to short intervals (hours, not days) in
+  high-assurance environments.</li>
+<li>Trust Bundle builders SHOULD check both the JWKS <code>active</code> field and the on-chain credential
+  for each key before embedding it in a new bundle.</li>
+<li>Verifiers with connectivity SHOULD supplement Trust Bundle lookups with an on-chain credential
+  check when available.</li>
+</ul>
 <hr />
 <h2 id="see-also">See Also</h2>
 <ul>

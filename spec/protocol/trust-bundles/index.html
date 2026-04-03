@@ -2656,7 +2656,8 @@
 <span class="w">          </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
+<span class="w">          </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">]</span>
 <span class="w">    </span><span class="p">},</span>
@@ -2668,7 +2669,8 @@
 <span class="w">          </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OKP&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;crv&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ed25519&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
+<span class="w">          </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">]</span>
 <span class="w">    </span><span class="p">}</span>
@@ -2742,7 +2744,7 @@
 </tr>
 </tbody>
 </table>
-<p>All keys MUST include <code>kid</code> and <code>use: "sig"</code>. Private key material (<code>d</code>) MUST NOT be present.</p>
+<p>All keys MUST include <code>kid</code> and <code>use: "sig"</code>. Private key material (<code>d</code>) MUST NOT be present. Keys MAY include <code>active: boolean</code> (default <code>true</code>). Verifiers MUST reject keys where <code>active</code> is <code>false</code>. See <a href="../key-resolution/#key-revocation">Key Revocation</a>.</p>
 <hr />
 <h2 id="signing">Signing</h2>
 <h3 id="canonical-payload">Canonical Payload</h3>
@@ -2803,10 +2805,12 @@
         entry = bundle.issuers.find(e =&gt; e.issuer == issuer)
         if entry is null: continue   # approved but not embedded — fall through
         jwk = entry.keys.find(k =&gt; k.kid == issuerKeyId)
-        if jwk: return jwk
+        if jwk:
+            if jwk.active == false: return REVOKED   # key revoked — reject
+            return jwk
     return null   # not found in any bundle
 </code></pre></div>
-<p>If multiple non-expired bundles match the issuer, the verifier MUST use the one with the latest <code>expiresAt</code>.</p>
+<p>If multiple non-expired bundles match the issuer, the verifier MUST use the one with the latest <code>expiresAt</code>. If a key is found with <code>active: false</code>, the verifier MUST reject the artifact with <code>KEY_REVOKED</code> (see <a href="../key-resolution/#key-revocation">Key Revocation</a>).</p>
 <p>This function feeds into the broader <a href="../key-resolution/">Key Resolution</a> algorithm as the first step, before HTTPS well-known and DID resolution.</p>
 <hr />
 <h2 id="offline-verification">Offline Verification</h2>
@@ -2836,6 +2840,7 @@
 <li>begin refreshing a bundle before it expires to avoid a verification gap</li>
 </ul>
 <p>Bundle refresh is performed by fetching an updated Trust Bundle document from the bundle issuer's distribution endpoint (deployment-specific) and verifying its signature before replacing the stored bundle.</p>
+<p>High-assurance deployments SHOULD set <code>expiresAt</code> to short intervals (hours, not days) to limit the window during which a revoked key remains trusted. See <a href="../key-resolution/#key-revocation">Key Revocation</a>.</p>
 <hr />
 <h2 id="security-considerations">Security Considerations</h2>
 <ul>
@@ -2843,6 +2848,8 @@
 <li>Compromise of a bundle signer key allows an attacker to distribute bundles with injected issuer keys — short <code>expiresAt</code> windows limit the damage window</li>
 <li>Root keys MUST be installed securely and MUST NOT be changeable by software update alone in high-assurance deployments</li>
 <li>Verifiers MUST NOT load unsigned or expired bundles</li>
+<li>Trust Bundles that were signed before an issuer key was revoked will continue to include the compromised key until they expire. Deployments SHOULD use short Trust Bundle lifetimes (hours, not days) in high-assurance environments. See <a href="../key-resolution/#key-revocation">Key Revocation</a> for guidance on limiting the exposure window</li>
+<li>Trust Bundle builders SHOULD check the JWKS <code>active</code> field and, for XRPL deployments, the on-chain key credential before embedding each key in a new bundle</li>
 </ul>
 <hr />
 <h2 id="future-extensions">Future Extensions</h2>

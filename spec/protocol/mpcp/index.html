@@ -2438,6 +2438,20 @@ and <code>merchantCredentialType</code> on the PolicyGrant. See <a href="../Poli
 <div class="highlight"><pre><span></span><code>if (cumulativeSpentMinor + currentPayment &gt; maxAmountMinor) → budget_exceeded
 </code></pre></div>
 <p>In offline or air-gapped deployments, the session authority cannot contact the verifier in real time. In these environments, cumulative enforcement relies on trusted wallet hardware maintaining the spending counter locally.</p>
+<h3 id="policy-authority-key-compromise">Policy Authority Key Compromise</h3>
+<p>If a PA signing key is compromised, an attacker can forge PolicyGrants with unlimited budgets.
+MPCP mitigates this with two complementary revocation mechanisms:</p>
+<ol>
+<li><strong>JWKS <code>active</code> field</strong> — the PA sets <code>active: false</code> on the compromised key in its JWKS
+   endpoint. Verifiers MUST reject keys with <code>active: false</code>. Verifiers that cache the key set
+   will stop trusting the key on their next fetch.</li>
+<li><strong>XRPL Credential key lifecycle</strong> — the PA issues a self-referencing on-chain credential for
+   each active signing key. On compromise, the PA deletes the credential. Verifiers check the
+   ledger for near-instant (ledger finality ~4s) revocation.</li>
+</ol>
+<p>Trust Bundles that embedded the key before revocation remain valid until their <code>expiresAt</code>.
+Deployments SHOULD use short Trust Bundle lifetimes in high-assurance environments. See
+<a href="../key-resolution/#key-revocation">Key Revocation</a>.</p>
 <h3 id="settlement-tampering">Settlement Tampering</h3>
 <p>Verification ensures that executed settlement transactions match authorized parameters before the session is finalized.</p>
 <hr />
@@ -2619,6 +2633,10 @@ and <code>merchantCredentialType</code> on the PolicyGrant. See <a href="../Poli
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>KEY_REVOKED</td>
+<td>Signing key is revoked (<code>active: false</code> in JWKS or on-chain credential deleted)</td>
+</tr>
 <tr>
 <td>POLICY_GRANT_SIGNATURE_INVALID</td>
 <td>PolicyGrant signature verification failed</td>
