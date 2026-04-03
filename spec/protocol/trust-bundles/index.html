@@ -1395,6 +1395,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#issuedat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        issuedAt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#expiresat" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1516,6 +1527,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#offline-sba-replay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline SBA replay
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1526,6 +1548,78 @@
     <span class="md-ellipsis">
       
         Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maximum-bundle-lifetime-stale-bundles-and-degraded-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maximum bundle lifetime, stale bundles, and degraded mode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maximum bundle lifetime, stale bundles, and degraded mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stale-bundle-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stale bundle risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-maximum-validity-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended maximum validity window
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#behaviour-when-a-bundle-expires" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Behaviour when a bundle expires
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refresh-on-reconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refresh on reconnect
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clock-sanity-checks-for-bundles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clock sanity checks for bundles
       
     </span>
   </a>
@@ -2497,6 +2591,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#issuedat" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        issuedAt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#expiresat" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2618,6 +2723,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#offline-sba-replay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline SBA replay
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2628,6 +2744,78 @@
     <span class="md-ellipsis">
       
         Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maximum-bundle-lifetime-stale-bundles-and-degraded-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maximum bundle lifetime, stale bundles, and degraded mode
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maximum bundle lifetime, stale bundles, and degraded mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stale-bundle-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stale bundle risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recommended-maximum-validity-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended maximum validity window
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#behaviour-when-a-bundle-expires" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Behaviour when a bundle expires
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refresh-on-reconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refresh on reconnect
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clock-sanity-checks-for-bundles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clock sanity checks for bundles
       
     </span>
   </a>
@@ -2815,7 +3003,7 @@
 <ul>
 <li>An <strong>issuer identity set</strong> (<code>approvedIssuers</code>): the complete list of issuer DIDs authorised for this bundle's scope</li>
 <li>An <strong>embedded key set</strong> (<code>issuers</code>): the subset of approved issuers whose key material is pre-distributed in this bundle</li>
-<li><strong>Bundle metadata</strong>: scope, expiry, and the identity of the bundle signer</li>
+<li><strong>Bundle metadata</strong>: scope, expiry, optional issuance time (<code>issuedAt</code>), and the identity of the bundle signer</li>
 <li>A <strong>signature</strong> over the canonical bundle payload</li>
 </ul>
 <p>An issuer that appears in <code>approvedIssuers</code> but not in <code>issuers</code> is recognised as trusted but its keys are not embedded — verifiers MUST resolve its keys via DID or well-known if connectivity is available, or reject the artifact if offline.</p>
@@ -2863,6 +3051,7 @@
 <span class="w">      </span><span class="p">]</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;issuedAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-05-25T00:00:00Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-06-01T00:00:00Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64url...&quot;</span>
 <span class="p">}</span>
@@ -2894,6 +3083,10 @@
 <li><code>keys</code> — array of public keys in JWK format</li>
 </ul>
 <p>Issuers present in <code>approvedIssuers</code> but absent from <code>issuers</code> have no embedded keys; verifiers resolve their keys dynamically if online, or reject the artifact if offline.</p>
+<h3 id="issuedat"><code>issuedAt</code></h3>
+<p>Optional but <strong>SHOULD</strong> be present. ISO 8601 timestamp when the bundle was issued (before signing).
+It is included in the signed payload. Verifiers MAY compare <code>issuedAt</code> to the device wall clock
+as a sanity check — see <a href="#clock-sanity-checks-for-bundles">Clock sanity checks</a>.</p>
 <h3 id="expiresat"><code>expiresAt</code></h3>
 <p>ISO 8601 expiration timestamp. Verifiers MUST reject a bundle that has expired.</p>
 <h3 id="signature"><code>signature</code></h3>
@@ -3014,6 +3207,18 @@
 <h3 id="revocation-in-offline-mode">Revocation in Offline Mode</h3>
 <p>PolicyGrants may carry a <code>revocationEndpoint</code>. Offline verifiers cannot call this endpoint. Deployments that use offline verification MUST accept the risk that a revoked grant may be accepted — the revoked grant will remain valid until its <code>expiresAt</code> expires or the bundle is refreshed and revocation state is checked.</p>
 <p>Embedded revocation lists (CRL, bloom filter) are a <a href="#future-extensions">planned future extension</a>. Until that mechanism is available, deployments with strict revocation requirements MUST use online verification.</p>
+<h3 id="offline-sba-replay">Offline SBA replay</h3>
+<p><strong>Risk:</strong> An attacker or misconfigured agent could present the <strong>same</strong> SBA (same <code>budgetId</code>) to
+multiple offline merchants, or repeatedly to one merchant that does not remember past
+acceptances. Offline merchants do not share a global ledger of consumed SBAs.</p>
+<p><strong>Mitigation (SHOULD):</strong> Each offline verifier SHOULD maintain a local set (or bounded cache) of
+recently seen <code>budgetId</code> values (or full SBA fingerprints) for the grants it accepts. If an
+incoming SBA reuses an identifier already in the set, the verifier SHOULD reject it as a replay.</p>
+<p>This is a <strong>per-device</strong> defense only — two physically separate merchants cannot detect duplicate
+presentation of the same SBA without additional infrastructure. That trade-off is inherent to
+offline operation. This specification does <strong>not</strong> add a <code>nonce</code> or <code>sequence</code> field to the SBA
+for offline ordering; deployments that need stronger cross-merchant ordering MUST use online
+verification or out-of-band coordination.</p>
 <hr />
 <h2 id="lifecycle">Lifecycle</h2>
 <p>Trust Bundles MUST:</p>
@@ -3021,6 +3226,8 @@
 <li>carry a defined <code>expiresAt</code></li>
 <li>be periodically refreshed when connectivity is available</li>
 </ul>
+<p>Bundle issuers SHOULD include <code>issuedAt</code> so verifiers can enforce maximum validity windows and
+clock sanity checks (see <a href="#maximum-bundle-lifetime-stale-bundles-and-degraded-mode">Maximum bundle lifetime, stale bundles, and degraded mode</a>).</p>
 <p>Implementations SHOULD:</p>
 <ul>
 <li>reject expired bundles at load time</li>
@@ -3031,6 +3238,54 @@
 <p>Verifiers MUST also support an <strong>emergency refresh</strong> mechanism for key compromise scenarios.
 See <a href="#bundle-signer-key-compromise">Bundle Signer Key Compromise</a> for the full procedure.</p>
 <p>High-assurance deployments SHOULD set <code>expiresAt</code> to short intervals (hours, not days) to limit the window during which a revoked key remains trusted. See <a href="../key-resolution/#key-revocation">Key Revocation</a>.</p>
+<hr />
+<h2 id="maximum-bundle-lifetime-stale-bundles-and-degraded-mode">Maximum bundle lifetime, stale bundles, and degraded mode</h2>
+<h3 id="stale-bundle-risk">Stale bundle risk</h3>
+<p>A merchant that continues to operate with an <strong>outdated</strong> Trust Bundle may trust issuer keys that
+have been rotated, revoked, or compromised. The exposure window is bounded by <code>expiresAt</code>, but
+long-lived bundles increase stale-key risk.</p>
+<h3 id="recommended-maximum-validity-window">Recommended maximum validity window</h3>
+<p>Deployments SHOULD cap the wall-clock span from bundle issuance to <code>expiresAt</code> according to risk:</p>
+<table>
+<thead>
+<tr>
+<th>Deployment profile</th>
+<th>Recommended max (<code>expiresAt</code> − <code>issuedAt</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High-value / regulated (e.g. fleet EV, tolls)</td>
+<td><strong>7 days</strong> or less</td>
+</tr>
+<tr>
+<td>Lower-assurance IoT or long-interval connectivity</td>
+<td><strong>30 days</strong> or less</td>
+</tr>
+</tbody>
+</table>
+<p>These are operational guidelines, not protocol hard limits. Operators MAY choose shorter windows
+for stricter assurance.</p>
+<h3 id="behaviour-when-a-bundle-expires">Behaviour when a bundle expires</h3>
+<p>When the current time is past <code>expiresAt</code>, the verifier MUST NOT use the bundle for new offline
+verifications.</p>
+<p>Implementations SHOULD enter <strong>degraded mode</strong> when the active bundle expires or is withdrawn:
+for example, reject all new offline payment attempts, accept only reduced limits, or require
+immediate operator intervention. The exact degraded behaviour is deployment-specific but MUST
+be documented in the deployment's security policy.</p>
+<h3 id="refresh-on-reconnect">Refresh on reconnect</h3>
+<p>When connectivity returns, the verifier MUST attempt to fetch a fresh Trust Bundle before
+resuming full offline service. For XRPL deployments, the verifier SHOULD also check the bundle
+signer's on-chain key credential (see <a href="#mitigation-3-on-chain-freshness-signal-should-for-xrpl-deployments">Mitigation 3: On-Chain Freshness Signal</a> under <em>Bundle Signer Key Compromise</em>). If the credential no longer exists, the verifier MUST discard the stale bundle and MUST NOT trust it until a new signed bundle is obtained.</p>
+<hr />
+<h2 id="clock-sanity-checks-for-bundles">Clock sanity checks for bundles</h2>
+<p>Trust Bundle verification uses the verifier's wall clock for <code>expiresAt</code> and optional <code>issuedAt</code>
+checks. See <a href="../verification/#clock-synchronization-and-drift">Clock synchronization and drift</a>
+for general guidance.</p>
+<p>When <code>issuedAt</code> is present, verifiers MAY reject a bundle if the local clock differs from
+<code>issuedAt</code> by more than the deployment's <strong>clock drift tolerance</strong> (see Verification doc,
+typically on the order of <strong>5 minutes</strong>). This detects gross clock skew or manipulation; it is
+not a substitute for secure time on the device.</p>
 <hr />
 <h2 id="security-considerations">Security Considerations</h2>
 <ul>

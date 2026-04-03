@@ -1750,6 +1750,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#offline-cumulative-exposure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline cumulative exposure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Offline cumulative exposure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-offlinemaxcumulativepayment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation: offlineMaxCumulativePayment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-verifier-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-verifier scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-code_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2796,6 +2857,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#offline-cumulative-exposure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Offline cumulative exposure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Offline cumulative exposure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-offlinemaxcumulativepayment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation: offlineMaxCumulativePayment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-verifier-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-verifier scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-code_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error code
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#summary" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3053,13 +3175,25 @@ Trust Gateway → XRPL Settlement
 <td>offlineMaxSinglePayment</td>
 <td>string</td>
 <td>optional</td>
-<td>PA-signed per-transaction cap (in <code>offlineMaxSinglePaymentCurrency</code> minor units) for offline merchant acceptance. Offline merchants MUST reject SBAs whose <code>maxAmountMinor</code> exceeds this value. Cumulative budget is not enforced offline.</td>
+<td>PA-signed per-transaction cap (in <code>offlineMaxSinglePaymentCurrency</code> minor units) for offline merchant acceptance. Offline merchants MUST reject SBAs whose <code>maxAmountMinor</code> exceeds this value. Cumulative offline exposure across merchants is only bounded when <code>offlineMaxCumulativePayment</code> is present; see <strong>Offline cumulative exposure</strong> below.</td>
 </tr>
 <tr>
 <td>offlineMaxSinglePaymentCurrency</td>
 <td>string</td>
 <td>optional</td>
 <td>Currency of <code>offlineMaxSinglePayment</code> (e.g. <code>"XRP"</code>).</td>
+</tr>
+<tr>
+<td>offlineMaxCumulativePayment</td>
+<td>string</td>
+<td>optional</td>
+<td>PA-signed maximum total amount (in <code>offlineMaxCumulativePaymentCurrency</code> minor units) that offline verifiers MAY cumulatively accept for this grant across all offline transactions at this verifier. Merchants SHOULD sum accepted amounts per <code>grantId</code> and reject when the next acceptance would exceed this cap. See <strong>Offline cumulative exposure</strong> below.</td>
+</tr>
+<tr>
+<td>offlineMaxCumulativePaymentCurrency</td>
+<td>string</td>
+<td>optional</td>
+<td>Currency of <code>offlineMaxCumulativePayment</code> (e.g. <code>"XRP"</code>). If absent while <code>offlineMaxCumulativePayment</code> is present, implementations SHOULD use <code>offlineMaxSinglePaymentCurrency</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -3078,6 +3212,10 @@ Trust Gateway → XRPL Settlement
 <span class="w">  </span><span class="nt">&quot;destinationAllowlist&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;rChargingStation1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;rTollBooth42&quot;</span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;merchantCredentialIssuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rPAMerchantRegistry&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;merchantCredentialType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;6D7063703A617070726F7665642D6D65726368616E74&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;offlineMaxSinglePayment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5000000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;offlineMaxSinglePaymentCurrency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;XRP&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;offlineMaxCumulativePayment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;15000000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;offlineMaxCumulativePaymentCurrency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;XRP&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;maxSpend&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;perTxMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5000&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;perSessionMinor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20000&quot;</span>
@@ -3521,6 +3659,43 @@ grant's <code>subjectCredentialIssuer</code> and <code>subjectCredentialType</co
 <tr>
 <td><code>SUBJECT_NOT_ATTESTED</code></td>
 <td><code>subjectCredentialIssuer</code> is set but the agent does not hold a matching on-chain credential</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="offline-cumulative-exposure">Offline cumulative exposure</h2>
+<h3 id="risk">Risk</h3>
+<p>Without a cumulative offline cap, an agent can present SBAs to many offline merchants in
+sequence. Each merchant enforces only <code>offlineMaxSinglePayment</code> per transaction. The <strong>total</strong>
+offline spend can therefore exceed <code>budgetMinor</code> until the gateway reconciles on-chain.</p>
+<h3 id="mitigation-offlinemaxcumulativepayment">Mitigation: <code>offlineMaxCumulativePayment</code></h3>
+<p>When the PA includes <code>offlineMaxCumulativePayment</code>, offline verifiers that enforce this field
+MUST maintain a running total of amounts already accepted for each <code>grantId</code> (in the grant's
+offline minor units) and MUST reject a new SBA if accepting it would make the cumulative total
+exceed <code>offlineMaxCumulativePayment</code>.</p>
+<p>Currency for the cumulative cap is <code>offlineMaxCumulativePaymentCurrency</code>, or
+<code>offlineMaxSinglePaymentCurrency</code> if the former is absent.</p>
+<p>Operators SHOULD set <code>offlineMaxCumulativePayment</code> ≤ <code>budgetMinor</code> (or lower, to reflect risk
+tolerance). Operators SHOULD size <code>offlineMaxSinglePayment</code> with the <strong>expected number of
+offline touchpoints</strong> per grant in mind — a small per-tx cap with many merchants can still
+produce large aggregate exposure if no cumulative field is used.</p>
+<h3 id="per-verifier-scope">Per-verifier scope</h3>
+<p>The cumulative total is tracked <strong>per offline verifier</strong> (per device). Distinct merchants do
+not share state; a fleet-wide cumulative bound requires synchronized infrastructure outside
+the scope of this specification. The PA SHOULD set <code>offlineMaxCumulativePayment</code> assuming
+worst-case fan-out across independent verifiers when modeling exposure.</p>
+<h3 id="error-code_2">Error code</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>OFFLINE_CUMULATIVE_EXCEEDED</code></td>
+<td>Acceptance would exceed <code>PolicyGrant.offlineMaxCumulativePayment</code></td>
 </tr>
 </tbody>
 </table>

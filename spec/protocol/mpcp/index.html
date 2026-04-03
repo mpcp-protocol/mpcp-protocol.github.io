@@ -2300,6 +2300,8 @@ verify_signature(sba.signature,   SHA256(&quot;MPCP:SBA:1.0:&quot;         || ca
 <li><code>SBA.expiresAt</code></li>
 </ul>
 <p>If any artifact is expired → <strong>reject settlement</strong>.</p>
+<p>Comparisons use the verifier's wall clock; deployments SHOULD apply a clock drift tolerance as
+described in <a href="../verification/#clock-synchronization-and-drift">Verification — Clock synchronization and drift</a>.</p>
 <hr />
 <h3 id="step-4-submit-and-return-receipt">Step 4 — Submit and Return Receipt</h3>
 <p>If all verification steps succeed, the gateway submits the XRPL transaction:</p>
@@ -2721,6 +2723,10 @@ as a freshness signal. See <a href="../trust-bundles/#bundle-signer-key-compromi
 <tr>
 <td>SUBJECT_NOT_ATTESTED</td>
 <td><code>subjectCredentialIssuer</code> is set but the agent does not hold a matching on-chain credential</td>
+</tr>
+<tr>
+<td>OFFLINE_CUMULATIVE_EXCEEDED</td>
+<td>Offline acceptance would exceed <code>PolicyGrant.offlineMaxCumulativePayment</code></td>
 </tr>
 <tr>
 <td>SCOPE_UNSUPPORTED</td>

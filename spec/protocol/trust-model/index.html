@@ -2472,7 +2472,7 @@ overspending because:</p>
 <tr>
 <td>Cumulative budget enforced</td>
 <td>✅ gateway counter + escrow</td>
-<td>❌ not enforced</td>
+<td>⚠️ optional <code>offlineMaxCumulativePayment</code> per verifier; otherwise not enforced offline</td>
 </tr>
 <tr>
 <td>Purpose enforced</td>
@@ -2503,9 +2503,20 @@ overspending because:</p>
 </table>
 <p><strong>Offline mode (Option A — Tiered Trust):</strong> Merchants accept reduced guarantees in exchange for
 the ability to operate without a network connection. The <code>offlineMaxSinglePayment</code> cap (PA-signed)
-limits exposure: a compromised agent cannot present an SBA above this cap and get it accepted
-offline. Cumulative overspend across many offline transactions remains a theoretical risk; it
-is bounded by the escrow amount once the gateway comes back online.</p>
+limits exposure per transaction. <strong>Offline cumulative overspend</strong> (named risk): without
+<code>offlineMaxCumulativePayment</code>, total offline acceptance across many merchants can exceed
+<code>budgetMinor</code> until on-chain reconciliation. Operators SHOULD set <code>offlineMaxCumulativePayment</code>
+≤ <code>budgetMinor</code> and SHOULD size <code>offlineMaxSinglePayment</code> for the expected number of offline
+touchpoints. See <a href="../PolicyGrant/#offline-cumulative-exposure">PolicyGrant — Offline cumulative exposure</a>.</p>
+<p><strong>Offline SBA replay:</strong> Distinct offline merchants do not share state. An intercepted SBA could
+in principle be presented multiple times at different devices. Merchants SHOULD reject duplicate
+<code>budgetId</code> values they have already accepted (local deduplication). This mitigates replay at a
+single device only; it does not add new fields to the SBA. See <a href="../trust-bundles/#offline-sba-replay">Trust Bundles — Offline SBA replay</a>.</p>
+<p><strong>Stale Trust Bundle:</strong> Operating past <code>expiresAt</code> or with an outdated bundle may trust revoked
+or compromised keys. Verifiers MUST reject expired bundles; deployments SHOULD use maximum
+bundle lifetime policies and <strong>degraded mode</strong> when a bundle expires. See <a href="../trust-bundles/#maximum-bundle-lifetime-stale-bundles-and-degraded-mode">Trust Bundles</a>.</p>
+<p><strong>Clock manipulation:</strong> Artifact expiry checks depend on verifier wall clock. See
+<a href="../verification/#clock-synchronization-and-drift">Verification — Clock synchronization and drift</a>.</p>
 <hr />
 <h2 id="escrow-as-proof-of-reservation">Escrow as Proof of Reservation</h2>
 <p>The XRPL escrow is not a payment — it is a <strong>credit pre-authorization hold</strong>.</p>

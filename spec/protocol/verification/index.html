@@ -1178,6 +1178,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#clock-synchronization-and-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clock synchronization and drift
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-is-verified" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1954,6 +1965,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#clock-synchronization-and-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clock synchronization and drift
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-is-verified" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2030,6 +2052,22 @@
 <li><strong>Destination</strong> — When <code>PolicyGrant.destinationAllowlist</code> or <code>PolicyGrant.merchantCredentialIssuer</code> is present, verify the payment destination is approved. See <a href="../PolicyGrant/#destination-enforcement">PolicyGrant — Destination Enforcement</a>.</li>
 </ol>
 <p>If any check fails, verification fails with a specific reason. On success, the gateway submits the XRPL transaction and returns the <code>txHash</code> receipt.</p>
+<h2 id="clock-synchronization-and-drift">Clock synchronization and drift</h2>
+<p>Artifact validity (<code>expiresAt</code> on PolicyGrant, SBA, and Trust Bundle) is evaluated against the
+verifier's notion of <strong>current time</strong>.</p>
+<p><strong>Online verifiers (SHOULD):</strong> Use an NTP-synchronized or otherwise trusted time source. The
+Trust Gateway and Policy Authority servers SHOULD not rely solely on unsynchronized host clocks.</p>
+<p><strong>Offline or embedded verifiers (SHOULD):</strong> Use a hardware-backed real-time clock (RTC) where
+available. Pure software clocks are easier to manipulate.</p>
+<p><strong>Drift tolerance:</strong> When comparing timestamps, implementations SHOULD allow a configurable
+<strong>clock drift tolerance</strong>. A default tolerance of <strong>±300 seconds (5 minutes)</strong> is RECOMMENDED
+unless a deployment's security policy specifies otherwise — i.e. treat an artifact as not yet
+expired if <code>now + tolerance &lt; expiresAt</code>, and as expired if <code>now − tolerance &gt; expiresAt</code>
+(using consistent comparison semantics for the deployment).</p>
+<p><strong>Threat model:</strong> A malicious actor with OS-level control can skew local time and make expired
+artifacts appear valid or vice versa. MPCP assumes the verifier's execution environment is
+within the deployment's trust boundary; mitigations are operational (secure boot, RTC, NTP,
+monitoring), not additional protocol fields.</p>
 <h2 id="what-is-verified">What Is Verified</h2>
 <table>
 <thead>
