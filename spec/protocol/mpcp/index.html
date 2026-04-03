@@ -2274,6 +2274,15 @@ verify_signature(sba.signature,   SHA256(&quot;MPCP:SBA:1.0:&quot;         || ca
 </code></pre></div>
 <p>If any signature verification fails → <strong>reject settlement</strong>.</p>
 <hr />
+<h3 id="step-0a-fleet-policy-authorization-optional">Step 0a — Fleet Policy Authorization (optional)</h3>
+<p>Deployments that use <strong>fleet governance</strong> MAY require a <strong><a href="../FleetPolicyAuthorization/">FleetPolicyAuthorization</a> (FPA)</strong> artifact in addition to PolicyGrant and SBA. When fleet policy is <strong>required</strong> for this deployment:</p>
+<ol>
+<li>Verify the <strong>FPA signature</strong> using domain-separated hashing <code>MPCP:FPA:1.0:</code> over the canonical inner <code>authorization</code> payload (see <a href="../FleetPolicyAuthorization/#signature-model">FleetPolicyAuthorization — Signature Model</a>).</li>
+<li>Verify <strong>FPA expiration</strong> and <strong><a href="../FleetPolicyAuthorization/#6-verification-rules">§6 Verification Rules</a></strong> — including operator, rail, asset intersection, and spending-cap consistency with <strong><code>PolicyGrant.budgetMinor</code></strong> (not <code>maxSpend</code> alone; see <a href="../PolicyGrant/#budgetminor-and-maxspend-precedence">PolicyGrant — budgetMinor and maxSpend</a>).</li>
+</ol>
+<p>If FPA is required but missing, expired, or fails verification → <strong>reject settlement</strong>.</p>
+<p>If the deployment does <strong>not</strong> use fleet governance, omit this step.</p>
+<hr />
 <h3 id="step-1-verify-grant-and-budget-lineage">Step 1 — Verify Grant and Budget Lineage</h3>
 <p>Ensure that the authorization chain is valid.</p>
 <div class="highlight"><pre><span></span><code>sba.authorization.grantId → PolicyGrant
@@ -2936,7 +2945,7 @@ Trust Gateway → XRPL Settlement → Receipt
 <li>permitted assets</li>
 <li>geographic restrictions</li>
 </ul>
-<p>During settlement verification, implementations MUST ensure that all MPCP artifacts remain compliant with the constraints imposed by the FleetPolicyAuthorization artifact.</p>
+<p>During settlement verification, when fleet governance applies, the Trust Gateway MUST run the optional <strong><a href="#step-0a--fleet-policy-authorization-optional">Step 0a — Fleet Policy Authorization</a></strong> (signature, expiration, and <a href="../FleetPolicyAuthorization/#6-verification-rules">§6 rules</a>) before standard grant/SBA checks.</p>
 <p>The full extension specification is defined in <a href="../FleetPolicyAuthorization/">FleetPolicyAuthorization.md</a>.</p>
 <h1 id="future-extensions">Future Extensions</h1>
 <p>Possible extensions include:</p>

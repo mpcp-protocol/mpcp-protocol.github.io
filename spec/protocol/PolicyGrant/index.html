@@ -1440,6 +1440,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#budgetminor-and-maxspend-precedence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        budgetMinor and maxSpend (precedence)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#relationship-to-sba" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2680,6 +2691,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#budgetminor-and-maxspend-precedence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        budgetMinor and maxSpend (precedence)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#relationship-to-sba" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3371,7 +3393,7 @@ and subset constraints as described in <a href="../verification/">Verification</
 <td>maxSpend</td>
 <td>object</td>
 <td>optional</td>
-<td>Spending caps defined by policy</td>
+<td><strong>Policy-layer</strong> spending caps (e.g. per-tx / per-session in policy or fiat minor units). Human-readable and tooling; <strong>not</strong> the Trust Gateway on-chain ceiling. See <a href="#budgetminor-and-maxspend-precedence">budgetMinor and maxSpend</a>.</td>
 </tr>
 <tr>
 <td>expiresAt</td>
@@ -3437,7 +3459,7 @@ and subset constraints as described in <a href="../verification/">Verification</
 <td>budgetMinor</td>
 <td>string</td>
 <td>optional</td>
-<td>PA-signed budget ceiling in the smallest currency unit (e.g. drops for XRP). The Trust Gateway enforces this as a hard ceiling — it is never read from the UI or agent.</td>
+<td>PA-signed <strong>on-chain budget ceiling</strong> in the <strong>settlement asset’s atomic units</strong> (e.g. XRP drops). The Trust Gateway <strong>MUST</strong> enforce this as the hard escrow / cumulative ceiling. See <a href="#budgetminor-and-maxspend-precedence">budgetMinor and maxSpend</a>.</td>
 </tr>
 <tr>
 <td>budgetCurrency</td>
@@ -3586,14 +3608,58 @@ and subset constraints as described in <a href="../verification/">Verification</
 </code></pre></div>
 <p>The PolicyGrant stores the <strong>resulting effective constraints</strong>.</p>
 <hr />
+<h2 id="budgetminor-and-maxspend-precedence">budgetMinor and maxSpend (precedence)</h2>
+<p>PolicyGrant may carry both <strong><code>maxSpend</code></strong> (optional) and <strong><code>budgetMinor</code></strong> (optional but <strong>required
+for meaningful Trust Gateway budget enforcement</strong> on XRPL with escrow). They serve <strong>different
+roles</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Role</th>
+<th>Enforced by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>budgetMinor</code></td>
+<td><strong>Authoritative on-chain ceiling</strong> for the grant, in <strong>atomic settlement units</strong> (drops, etc.), PA-signed</td>
+<td><strong>Trust Gateway</strong> (durable cumulative spend + escrow)</td>
+</tr>
+<tr>
+<td><code>maxSpend</code></td>
+<td><strong>Policy-layer</strong> caps (e.g. <code>perTxMinor</code>, <code>perSessionMinor</code>) aligned with the <strong>policy document</strong> and operator UX</td>
+<td>Session authority / agent <strong>guidance</strong>; documented intent; <strong>not</strong> a substitute for <code>budgetMinor</code> at the gateway</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Precedence:</strong></p>
+<ol>
+<li><strong>Settlement:</strong> The Trust Gateway MUST use <strong><code>budgetMinor</code></strong> (and escrow) as the <strong>hard</strong> spending
+   ceiling. It MUST <strong>NOT</strong> derive the on-chain ceiling from <code>maxSpend</code> alone.</li>
+<li><strong>Consistency:</strong> When both are present, the PA SHOULD ensure <strong><code>budgetMinor</code></strong>, after any
+   unit conversion to the settlement asset, does <strong>not</strong> exceed the <strong>effective</strong> cap implied by
+   intersected policy (including fleet policy — see <a href="../FleetPolicyAuthorization/">FleetPolicyAuthorization</a>).
+   The session authority SHOULD issue SBAs whose <strong><code>maxAmountMinor</code></strong> stays within both the SBA scope
+   envelope <strong>and</strong> the remaining headroom under <strong><code>budgetMinor</code></strong>.</li>
+<li><strong>Subset checks:</strong> <code>SBA.allowedRails</code> / <code>SBA.allowedAssets</code> MUST remain subsets of the PolicyGrant.
+   If <code>maxSpend</code> defines comparable numeric limits in the <strong>same units as <code>SBA.maxAmountMinor</code></strong>,
+   implementations SHOULD verify the SBA does not violate those limits; otherwise treat <code>maxSpend</code> as
+   <strong>informational</strong> relative to the policy document behind <strong><code>policyHash</code></strong>.</li>
+</ol>
+<p>If <code>budgetMinor</code> is omitted, gateway-level cumulative enforcement against a PA-signed escrow budget
+is undefined — <strong>conforming XRPL deployments SHOULD always set <code>budgetMinor</code></strong>.</p>
+<hr />
 <h2 id="relationship-to-sba">Relationship to SBA</h2>
 <p>A <strong>SignedBudgetAuthorization</strong> must always be a subset of the PolicyGrant.</p>
 <p>For example:</p>
 <div class="highlight"><pre><span></span><code>SBA.allowedRails ⊆ PolicyGrant.allowedRails
 SBA.allowedAssets ⊆ PolicyGrant.allowedAssets
-SBA.maxAmount ≤ PolicyGrant.maxSpend
 </code></pre></div>
-<p>The SBA must reference the same <strong>policyHash</strong> used to produce the PolicyGrant.</p>
+<p>The SBA MUST reference the same <strong><code>policyHash</code></strong> as the PolicyGrant. Cumulative spend against
+<strong><code>PolicyGrant.budgetMinor</code></strong> MUST be enforced by the Trust Gateway; <strong><code>SBA.maxAmountMinor</code></strong> is the
+per-payment envelope within that grant (and within session authority tracking). When <strong><code>maxSpend</code></strong>
+is present and comparable, the SBA MUST also respect those policy-layer caps.</p>
 <hr />
 <h2 id="expiration">Expiration</h2>
 <p>PolicyGrant defines the <strong>maximum validity window</strong> for downstream artifacts.</p>

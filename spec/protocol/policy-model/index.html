@@ -2549,6 +2549,11 @@
 <p>Defines <strong>how much may be spent</strong>.</p>
 <p>Cumulative constraints (e.g., maxPerSessionMinor) require state tracking.</p>
 <p>The entity responsible for tracking MUST be defined by the deployment profile.</p>
+<p>In MPCP artifacts, <strong>numeric spending limits</strong> are split by role: <strong><code>PolicyGrant.budgetMinor</code></strong> is the
+PA-signed <strong>on-chain / Trust Gateway</strong> cumulative ceiling in <strong>atomic settlement units</strong>;
+<strong><code>PolicyGrant.maxSpend</code></strong> (and analogous fields in policy documents) express <strong>policy-layer</strong> caps
+for operators and tooling. The Trust Gateway MUST <strong>not</strong> treat <code>maxSpend</code> alone as the escrow
+ceiling. See <a href="../PolicyGrant/#budgetminor-and-maxspend-precedence">PolicyGrant — budgetMinor and maxSpend</a>.</p>
 <hr />
 <h3 id="5-temporal-constraints">5. Temporal Constraints</h3>
 <p>Defines <strong>when payments are allowed</strong>.</p>

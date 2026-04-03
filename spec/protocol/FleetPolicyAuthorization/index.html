@@ -1914,7 +1914,10 @@ SBA → Trust Gateway → XRPL Settlement
 </code></pre></div>
 <p>Rules:</p>
 <ul>
-<li><strong>Lowest cap wins</strong></li>
+<li><strong>Lowest cap wins</strong> among caps expressed in <strong>comparable atomic units</strong> — e.g. fleet
+  <strong><code>FPA.maxAmountMinor</code></strong> vs PA-signed <strong><code>PolicyGrant.budgetMinor</code></strong> for on-chain cumulative
+  enforcement (not <strong><code>PolicyGrant.maxSpend</code></strong>, which is policy-layer; see
+  <a href="../PolicyGrant/#budgetminor-and-maxspend-precedence">PolicyGrant — budgetMinor and maxSpend</a>).</li>
 <li><strong>Allowed rails intersect</strong></li>
 <li><strong>Allowed assets intersect</strong></li>
 <li><strong>Operator must be fleet-approved</strong></li>
@@ -2025,11 +2028,19 @@ The signature protects the inner <code>authorization</code> payload.</p>
 <p>Example pseudocode:</p>
 <div class="highlight"><pre><span></span><code>effectiveRails = intersect(FPA.allowedRails, PolicyGrant.allowedRails)
 
- effectiveAssets = intersect(FPA.allowedAssets, PolicyGrant.allowedAssets)
+effectiveAssets = intersect(FPA.allowedAssets, PolicyGrant.allowedAssets)
 
- effectiveCap = min(FPA.maxAmountMinor, PolicyGrant.maxSpend)
+# PA-signed on-chain ceiling for the Trust Gateway (escrow / cumulative). Do NOT substitute PolicyGrant.maxSpend.
+paOnChainCeilingMinor = PolicyGrant.budgetMinor
 
- operatorAllowed = PolicyGrant.operatorId in FPA.allowedOperators
+# Fleet-side cap (same units as FPA.maxAmountMinor when comparing to budgetMinor).
+fleetCapMinor = FPA.maxAmountMinor
+
+# When both are present and in the same atomic units, the stricter cumulative ceiling is the minimum.
+# Gateway enforcement uses paOnChainCeilingMinor; the fleet SHOULD NOT issue grants that exceed fleetCapMinor.
+effectiveCumulativeCeilingMinor = minNumeric(fleetCapMinor, paOnChainCeilingMinor)  # if both defined and comparable
+
+operatorAllowed = PolicyGrant.operatorId in FPA.allowedOperators
 </code></pre></div>
 <p>If any constraint fails, the settlement must be rejected.</p>
 <hr />
@@ -2042,7 +2053,10 @@ The signature protects the inner <code>authorization</code> payload.</p>
 <li><strong>operator allowlist compliance</strong></li>
 <li><strong>rail compatibility</strong></li>
 <li><strong>asset compatibility</strong></li>
-<li><strong>spending cap compliance</strong></li>
+<li><strong>spending cap compliance</strong> — payment and cumulative limits remain within <strong><code>FPA.maxAmountMinor</code></strong>
+   <strong>and</strong> PA-signed <strong><code>PolicyGrant.budgetMinor</code></strong> (Trust Gateway durable spend), when those fields
+   are present and comparable. Do <strong>not</strong> use <strong><code>PolicyGrant.maxSpend</code></strong> as a substitute for the
+   on-chain ceiling (see <a href="../PolicyGrant/#budgetminor-and-maxspend-precedence">PolicyGrant — budgetMinor and maxSpend</a>).</li>
 </ol>
 <p>Then proceed with standard MPCP verification:</p>
 <div class="highlight"><pre><span></span><code>FPA
