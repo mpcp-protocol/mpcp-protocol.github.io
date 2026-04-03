@@ -1502,74 +1502,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#xrpl-nft-backed-policygrant" class="md-nav__link">
+  <a href="#xrpl-policy-audit-and-grant-revocation-credentials" class="md-nav__link">
     <span class="md-ellipsis">
       
-        XRPL NFT-Backed PolicyGrant
+        XRPL: policy audit and grant revocation (Credentials)
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="XRPL NFT-Backed PolicyGrant">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How it works
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#encrypted-xrpl-flow-preparation-step" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Encrypted XRPL flow (preparation step)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ipfs-store-interface" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        IPFS store interface
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#revocation-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Revocation check
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#comparison-to-revocationendpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Comparison to revocationEndpoint
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1630,10 +1569,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#nft-burn-finality" class="md-nav__link">
+  <a href="#credential-deletion-finality" class="md-nav__link">
     <span class="md-ellipsis">
       
-        NFT Burn Finality
+        Credential deletion finality
       
     </span>
   </a>
@@ -2343,74 +2282,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#xrpl-nft-backed-policygrant" class="md-nav__link">
+  <a href="#xrpl-policy-audit-and-grant-revocation-credentials" class="md-nav__link">
     <span class="md-ellipsis">
       
-        XRPL NFT-Backed PolicyGrant
+        XRPL: policy audit and grant revocation (Credentials)
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="XRPL NFT-Backed PolicyGrant">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How it works
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#encrypted-xrpl-flow-preparation-step" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Encrypted XRPL flow (preparation step)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ipfs-store-interface" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        IPFS store interface
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#revocation-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Revocation check
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#comparison-to-revocationendpoint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Comparison to revocationEndpoint
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2471,10 +2349,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#nft-burn-finality" class="md-nav__link">
+  <a href="#credential-deletion-finality" class="md-nav__link">
     <span class="md-ellipsis">
       
-        NFT Burn Finality
+        Credential deletion finality
       
     </span>
   </a>
@@ -2547,7 +2425,7 @@
 policy document on a distributed ledger to create a tamper-evident, third-party-auditable trail.</p>
 <p>Policy anchoring records the <strong>policy authorization itself</strong>, enabling
 audit of what constraints were in force when a grant was issued.</p>
-<p>Two anchoring patterns are defined:</p>
+<p>Anchoring patterns:</p>
 <table>
 <thead>
 <tr>
@@ -2561,11 +2439,13 @@ audit of what constraints were in force when a grant was issued.</p>
 <td>Institutional deployments requiring audit trails; any third party can verify the policy hash</td>
 </tr>
 <tr>
-<td><strong>XRPL NFT-Backed PolicyGrant</strong></td>
-<td>Consumer deployments without a hosted revocation service; burn the NFT to revoke</td>
+<td><strong>XRPL (credentials, not NFT)</strong></td>
+<td><strong>Grant revocation</strong> on XRPL uses XLS-70 Credentials (<code>PolicyGrant.activeGrantCredentialIssuer</code>) — see <a href="../PolicyGrant/#revocation">PolicyGrant — Revocation</a>. Policy hash anchoring on XRPL uses the same HCS-style commitment patterns where applicable, or off-chain custody with <code>policyHash</code>.</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Deprecated:</strong> NFToken-based anchoring (<code>xrpl:nft:{tokenId}</code>) and burn-to-revoke are <strong>not</strong>
+normative for new deployments. Use Credentials instead.</p>
 <hr />
 <h2 id="privacy-model">Privacy Model</h2>
 <p>Policy documents may contain sensitive fields: <code>subjectId</code> (identity), <code>allowedPurposes</code>
@@ -2629,10 +2509,12 @@ who can write, not who can read.</p>
 </tr>
 <tr>
 <td><code>xrpl:nft:{tokenId}</code></td>
-<td><code>"xrpl:nft:000800006B55D0F1584E4D2CBD04F60B9E61FFDD2A4E3F9F00000001"</code></td>
+<td><strong>Deprecated.</strong> Do not issue new grants with this pattern.</td>
 </tr>
 </tbody>
 </table>
+<p><strong>XRPL revocation</strong> is defined by <code>activeGrantCredentialIssuer</code> on the PolicyGrant, not by
+<code>anchorRef</code>. See <a href="../PolicyGrant/">PolicyGrant</a>.</p>
 <p>The verifier passes <code>anchorRef</code> through without enforcement. It is informational metadata used
 by auditors, merchants, and dispute resolution tooling.</p>
 <hr />
@@ -2734,74 +2616,28 @@ by auditors, merchants, and dispute resolution tooling.</p>
 2. <code>policyHash</code> matches <code>PolicyGrant.policyHash</code>
 3. For <code>"encrypted"</code>: decrypt with the shared key and verify the decrypted document hashes to <code>policyHash</code></p>
 <hr />
-<h2 id="xrpl-nft-backed-policygrant">XRPL NFT-Backed PolicyGrant</h2>
-<h3 id="how-it-works">How it works</h3>
+<h2 id="xrpl-policy-audit-and-grant-revocation-credentials">XRPL: policy audit and grant revocation (Credentials)</h2>
+<p>On XRPL, MPCP separates <strong>policy document audit</strong> from <strong>grant liveness</strong>:</p>
 <ol>
-<li>The policy authority (or wallet holder) mints a non-transferable XRPL NFToken</li>
-<li>For <code>"hash-only"</code>: the NFT URI encodes the <code>policyHash</code> as a hex string</li>
-<li>For <code>"encrypted"</code>: encrypt the policy document → upload to IPFS → NFT URI = <code>ipfs://{CID}</code></li>
-<li>The token ID is encoded as <code>"xrpl:nft:{tokenId}"</code> and placed in <code>anchorRef</code></li>
-<li><strong>Revocation</strong> is accomplished by burning the NFToken</li>
+<li>
+<p><strong>Policy hash audit</strong> — Use Hedera HCS (<code>anchorRef</code> with <code>hcs:...</code>) or off-chain custody with a
+   published <code>policyHash</code> on the grant. This matches the privacy model in this document
+   (<code>hash-only</code> default).</p>
+</li>
+<li>
+<p><strong>Grant revocation</strong> — Use <strong>XLS-70 Credentials</strong>, not NFToken burn. At grant issuance the PA
+   issues <code>CredentialCreate</code> with <code>Issuer</code> = <code>activeGrantCredentialIssuer</code>, <code>Subject</code> = grant
+   subject XRPL account, and <code>CredentialType</code> = <code>hexUTF8("mpcp:active-grant:" + grantId)</code>. The
+   subject accepts the credential on-ledger. <strong>Revocation</strong> is <code>CredentialDelete</code> by the issuer.</p>
+</li>
+<li>
+<p><strong>Verifiers</strong> — The Trust Gateway and online merchants query the ledger for the credential.
+   Absence implies revocation. No HTTP <code>revocationEndpoint</code> is required for this path.</p>
+</li>
 </ol>
-<h3 id="encrypted-xrpl-flow-preparation-step">Encrypted XRPL flow (preparation step)</h3>
-<p>The SDK provides <code>xrplEncryptAndStorePolicyDocument</code> to prepare the encrypted blob before minting.
-NFT minting (write side) is handled by <code>mpcp-policy-authority</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">xrplEncryptAndStorePolicyDocument</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="nx">aes256Key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">globalThis</span><span class="p">.</span><span class="nx">crypto</span><span class="p">.</span><span class="nx">getRandomValues</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nb">Uint8Array</span><span class="p">(</span><span class="mf">32</span><span class="p">));</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="nx">prep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">xrplEncryptAndStorePolicyDocument</span><span class="p">(</span><span class="nx">policyDocument</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nx">encryption</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="kt">aes256Key</span><span class="w"> </span><span class="p">},</span>
-<span class="w">  </span><span class="nx">ipfsStore</span><span class="o">:</span><span class="w"> </span><span class="kt">myIpfsClient</span><span class="p">,</span><span class="w">  </span><span class="c1">// implements PolicyDocumentIpfsStore</span>
-<span class="p">});</span>
-
-<span class="c1">// prep.cid        → IPFS CID of the encrypted blob</span>
-<span class="c1">// prep.policyHash → sha256 of the canonical policy document</span>
-<span class="c1">// NFT URI = `ipfs://${prep.cid}`</span>
-<span class="c1">// after minting: anchorRef = `xrpl:nft:${mintedTokenId}`</span>
-</code></pre></div>
-<h3 id="ipfs-store-interface">IPFS store interface</h3>
-<p>The SDK does not bundle an IPFS client. Callers inject one:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nx">PolicyDocumentIpfsStore</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nx">upload</span><span class="p">(</span><span class="nx">data</span><span class="o">:</span><span class="w"> </span><span class="kt">Uint8Array</span><span class="p">,</span><span class="w"> </span><span class="nx">filename?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="c1">// returns CID</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Compatible with <code>web3.storage</code>, <code>nft.storage</code>, a local IPFS node, or any content-addressed store.</p>
-<h3 id="revocation-check">Revocation check</h3>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkXrplNftRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="nx">tokenId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">grant</span><span class="p">.</span><span class="nx">anchorRef</span><span class="o">?</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;xrpl:nft:&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">);</span>
-<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">tokenId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkXrplNftRevocation</span><span class="p">(</span><span class="nx">tokenId</span><span class="p">);</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">revoked</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* grant revoked — NFT burned */</span><span class="w"> </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="comparison-to-revocationendpoint">Comparison to <code>revocationEndpoint</code></h3>
-<table>
-<thead>
-<tr>
-<th>Mechanism</th>
-<th>Requires hosted service</th>
-<th>Finality</th>
-<th>Suitable for</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>revocationEndpoint</code></td>
-<td>Yes</td>
-<td>Soft</td>
-<td>Enterprise, operator-controlled</td>
-</tr>
-<tr>
-<td>XRPL NFT burn</td>
-<td>No</td>
-<td>Hard (on-chain)</td>
-<td>Consumer, self-sovereign</td>
-</tr>
-</tbody>
-</table>
-<p>Both may be present on the same grant. Merchants SHOULD check both when present.</p>
+<p>Historical implementations that minted a non-transferable NFToken and placed <code>xrpl:nft:{tokenId}</code>
+in <code>anchorRef</code> relied on <strong>burn-to-revoke</strong>. That pattern is <strong>deprecated</strong>; new deployments MUST
+use Credentials as specified in <a href="../PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</p>
 <hr />
 <h2 id="off-chain-document-custody">Off-Chain Document Custody</h2>
 <p>When using <code>"hash-only"</code> mode (the default), the full policy document is never published to
@@ -2835,9 +2671,9 @@ sensitive data. Never rely on topic access control for read privacy.</p>
 <p>For <code>"encrypted"</code> mode, the AES-256 key must be shared out-of-band with authorized parties
 (regulators, auditors). The key must be stored securely — loss of the key means the
 on-chain document can never be decrypted. Key rotation requires re-anchoring.</p>
-<h3 id="nft-burn-finality">NFT Burn Finality</h3>
-<p>XRPL NFT burns are final and irreversible. Once a grant is revoked via NFT burn, it cannot
-be un-revoked. Policy authorities MUST ensure the correct token is burned.</p>
+<h3 id="credential-deletion-finality">Credential deletion finality</h3>
+<p>XRPL <code>CredentialDelete</code> is final on-ledger. A new grant requires a new credential issuance. Policy
+authorities MUST target the correct (<code>Subject</code>, <code>Issuer</code>, <code>CredentialType</code>) tuple.</p>
 <h3 id="immutability-and-gdpr">Immutability and GDPR</h3>
 <p>Public ledger records are immutable. Policy documents (or hashes) published to a public
 ledger cannot be deleted. For GDPR compliance:</p>
@@ -2848,8 +2684,8 @@ ledger cannot be deleted. For GDPR compliance:</p>
 <li>Never use <code>"full-document"</code> mode for documents containing personal data</li>
 </ul>
 <h3 id="offline-merchants">Offline Merchants</h3>
-<p>If <code>anchorRef</code> contains an XRPL NFT reference and the XRPL network is temporarily unavailable,
-merchants SHOULD apply the same offline exception policy as for <code>revocationEndpoint</code> (see
+<p>Offline merchants cannot query XRPL for credential status. They SHOULD apply the same
+risk-based policy as for HTTP revocation when connectivity is absent (see
 <a href="../../profiles/human-agent-profile/">Human-to-Agent Profile</a>).</p>
 <hr />
 <h2 id="see-also">See Also</h2>

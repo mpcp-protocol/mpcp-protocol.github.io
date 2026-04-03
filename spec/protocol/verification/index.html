@@ -2050,6 +2050,7 @@
 <li><strong>Policy</strong> — Budget limits, rail/asset/destination constraints, expiration</li>
 <li><strong>Purpose</strong> — When <code>PolicyGrant.allowedPurposes</code> is present and the settlement request includes a <code>purpose</code> field, verify <code>purpose ∈ allowedPurposes</code>. See <a href="../PolicyGrant/#purpose-enforcement">PolicyGrant — Purpose Enforcement</a>.</li>
 <li><strong>Destination</strong> — When <code>PolicyGrant.destinationAllowlist</code> or <code>PolicyGrant.merchantCredentialIssuer</code> is present, verify the payment destination is approved. See <a href="../PolicyGrant/#destination-enforcement">PolicyGrant — Destination Enforcement</a>.</li>
+<li><strong>Grant liveness (XRPL Credential)</strong> — When <code>PolicyGrant.activeGrantCredentialIssuer</code> is present, verify the active-grant XLS-70 Credential exists on the subject's XRPL account for this <code>grantId</code>. Reject with <code>ACTIVE_GRANT_CREDENTIAL_MISSING</code> if absent or expired. See <a href="../PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</li>
 </ol>
 <p>If any check fails, verification fails with a specific reason. On success, the gateway submits the XRPL transaction and returns the <code>txHash</code> receipt.</p>
 <h2 id="clock-synchronization-and-drift">Clock synchronization and drift</h2>
@@ -2104,6 +2105,10 @@ monitoring), not additional protocol fields.</p>
 <tr>
 <td>Destination</td>
 <td>When <code>PolicyGrant.destinationAllowlist</code> is present: verify <code>payment.destination ∈ destinationAllowlist</code>. When <code>PolicyGrant.merchantCredentialIssuer</code> is present: verify destination holds a matching on-chain credential. If both are set, either match suffices. Reject with <code>DESTINATION_NOT_ALLOWED</code> or <code>DESTINATION_NOT_CREDENTIALED</code>.</td>
+</tr>
+<tr>
+<td>Grant liveness</td>
+<td>When <code>PolicyGrant.activeGrantCredentialIssuer</code> is present: verify on-chain active-grant credential for this <code>grantId</code>. Reject with <code>ACTIVE_GRANT_CREDENTIAL_MISSING</code> if revoked.</td>
 </tr>
 </tbody>
 </table>

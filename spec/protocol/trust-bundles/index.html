@@ -3205,7 +3205,10 @@ as a sanity check — see <a href="#clock-sanity-checks-for-bundles">Clock sanit
 <div class="highlight"><pre><span></span><code>artifact → issuer → lookup key in bundle → verify signature → check expiry and constraints
 </code></pre></div>
 <h3 id="revocation-in-offline-mode">Revocation in Offline Mode</h3>
-<p>PolicyGrants may carry a <code>revocationEndpoint</code>. Offline verifiers cannot call this endpoint. Deployments that use offline verification MUST accept the risk that a revoked grant may be accepted — the revoked grant will remain valid until its <code>expiresAt</code> expires or the bundle is refreshed and revocation state is checked.</p>
+<p>PolicyGrants may carry <code>activeGrantCredentialIssuer</code> (XRPL) or a legacy <code>revocationEndpoint</code>
+(HTTP). Offline verifiers cannot query either. Deployments that use offline verification MUST
+accept the risk that a revoked grant may be accepted — the grant remains valid until
+<code>expiresAt</code> or the bundle is refreshed and revocation state is re-checked when online.</p>
 <p>Embedded revocation lists (CRL, bloom filter) are a <a href="#future-extensions">planned future extension</a>. Until that mechanism is available, deployments with strict revocation requirements MUST use online verification.</p>
 <h3 id="offline-sba-replay">Offline SBA replay</h3>
 <p><strong>Risk:</strong> An attacker or misconfigured agent could present the <strong>same</strong> SBA (same <code>budgetId</code>) to

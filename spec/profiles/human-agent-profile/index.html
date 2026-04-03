@@ -1670,10 +1670,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#endpoint-contract" class="md-nav__link">
+  <a href="#xrpl-credential-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Endpoint contract
+        XRPL Credential (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legacy-http-endpoint-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy HTTP endpoint contract
       
     </span>
   </a>
@@ -2210,10 +2221,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#endpoint-contract" class="md-nav__link">
+  <a href="#xrpl-credential-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Endpoint contract
+        XRPL Credential (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legacy-http-endpoint-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy HTTP endpoint contract
       
     </span>
   </a>
@@ -2361,7 +2383,7 @@ human.</p>
 <ul>
 <li>A human wants to delegate bounded spending to an AI agent (travel, subscriptions, event budgets)</li>
 <li>Payments span multiple sessions or days (use <code>budgetScope: "TRIP"</code>)</li>
-<li>The human may need to cancel mid-delegation (use <code>revocationEndpoint</code>)</li>
+<li>The human may need to cancel mid-delegation — on XRPL use <code>activeGrantCredentialIssuer</code> (CredentialDelete); non-XRPL MAY use <code>revocationEndpoint</code></li>
 <li>Merchant categories should be explicitly constrained (use <code>allowedPurposes</code>)</li>
 <li>Offline-capable verification is required at the merchant side</li>
 </ul>
@@ -2378,7 +2400,7 @@ human.</p>
 <span class="w">  </span><span class="nt">&quot;allowedAssets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IOU&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RLUSD&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rIssuer...&quot;</span><span class="w"> </span><span class="p">}],</span>
 <span class="w">  </span><span class="nt">&quot;expiresAt&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-04-13T23:59:59Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;allowedPurposes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;travel:hotel&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;travel:flight&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;travel:transport&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;revocationEndpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://wallet.alice.example.com/revoke&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;activeGrantCredentialIssuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rPaAddress...&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alice-did-key-1&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span>
@@ -2406,8 +2428,12 @@ human.</p>
 <td>Merchant category allowlist — enforced by the AI agent and the Trust Gateway (see <a href="../../protocol/PolicyGrant/#purpose-enforcement">Purpose Enforcement</a>)</td>
 </tr>
 <tr>
+<td><code>activeGrantCredentialIssuer</code></td>
+<td><strong>XRPL:</strong> PA's XRPL address for the active-grant credential; revocation = <code>CredentialDelete</code> (see <a href="../../protocol/PolicyGrant/#revocation">PolicyGrant — Revocation</a>)</td>
+</tr>
+<tr>
 <td><code>revocationEndpoint</code></td>
-<td>URL where the human's wallet accepts cancellation queries</td>
+<td><strong>Legacy HTTP</strong> cancellation URL for non-XRPL rails only</td>
 </tr>
 <tr>
 <td><code>scope</code></td>
@@ -2423,12 +2449,14 @@ human.</p>
 <li>The PA server issues the PolicyGrant, signing with a domain key</li>
 <li><code>issuer</code> is the PA server's domain (e.g. <code>wallet.alice.example.com</code>) rather than Alice's personal DID</li>
 <li>Key resolution uses HTTPS well-known: <code>https://wallet.alice.example.com/.well-known/mpcp-keys.json</code></li>
-<li>The <code>revocationEndpoint</code> is also hosted by the PA server, which tracks revocation state</li>
+<li>For <strong>XRPL</strong>, the PA SHOULD issue the active-grant credential from <code>activeGrantCredentialIssuer</code>
+  and revoke via <code>CredentialDelete</code> — no HTTP endpoint required. For <strong>non-XRPL</strong> transitional
+  deployments, the PA MAY host <code>revocationEndpoint</code> instead.</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;wallet.alice.example.com&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;issuerKeyId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pa-grant-key-1&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;revocationEndpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://wallet.alice.example.com/revoke&quot;</span>
+<span class="w">  </span><span class="nt">&quot;activeGrantCredentialIssuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rPaAliceWallet...&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>The MPCP artifact chain is identical — only the <code>issuer</code> value and key resolution method differ. This pattern is operationally simpler than requiring users to manage DID private keys and is the recommended starting point for most production deployments.</p>
@@ -2513,14 +2541,18 @@ the full specification.</p>
 </code></pre></div>
 <hr />
 <h2 id="revocation">Revocation</h2>
-<h3 id="endpoint-contract">Endpoint contract</h3>
+<h3 id="xrpl-credential-recommended">XRPL Credential (recommended)</h3>
+<p>When <code>activeGrantCredentialIssuer</code> is set, the Trust Gateway and online merchants rely on
+<strong>ledger queries</strong> for grant liveness — not HTTP. See <a href="../../protocol/PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</p>
+<h3 id="legacy-http-endpoint-contract">Legacy HTTP endpoint contract</h3>
+<p>When only <code>revocationEndpoint</code> is present (non-XRPL):</p>
 <div class="highlight"><pre><span></span><code>GET {revocationEndpoint}?grantId={grantId}
 Response: { &quot;revoked&quot;: boolean, &quot;revokedAt&quot;: &quot;ISO8601&quot; }
 </code></pre></div>
 <h3 id="merchant-responsibility">Merchant responsibility</h3>
-<p>Merchants and service providers with the <code>revocationEndpoint</code> field SHOULD call this endpoint
-before accepting a payment. The check is a <strong>separate online step</strong> — the MPCP verifier pipeline
-remains stateless and synchronous.</p>
+<p>Merchants and service providers SHOULD perform the appropriate check before accepting a payment
+(credential lookup when <code>activeGrantCredentialIssuer</code> is set; HTTP when only
+<code>revocationEndpoint</code> is set). HTTP checks are a <strong>separate online step</strong> when used.</p>
 <div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-service/sdk&quot;</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">revoked</span><span class="p">,</span><span class="w"> </span><span class="nx">revokedAt</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">checkRevocation</span><span class="p">(</span>
@@ -2533,7 +2565,7 @@ remains stateless and synchronous.</p>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="offline-exception">Offline exception</h3>
-<p>If the merchant cannot reach the revocation endpoint (network unavailable, timeout), the
+<p>If the merchant cannot reach the revocation service (no ledger access, HTTP timeout, etc.), the
 merchant makes a risk-based decision. The MPCP spec recommends:</p>
 <ul>
 <li><strong>Online merchants</strong> (hotels, airlines): block on revocation endpoint failure</li>
@@ -2548,7 +2580,7 @@ frequent SBA refresh.</p>
 <h2 id="security-considerations">Security Considerations</h2>
 <h3 id="key-compromise">Key compromise</h3>
 <p>If the human's DID key is compromised:
-1. Revoke all active PolicyGrants via <code>revocationEndpoint</code>
+1. Revoke all active PolicyGrants (<code>CredentialDelete</code> on XRPL, or HTTP revocation where used)
 2. Rotate the DID key or create a new DID
 3. Reissue PolicyGrants under the new key</p>
 <h3 id="agent-key-compromise">Agent key compromise</h3>
@@ -2585,8 +2617,8 @@ frequent SBA refresh.</p>
 </tr>
 <tr>
 <td>Revocation</td>
-<td><code>revocationEndpoint</code> — fleet disables vehicle mid-shift</td>
-<td><code>revocationEndpoint</code> — human cancels delegation</td>
+<td>Credential + Trust Bundle / HTTP legacy</td>
+<td>Credential (XRPL) or HTTP — human cancels delegation</td>
 </tr>
 <tr>
 <td>Budget scope</td>
@@ -2610,7 +2642,7 @@ frequent SBA refresh.</p>
 <hr />
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../../protocol/PolicyGrant/">PolicyGrant</a> — <code>revocationEndpoint</code>, <code>allowedPurposes</code> fields</li>
+<li><a href="../../protocol/PolicyGrant/">PolicyGrant</a> — <code>activeGrantCredentialIssuer</code>, <code>revocationEndpoint</code>, <code>allowedPurposes</code></li>
 <li><a href="../../protocol/SignedBudgetAuthorization/">SignedBudgetAuthorization</a> — TRIP scope</li>
 <li><a href="../../architecture/actors/">Actors</a> — AI Agent actor</li>
 <li><a href="../../overview/comparison-with-agent-protocols/">Comparison with Agent Protocols</a></li>

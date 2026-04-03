@@ -2201,7 +2201,7 @@ cryptographic spending layer on top.</p>
 </tr>
 <tr>
 <td>Human needs to cancel mid-delegation</td>
-<td><code>revocationEndpoint</code> → <code>checkRevocation()</code></td>
+<td>XRPL: <code>CredentialDelete</code> on active-grant credential; non-XRPL: <code>revocationEndpoint</code> → <code>checkRevocation()</code></td>
 </tr>
 <tr>
 <td>Agent should only pay for certain categories</td>
@@ -2226,7 +2226,7 @@ cryptographic spending layer on top.</p>
 <ul>
 <li><a href="../../profiles/human-agent-profile/">Human-to-Agent Delegation Profile</a> — full deployment guide</li>
 <li><a href="../comparison-with-agent-protocols/">Comparison with Agent Protocols</a> — x402, AP2, ACP, TAPC</li>
-<li><a href="../../protocol/PolicyGrant/">PolicyGrant</a> — <code>revocationEndpoint</code>, <code>allowedPurposes</code> fields</li>
+<li><a href="../../protocol/PolicyGrant/">PolicyGrant</a> — <code>activeGrantCredentialIssuer</code>, <code>revocationEndpoint</code>, <code>allowedPurposes</code></li>
 <li><a href="../../protocol/SignedBudgetAuthorization/">SignedBudgetAuthorization</a> — TRIP scope</li>
 <li><a href="../../architecture/actors/">Actors</a> — AI Agent actor</li>
 </ul>

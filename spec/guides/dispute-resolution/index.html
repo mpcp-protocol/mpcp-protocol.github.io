@@ -2163,7 +2163,7 @@
 </tr>
 <tr>
 <td>Revocation check result</td>
-<td><code>revocationEndpoint</code> at time of authorization</td>
+<td>On-chain credential status or <code>revocationEndpoint</code> response at time of authorization</td>
 </tr>
 </tbody>
 </table>
@@ -2221,6 +2221,10 @@
 <td>Revocation endpoint returned <code>{ revoked: true }</code></td>
 </tr>
 <tr>
+<td><code>active_grant_credential_missing</code></td>
+<td>On-chain active-grant credential absent or expired (<code>ACTIVE_GRANT_CREDENTIAL_MISSING</code>)</td>
+</tr>
+<tr>
 <td><code>offline_cumulative_exceeded</code></td>
 <td>Offline acceptance would exceed <code>PolicyGrant.offlineMaxCumulativePayment</code></td>
 </tr>
@@ -2232,7 +2236,7 @@
 </table>
 <h2 id="see-also">See Also</h2>
 <ul>
-<li><a href="../../protocol/policy-anchoring/">Policy Anchoring</a> — HCS and XRPL NFT anchoring</li>
+<li><a href="../../protocol/policy-anchoring/">Policy Anchoring</a> — HCS anchoring; XRPL Credentials for revocation</li>
 <li><a href="../../protocol/trust-model/">Trust Model</a> — Escrow as proof-of-reservation; on-chain audit</li>
 <li><a href="../../protocol/rails/">Rails</a> — <code>mpcp/grant-id</code> memo format</li>
 <li><a href="../../protocol/ArtifactBundle/">ArtifactBundle</a> — Packaging artifacts for audit</li>

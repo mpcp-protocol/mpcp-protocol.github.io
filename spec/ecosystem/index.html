@@ -2402,7 +2402,7 @@
 <ul>
 <li>Artifact construction: <code>createPolicyGrant</code>, <code>createSignedPolicyGrant</code>, <code>createSba</code></li>
 <li>Verification: <code>verifyPolicyGrant</code>, <code>verifySignedBudgetAuthorization</code>, <code>verifySettlement</code></li>
-<li>On-chain adapters: <code>hederaHcsAnchorPolicyDocument</code>, <code>checkXrplNftRevocation</code>, <code>resolveXrplDid</code></li>
+<li>On-chain adapters: <code>hederaHcsAnchorPolicyDocument</code>, active-grant credential verification, <code>resolveXrplDid</code></li>
 <li>Revocation utilities: <code>checkRevocation</code></li>
 <li>Schemas and canonical JSON hashing</li>
 </ul>
@@ -2413,7 +2413,7 @@
 <ul>
 <li>Stores policy documents and issues <code>PolicyGrant</code> artifacts signed with its key</li>
 <li>Exposes <code>GET /revoke?grantId=</code> — the revocation endpoint that goes into every grant</li>
-<li>Optionally anchors policy documents on Hedera HCS or XRPL NFT for tamper-evident audit trails</li>
+<li>Optionally anchors policy documents on Hedera HCS for tamper-evident audit trails; XRPL grant liveness uses XLS-70 Credentials</li>
 <li>Manages soft-delete retention for policy document custody</li>
 </ul>
 <p>For many deployments the policy authority will be embedded directly in an existing platform (an AI agent platform, an enterprise IAM system, a crypto wallet provider) rather than deployed as a standalone service. The <code>mpcp-policy-authority</code> repository is a ready-to-deploy reference implementation of this role.</p>
@@ -2425,7 +2425,7 @@
 <li><strong>PolicyGrant display</strong> — parse a received grant into human- or agent-readable form</li>
 <li><strong>SBA creation and signing</strong> — <code>createSession(grant, signingKey)</code> → signs SBAs within authorized scope</li>
 <li><strong>Budget enforcement</strong> — tracks cumulative spend, rejects requests that would exceed the grant ceiling</li>
-<li><strong>Revocation</strong> — checks <code>revocationEndpoint</code> (and optionally XRPL NFT status) before each transaction</li>
+<li><strong>Revocation</strong> — checks XRPL active-grant credential when <code>activeGrantCredentialIssuer</code> is set; otherwise legacy <code>revocationEndpoint</code> for non-XRPL rails</li>
 <li><strong>Persistence</strong> — pluggable storage adapters (in-memory, localStorage, React Native AsyncStorage)</li>
 <li><strong>Platform support</strong> — browser bundle (Web Crypto API), React Native, Node.js</li>
 </ul>
@@ -2446,7 +2446,7 @@
 <div class="highlight"><pre><span></span><code>1. POLICY AUTHORITY
    POST /policies        { policyDocument }   → { policyHash }
    POST /grants          { policyHash, ... }  → SignedPolicyGrant
-        (optional: anchor on Hedera HCS or XRPL NFT)
+        (optional: anchor policy hash on Hedera HCS; XRPL grant liveness via XLS-70 Credentials)
 
 2. WALLET / AGENT  (mpcp-wallet-sdk)
    parseGrant(signedGrant)                    → display / consent prompt

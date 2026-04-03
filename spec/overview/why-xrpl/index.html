@@ -775,10 +775,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#nft-based-policy-anchoring-and-revocation" class="md-nav__link">
+  <a href="#credentials-based-grant-revocation-xls-70" class="md-nav__link">
     <span class="md-ellipsis">
       
-        NFT-Based Policy Anchoring and Revocation
+        Credentials-Based Grant Revocation (XLS-70)
       
     </span>
   </a>
@@ -2064,10 +2064,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#nft-based-policy-anchoring-and-revocation" class="md-nav__link">
+  <a href="#credentials-based-grant-revocation-xls-70" class="md-nav__link">
     <span class="md-ellipsis">
       
-        NFT-Based Policy Anchoring and Revocation
+        Credentials-Based Grant Revocation (XLS-70)
       
     </span>
   </a>
@@ -2193,10 +2193,13 @@ MemoData:  hex(grantId)
 </ul>
 <p>This integrates naturally with MPCP's key resolution pipeline and with fleet operators who already hold XRPL accounts.</p>
 <hr />
-<h2 id="nft-based-policy-anchoring-and-revocation">NFT-Based Policy Anchoring and Revocation</h2>
-<p>XRPL supports non-transferable NFTokens. MPCP uses these for two purposes:</p>
-<p><strong>Policy anchoring</strong> — The policy document hash can be minted as an NFT at grant issuance, creating a tamper-evident on-chain record that any auditor can verify independently.</p>
-<p><strong>On-chain revocation</strong> — Burning the NFT signals grant revocation. Merchants using Trust Bundles for offline verification can check NFT existence without contacting any hosted revocation service. The ledger is the revocation oracle.</p>
+<h2 id="credentials-based-grant-revocation-xls-70">Credentials-Based Grant Revocation (XLS-70)</h2>
+<p>XRPL <strong>Credentials</strong> (XLS-70) let the PA attest on-chain that a specific <code>grantId</code> is active for a
+subject account. <strong>Revocation</strong> is a <code>CredentialDelete</code> — final, queryable, and <strong>no hosted HTTP
+revocation service</strong> is required for online verifiers.</p>
+<p><strong>Policy audit</strong> remains hash-first (Hedera HCS <code>anchorRef</code> or off-chain custody with
+<code>policyHash</code> on the grant). NFToken-based anchoring and burn-to-revoke were <strong>deprecated</strong> in
+favour of Credentials; see <a href="../../protocol/PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</p>
 <hr />
 <h2 id="low-fees">Low Fees</h2>
 <p>XRPL transaction fees are a fraction of a cent (typically ~0.00001 XRP). This makes MPCP viable for the full range of machine payment scenarios:</p>
@@ -2284,9 +2287,9 @@ MemoData:  hex(grantId)
 <td>PA key resolution without external infrastructure</td>
 </tr>
 <tr>
-<td>NFT policy anchor</td>
+<td>XLS-70 Credentials</td>
 <td>Yes</td>
-<td>Tamper-evident policy record + burn-to-revoke</td>
+<td>On-chain grant liveness + <code>CredentialDelete</code> revocation</td>
 </tr>
 <tr>
 <td>Sub-cent fees</td>

@@ -2275,6 +2275,11 @@ verify_signature(sba.signature,   SHA256(&quot;MPCP:SBA:1.0:&quot;         || ca
 <ul>
 <li><code>SBA.authorization.grantId</code> MUST reference a valid PolicyGrant</li>
 <li>artifacts MUST NOT be expired</li>
+<li><strong>Grant liveness (XRPL):</strong> when <code>PolicyGrant.activeGrantCredentialIssuer</code> is present, the
+  Trust Gateway MUST verify on-chain that an active XLS-70 Credential exists for this grant
+  on the subject's XRPL account (see <a href="../PolicyGrant/#revocation">PolicyGrant — Revocation</a>).
+  If the credential is absent or expired → <strong>reject settlement</strong> with
+  <code>ACTIVE_GRANT_CREDENTIAL_MISSING</code>.</li>
 </ul>
 <p>If lineage is invalid → <strong>reject settlement</strong>.</p>
 <hr />
@@ -2387,10 +2392,10 @@ emit settlement event
 <p>MPCP must prevent the reuse of authorization artifacts across multiple settlements.</p>
 <p>Replay protection is enforced through <strong>SBA ID uniqueness</strong> and <strong>transaction binding</strong>.</p>
 <h3 id="sba-id-uniqueness">SBA ID Uniqueness</h3>
-<p>Each <strong>SBA</strong> contains a <code>budgetId</code>. The Trust Gateway MUST NOT accept the same SBA for more than one settlement submission.</p>
-<p>The operator backend SHOULD record <code>(sba.budgetId, settlementTxId)</code> at settlement acceptance to prevent the same SBA from being applied to a second settlement.</p>
+<p>Each <strong>SBA</strong> contains a <code>budgetId</code>. The Trust Gateway <strong>MUST NOT</strong> accept the same <code>budgetId</code> for more than one settlement submission (equivalently: the same SBA MUST NOT settle twice).</p>
+<p>The Trust Gateway (or its operator backend) <strong>MUST</strong> persist <code>(sba.budgetId, settlementTxId)</code> when a settlement is accepted so that a second submission with the same <code>budgetId</code> is rejected.</p>
 <h3 id="transaction-binding">Transaction Binding</h3>
-<p>After settlement execution, the operator backend SHOULD record the settlement transaction identifier against the SBA <code>budgetId</code>.</p>
+<p>After settlement execution, the operator backend <strong>MUST</strong> record the settlement transaction identifier against the SBA <code>budgetId</code>.</p>
 <p>Examples:</p>
 <ul>
 <li>XRPL <code>txHash</code></li>
@@ -2412,7 +2417,7 @@ emit settlement event
 <p>Expired or previously used authorizations cannot be reused due to:</p>
 <ul>
 <li>expiration checks on all artifacts (gateway-enforced, stateless)</li>
-<li><code>(budgetId, settlementTxId)</code> binding recorded by the operator backend at settlement acceptance</li>
+<li><code>(budgetId, settlementTxId)</code> binding <strong>MUST</strong> be recorded by the Trust Gateway (or operator backend) at settlement acceptance; duplicate <code>budgetId</code> submissions <strong>MUST</strong> be rejected</li>
 </ul>
 <h3 id="policy-bypass">Policy Bypass</h3>
 <p>Machines cannot bypass policy constraints because every authorization chain must derive from:</p>
@@ -2484,9 +2489,16 @@ as a freshness signal. See <a href="../trust-bundles/#bundle-signer-key-compromi
 <hr />
 <h1 id="known-limitations">Known Limitations</h1>
 <h2 id="grant-revocation">Grant Revocation</h2>
-<p>MPCP does not define a revocation mechanism for PolicyGrants or SBAs. Once issued, an artifact remains valid until its <code>expiresAt</code> timestamp passes.</p>
-<p><strong>Mitigation:</strong> Issue short-lived grants (recommended: &lt; 15 minutes for high-risk sessions). In scenarios where immediate revocation is required, the session authority should decline to issue new SBAs; the current grant will expire naturally.</p>
-<p><strong>Revocation extension:</strong> The <code>revocationEndpoint</code> field on PolicyGrant supports real-time revocation checks. See the <a href="../../profiles/human-agent-profile/#revocation">Human-to-Agent Profile</a> for the full revocation contract.</p>
+<p>PolicyGrants remain valid until <code>expiresAt</code> unless revoked earlier by a <strong>normative revocation
+mechanism</strong> on the grant.</p>
+<p><strong>XRPL profile (recommended):</strong> The PA-signed <code>activeGrantCredentialIssuer</code> field enables <strong>on-chain
+revocation</strong> via XLS-70 Credentials — no hosted HTTP service is required for verifiers that can
+query the ledger. See <a href="../PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</p>
+<p><strong>Legacy HTTP (non-XRPL):</strong> The optional <code>revocationEndpoint</code> field supports HTTP revocation
+checks for rails or deployments that do not use XRPL Credentials. See the
+<a href="../../profiles/human-agent-profile/#revocation">Human-to-Agent Profile</a>.</p>
+<p><strong>Mitigation:</strong> Short-lived grants still limit exposure if revocation signals are unavailable
+(e.g. offline merchants).</p>
 <hr />
 <p>These sections define the core interoperability rules required for MPCP implementations across different systems and settlement rails.</p>
 <hr />
@@ -2729,6 +2741,10 @@ as a freshness signal. See <a href="../trust-bundles/#bundle-signer-key-compromi
 <td>Offline acceptance would exceed <code>PolicyGrant.offlineMaxCumulativePayment</code></td>
 </tr>
 <tr>
+<td>ACTIVE_GRANT_CREDENTIAL_MISSING</td>
+<td><code>activeGrantCredentialIssuer</code> is set but the on-chain active-grant credential for this <code>grantId</code> does not exist or is expired (grant revoked)</td>
+</tr>
+<tr>
 <td>SCOPE_UNSUPPORTED</td>
 <td>Authorization scope is not supported by the verifier</td>
 </tr>
@@ -2776,8 +2792,9 @@ PENDING → REJECTED
 <p>To enhance auditability, MPCP supports anchoring the policy document hash to a public ledger at grant issuance time.</p>
 <p>The <code>anchorRef</code> field on PolicyGrant points to an on-chain record:</p>
 <div class="highlight"><pre><span></span><code>&quot;hcs:{topicId}:{sequenceNumber}&quot;   — Hedera HCS message
-&quot;xrpl:nft:{tokenId}&quot;               — XRPL non-transferable NFToken
 </code></pre></div>
+<p>The historical <code>xrpl:nft:{tokenId}</code> pattern is <strong>deprecated</strong>. <strong>XRPL grant revocation</strong> uses
+<code>activeGrantCredentialIssuer</code> and XLS-70 Credentials — see <a href="../PolicyGrant/#revocation">PolicyGrant — Revocation</a>.</p>
 <p>This provides:</p>
 <ul>
 <li>tamper-evident policy history</li>
