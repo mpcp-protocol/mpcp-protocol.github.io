@@ -2452,6 +2452,14 @@ MPCP mitigates this with two complementary revocation mechanisms:</p>
 <p>Trust Bundles that embedded the key before revocation remain valid until their <code>expiresAt</code>.
 Deployments SHOULD use short Trust Bundle lifetimes in high-assurance environments. See
 <a href="../key-resolution/#key-revocation">Key Revocation</a>.</p>
+<h3 id="gateway-seed-compromise">Gateway Seed Compromise</h3>
+<p>If an attacker obtains the Trust Gateway's XRPL private key, they can submit transactions on
+behalf of the gateway — potentially draining all active escrows simultaneously. Per-grant escrow
+bounds exposure per grant, but aggregate exposure is the sum of all active <code>budgetMinor</code> values.</p>
+<p><strong>Mitigations:</strong> Production gateways SHOULD store the private key in an HSM/KMS. The PA SHOULD
+issue an XRPL Credential (XLS-70) to the gateway account; on compromise, the PA deletes the
+credential to revoke the gateway's on-chain authorization. Operators SHOULD monitor for
+on-chain payments without corresponding SBAs. See <a href="../trust-model/#gateway-seed-security">Gateway Seed Security</a>.</p>
 <h3 id="settlement-tampering">Settlement Tampering</h3>
 <p>Verification ensures that executed settlement transactions match authorized parameters before the session is finalized.</p>
 <hr />

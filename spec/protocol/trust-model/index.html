@@ -1367,6 +1367,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#gateway-seed-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway Seed Security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gateway Seed Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#threat-gateway-seed-compromise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threat: Gateway Seed Compromise
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-1-hsm-kms-for-key-storage-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 1: HSM / KMS for Key Storage (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-2-xrpl-credential-based-gateway-authorization-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 2: XRPL Credential-Based Gateway Authorization (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-3-on-chain-monitoring-and-alerting-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 3: On-Chain Monitoring and Alerting (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defense-in-depth-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defense-in-Depth Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2131,6 +2203,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#gateway-seed-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway Seed Security
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gateway Seed Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#threat-gateway-seed-compromise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threat: Gateway Seed Compromise
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-1-hsm-kms-for-key-storage-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 1: HSM / KMS for Key Storage (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-2-xrpl-credential-based-gateway-authorization-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 2: XRPL Credential-Based Gateway Authorization (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigation-3-on-chain-monitoring-and-alerting-should" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mitigation 3: On-Chain Monitoring and Alerting (SHOULD)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defense-in-depth-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defense-in-Depth Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-also" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2399,12 +2543,100 @@ if the gateway's internal counter is wrong, it cannot have spent more than the e
 Bundle so offline merchants can verify that an SBA was produced by an entity operating under a
 registered gateway. (See roadmap: Gateway key in Trust Bundle.)</p>
 <hr />
+<h2 id="gateway-seed-security">Gateway Seed Security</h2>
+<h3 id="threat-gateway-seed-compromise">Threat: Gateway Seed Compromise</h3>
+<p>The Trust Gateway holds an XRPL private key (seed) that controls the gateway account. If an
+attacker obtains this seed, they can submit XRPL transactions on behalf of the gateway —
+draining all active escrows simultaneously.</p>
+<p>Per-grant escrow limits exposure per individual grant (each escrow locks only <code>budgetMinor</code>
+XRP), but an attacker with the seed can finish or drain every active escrow at once. The
+aggregate exposure is the sum of all active grants' <code>budgetMinor</code> values.</p>
+<h3 id="mitigation-1-hsm-kms-for-key-storage-should">Mitigation 1: HSM / KMS for Key Storage (SHOULD)</h3>
+<p>Production gateway deployments SHOULD store the XRPL private key in a Hardware Security Module
+(HSM) or cloud Key Management Service (KMS). The key SHOULD never exist in plaintext on disk
+or in environment variables.</p>
+<p>Benefits:</p>
+<ul>
+<li>The private key cannot be extracted — signing operations are performed inside the HSM</li>
+<li>Access to signing is gated by authentication and audit logging</li>
+<li>Key material survives host compromise (attacker gains shell access but cannot export the key)</li>
+</ul>
+<p>Implementations that cannot use an HSM SHOULD at minimum encrypt the key at rest and restrict
+file permissions to the gateway process user.</p>
+<h3 id="mitigation-2-xrpl-credential-based-gateway-authorization-should">Mitigation 2: XRPL Credential-Based Gateway Authorization (SHOULD)</h3>
+<p>For XRPL deployments, the PA SHOULD issue an on-chain credential to the gateway account using
+XLS-70 Credentials, binding the gateway's authorization to a verifiable on-chain attestation:</p>
+<ul>
+<li><code>Issuer</code> = PA's XRPL address</li>
+<li><code>Subject</code> = Gateway's XRPL address</li>
+<li><code>CredentialType</code> = hex-encoded <code>"mpcp:authorized-gateway"</code></li>
+<li>Optional <code>Expiration</code> aligned with the deployment lifecycle</li>
+</ul>
+<p><strong>On compromise:</strong> The PA deletes the gateway credential via <code>CredentialDelete</code>. Even though
+the attacker holds the seed, actors that verify the gateway's credential (other gateways,
+Permissioned Domains, monitoring systems) will see that the credential no longer exists and
+reject interactions with the compromised gateway.</p>
+<p>This does not prevent the attacker from submitting raw XRPL transactions (the seed still
+controls the account), but it invalidates the gateway's MPCP authorization — new PolicyGrants
+with <code>authorizedGateway</code> pointing to the compromised address will not be issued, and actors
+that check the credential will refuse to interact.</p>
+<h3 id="mitigation-3-on-chain-monitoring-and-alerting-should">Mitigation 3: On-Chain Monitoring and Alerting (SHOULD)</h3>
+<p>Gateway operators SHOULD monitor on-chain activity for anomalous payment patterns that may
+indicate seed compromise:</p>
+<ul>
+<li>XRPL payments from the gateway account that do not have a corresponding SBA in the gateway's
+  audit log</li>
+<li>Payments missing the <code>mpcp/grant-id</code> memo, or with memo values that do not match any known
+  active grant</li>
+<li>Sudden spikes in transaction volume or aggregate spend across grants</li>
+<li><code>EscrowFinish</code> transactions for grants that the gateway did not initiate</li>
+</ul>
+<p>When anomalies are detected, operators SHOULD:</p>
+<ol>
+<li>Revoke the gateway's on-chain credential (Mitigation 2)</li>
+<li>Revoke all active PolicyGrants that reference the compromised <code>authorizedGateway</code> address</li>
+<li>Rotate to a new gateway account and reissue grants</li>
+</ol>
+<h3 id="defense-in-depth-summary">Defense-in-Depth Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Mechanism</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prevention</td>
+<td>HSM / KMS</td>
+<td>Seed cannot be extracted from host</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>XRPL Credential</td>
+<td>PA can revoke gateway's on-chain authorization instantly</td>
+</tr>
+<tr>
+<td>Containment</td>
+<td>Per-grant escrow</td>
+<td>Each grant's exposure is bounded by its <code>budgetMinor</code></td>
+</tr>
+<tr>
+<td>Detection</td>
+<td>On-chain monitoring</td>
+<td>Unauthorized transactions are flagged for response</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2 id="see-also">See Also</h2>
 <ul>
 <li><a href="../../architecture/actors/">Actors</a> — Actor definitions including Trust Gateway</li>
 <li><a href="../PolicyGrant/">PolicyGrant</a> — PA-signed grant fields</li>
 <li><a href="../trust-bundles/">Trust Bundles</a> — Offline key distribution</li>
 <li><a href="../rails/">Rails</a> — Rail extensibility and escrow URI scheme</li>
+<li><a href="../key-resolution/#key-revocation">Key Revocation</a> — PA key revocation mechanisms</li>
 </ul>
 
 

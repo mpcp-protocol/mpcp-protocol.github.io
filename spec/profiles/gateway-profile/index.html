@@ -1831,6 +1831,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gateway-key-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway key protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#budget-owner-session-token-security" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2404,6 +2415,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gateway-key-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway key protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#budget-owner-session-token-security" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2747,6 +2769,16 @@ Content-Type: application/json
 <li>The gateway should publish its enforcement logic and be independently auditable</li>
 <li>Signed receipts allow budget owners to detect gateway misbehavior after the fact</li>
 <li>Level 1 passthrough headers allow budget owners to cryptographically verify what the gateway signed</li>
+</ul>
+<h3 id="gateway-key-protection">Gateway key protection</h3>
+<p>For native MPCP deployments, the Trust Gateway holds an XRPL private key that controls escrow
+and payment transactions. Compromise of this key allows an attacker to drain all active
+escrows. See <a href="../../protocol/trust-model/#gateway-seed-security">Gateway Seed Security</a> for
+the full threat analysis. Key recommendations:</p>
+<ul>
+<li>The gateway private key SHOULD be stored in an HSM or cloud KMS — never in plaintext on disk</li>
+<li>The PA SHOULD issue an XRPL Credential to the gateway account; on compromise, the PA deletes the credential to instantly revoke on-chain authorization</li>
+<li>Operators SHOULD monitor for on-chain payments without corresponding SBAs in the audit trail</li>
 </ul>
 <h3 id="budget-owner-session-token-security">Budget owner session token security</h3>
 <p>The <code>sessionToken</code> granted to an agent controls spending up to the session ceiling. It should be treated with the same care as a payment credential:</p>

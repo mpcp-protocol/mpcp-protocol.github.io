@@ -2198,6 +2198,10 @@ XRPL gateway seed and is the only entity that submits payment transactions on be
 self-report any budget ceiling. The gateway enforces the PA-signed limit independently — it never
 trusts the agent's view of remaining budget. Even if the gateway itself were compromised, the
 XRPL escrow provides an on-chain upper bound that the ledger enforces.</p>
+<p><strong>Key security:</strong> The gateway's XRPL private key SHOULD be stored in an HSM or KMS. The PA
+SHOULD issue an XRPL Credential to the gateway account (<code>CredentialType = hex("mpcp:authorized-gateway")</code>);
+on compromise, the PA deletes the credential to revoke the gateway's on-chain authorization.
+See <a href="../../protocol/trust-model/#gateway-seed-security">Gateway Seed Security</a>.</p>
 <p><strong>Required for:</strong> Online payments, budget enforcement, escrow create/cancel.</p>
 <p><strong>Optional for:</strong> Offline signature-only mode — merchants can accept payments without the gateway
 using Trust Bundle key verification + <code>offlineMaxSinglePayment</code> cap, accepting reduced guarantees
