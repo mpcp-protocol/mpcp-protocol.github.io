@@ -1891,10 +1891,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#mpcp-wallet-sdk-the-wallet-agent-sdk" class="md-nav__link">
+  <a href="#mpcp-gateway-client-the-agent-automation-sdk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        mpcp-wallet-sdk — the wallet / agent SDK
+        mpcp-gateway-client — the agent / automation SDK
       
     </span>
   </a>
@@ -1902,10 +1902,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#mpcp-merchant-sdk-the-merchant-service-provider-sdk" class="md-nav__link">
+  <a href="#archived-mpcp-wallet-sdk-and-mpcp-merchant-sdk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        mpcp-merchant-sdk — the merchant / service provider SDK
+        Archived: mpcp-wallet-sdk and mpcp-merchant-sdk
       
     </span>
   </a>
@@ -1952,10 +1952,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#for-merchant-and-service-provider-teams" class="md-nav__link">
+  <a href="#for-ai-agent-and-automation-developers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        For merchant and service provider teams
+        For AI agent and automation developers
       
     </span>
   </a>
@@ -1963,10 +1963,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#for-wallet-developers-and-ai-agent-platforms" class="md-nav__link">
+  <a href="#for-merchants-accepting-gateway-routed-payments" class="md-nav__link">
     <span class="md-ellipsis">
       
-        For wallet developers and AI agent platforms
+        For merchants accepting gateway-routed payments
       
     </span>
   </a>
@@ -2129,10 +2129,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#mpcp-wallet-sdk-the-wallet-agent-sdk" class="md-nav__link">
+  <a href="#mpcp-gateway-client-the-agent-automation-sdk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        mpcp-wallet-sdk — the wallet / agent SDK
+        mpcp-gateway-client — the agent / automation SDK
       
     </span>
   </a>
@@ -2140,10 +2140,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#mpcp-merchant-sdk-the-merchant-service-provider-sdk" class="md-nav__link">
+  <a href="#archived-mpcp-wallet-sdk-and-mpcp-merchant-sdk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        mpcp-merchant-sdk — the merchant / service provider SDK
+        Archived: mpcp-wallet-sdk and mpcp-merchant-sdk
       
     </span>
   </a>
@@ -2190,10 +2190,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#for-merchant-and-service-provider-teams" class="md-nav__link">
+  <a href="#for-ai-agent-and-automation-developers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        For merchant and service provider teams
+        For AI agent and automation developers
       
     </span>
   </a>
@@ -2201,10 +2201,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#for-wallet-developers-and-ai-agent-platforms" class="md-nav__link">
+  <a href="#for-merchants-accepting-gateway-routed-payments" class="md-nav__link">
     <span class="md-ellipsis">
       
-        For wallet developers and AI agent platforms
+        For merchants accepting gateway-routed payments
       
     </span>
   </a>
@@ -2274,20 +2274,20 @@
         │  PolicyGrant (signed artifact)
         ▼
   ┌─────────────────────────────┐
-  │   mpcp-wallet-sdk           │  Wallet / AI Agent
-  │   (machine wallet or agent) │  creates SBAs within grant bounds, tracks budget
+  │   mpcp-gateway-client       │  AI Agent / Automation
+  │   (session.fetch wrapper)   │  budget-bounded fetch; gateway handles MPCP internals
   └─────────────────────────────┘
         │
-        │  SignedBudgetAuthorization
+        │  POST /proxy (session token)
         ▼
   ┌─────────────────────────────┐
-  │   mpcp-merchant-sdk         │  Merchant / Service Provider
-  │   (Express/Fastify/Next.js) │  verifies full chain, checks revocation, records spend
+  │   mpcp-gateway              │  Trust Gateway
+  │   (session, x402, receipts) │  SBA signing, budget enforcement, x402 settlement
   └─────────────────────────────┘
         │
-        │  SBA → Trust Gateway
+        │  Payment + mpcp/grant-id memo
         ▼
-  XRPL Settlement  (Trust Gateway submits payment + mpcp/grant-id memo)
+  XRPL Settlement  (Trust Gateway submits payment)
 </code></pre></div>
 <p>The protocol spec and reference implementation sit underneath all of this — they define the artifact formats, verification rules, and canonical SDK that every layer depends on.</p>
 <hr />
@@ -2312,7 +2312,7 @@
 <td>mpcp-reference</td>
 <td>TypeScript reference implementation — canonical SDK, verifier, on-chain adapters, Trust Bundle</td>
 <td>All implementers (SDK dependency)</td>
-<td>Complete</td>
+<td>Complete (Phase 1–6)</td>
 </tr>
 <tr>
 <td>mpcp-policy-authority</td>
@@ -2321,28 +2321,28 @@
 <td>Complete</td>
 </tr>
 <tr>
-<td>mpcp-wallet-sdk</td>
-<td>Wallet SDK — <code>createSession</code>, SBA signing, budget tracking, revocation; Node.js</td>
-<td>Wallet developers, AI agent builders</td>
-<td>Complete (Node.js)</td>
-</tr>
-<tr>
-<td>mpcp-merchant-sdk</td>
-<td>Merchant SDK — SBA verification middleware for Express, Fastify, Next.js, Edge; Trust Bundle key resolution</td>
-<td>Merchant and service provider backends</td>
-<td>Complete</td>
-</tr>
-<tr>
 <td>mpcp-gateway</td>
 <td>Transparent payment gateway — x402 interception, session budgets, policy controls, signed receipts, soft limits</td>
-<td>Operators bridging non-MPCP agents</td>
+<td>Gateway operators</td>
 <td>Complete (P1–P10)</td>
 </tr>
 <tr>
 <td>mpcp-gateway-client</td>
-<td>Agent-side gateway client — <code>GatewayClient</code>, <code>session.fetch()</code>, framework adapters</td>
+<td>Agent-side gateway client — <code>GatewayClient</code>, <code>session.fetch()</code>, framework adapters, receipts, Trust Bundle</td>
 <td>AI agent and automation developers</td>
-<td>Active (P1–P3)</td>
+<td>Complete (P1–P6)</td>
+</tr>
+<tr>
+<td>mpcp-wallet-sdk</td>
+<td>~~Wallet SDK~~ — archived; superseded by <code>mpcp-gateway-client</code></td>
+<td>Legacy</td>
+<td>Archived</td>
+</tr>
+<tr>
+<td>mpcp-merchant-sdk</td>
+<td>~~Merchant SDK~~ — archived; superseded by gateway enforcement + <code>mpcp-service</code></td>
+<td>Legacy</td>
+<td>Archived</td>
 </tr>
 </tbody>
 </table>
@@ -2364,24 +2364,24 @@
 <td>Policy Authority service, revocation endpoint</td>
 </tr>
 <tr>
-<td><strong>Vehicle Wallet / AI Agent (native MPCP)</strong></td>
-<td><code>mpcp-wallet-sdk</code></td>
-<td>SBA signing keys, session state</td>
-</tr>
-<tr>
-<td><strong>AI Agent (gateway path)</strong></td>
+<td><strong>AI Agent / Automation</strong></td>
 <td><code>mpcp-gateway-client</code></td>
 <td>— (delegates all crypto to the gateway)</td>
-</tr>
-<tr>
-<td><strong>Merchant / Service Provider</strong></td>
-<td><code>mpcp-merchant-sdk</code></td>
-<td>Verification middleware</td>
 </tr>
 <tr>
 <td><strong>Gateway operator</strong></td>
 <td><code>mpcp-gateway</code></td>
 <td>Session store, x402 proxy, payment rail</td>
+</tr>
+<tr>
+<td><strong>Merchant / Service Provider</strong></td>
+<td>Gateway enforcement (Trust Bundle + <code>X-Mpcp-Sba</code>)</td>
+<td>Verification via gateway-signed artifacts</td>
+</tr>
+<tr>
+<td><strong>Embedded / Offline verifier</strong></td>
+<td><code>mpcp-reference</code> verifier + Trust Bundles</td>
+<td>Local signature verification</td>
 </tr>
 <tr>
 <td><strong>Auditor / Verifier</strong></td>
@@ -2406,7 +2406,7 @@
 <li>Revocation utilities: <code>checkRevocation</code></li>
 <li>Schemas and canonical JSON hashing</li>
 </ul>
-<p><code>mpcp-reference</code> is a low-level library — it requires protocol knowledge to use directly. The wallet and merchant SDKs are opinionated layers on top of it for specific deployment contexts.</p>
+<p><code>mpcp-reference</code> is a low-level library — it requires protocol knowledge to use directly. <code>mpcp-gateway-client</code> provides a high-level agent-facing API on top of the gateway, which in turn uses <code>mpcp-reference</code> server-side.</p>
 <hr />
 <h3 id="mpcp-policy-authority-the-policy-authority-service">mpcp-policy-authority — the Policy Authority service</h3>
 <p>The production Policy Authority is the trust anchor for a deployment. It:</p>
@@ -2419,27 +2419,26 @@
 <p>For many deployments the policy authority will be embedded directly in an existing platform (an AI agent platform, an enterprise IAM system, a crypto wallet provider) rather than deployed as a standalone service. The <code>mpcp-policy-authority</code> repository is a ready-to-deploy reference implementation of this role.</p>
 <p>See the <a href="../roadmap/">Ecosystem Roadmap</a> for the full development plan.</p>
 <hr />
-<h3 id="mpcp-wallet-sdk-the-wallet-agent-sdk">mpcp-wallet-sdk — the wallet / agent SDK</h3>
-<p>The wallet SDK is the integration point for <strong>any actor that creates SBAs</strong> — machine wallets in vehicles, AI agents operating on behalf of humans, or enterprise automation systems. It provides:</p>
+<h3 id="mpcp-gateway-client-the-agent-automation-sdk">mpcp-gateway-client — the agent / automation SDK</h3>
+<p>The gateway client is the integration point for <strong>any agent or automation that makes payments through the Trust Gateway</strong>. It provides:</p>
 <ul>
-<li><strong>PolicyGrant display</strong> — parse a received grant into human- or agent-readable form</li>
-<li><strong>SBA creation and signing</strong> — <code>createSession(grant, signingKey)</code> → signs SBAs within authorized scope</li>
-<li><strong>Budget enforcement</strong> — tracks cumulative spend, rejects requests that would exceed the grant ceiling</li>
-<li><strong>Revocation</strong> — checks XRPL active-grant credential when <code>activeGrantCredentialIssuer</code> is set (conforming grants omit <code>revocationEndpoint</code>)</li>
-<li><strong>Persistence</strong> — pluggable storage adapters (in-memory, localStorage, React Native AsyncStorage)</li>
-<li><strong>Platform support</strong> — browser bundle (Web Crypto API), React Native, Node.js</li>
+<li><strong>Session lifecycle</strong> — <code>createSession(config)</code> → <code>GatewaySession</code> with budget, purposes, expiry</li>
+<li><strong>Drop-in fetch</strong> — <code>session.fetch(url)</code> proxies requests through the gateway; x402 settlement is automatic</li>
+<li><strong>Soft-limit continuation</strong> — <code>onSoftLimit</code> callback lets the user approve budget increases mid-session</li>
+<li><strong>Framework adapters</strong> — LangChain <code>GatewayFetchTool</code>, Vercel AI SDK <code>gatewayFetchTool</code>, generic function-calling <code>gatewayFetchFn</code></li>
+<li><strong>React hooks</strong> — <code>usePolicyGrant</code>, <code>useGatewaySession</code> for browser-based agent UIs</li>
+<li><strong>Receipts + audit</strong> — <code>getReceipts()</code>, <code>verifyReceipt()</code> (Ed25519), <code>fetchGatewayKeys()</code></li>
+<li><strong>Trust Bundle</strong> — <code>fetchGatewayTrustBundle()</code> for <code>mpcp-service</code> verifier integration</li>
 </ul>
-<p><strong>Not in scope</strong>: UI components, key generation and custody (both are platform-specific concerns). The SDK operates on keys provided by the host application.</p>
+<p><strong>Zero runtime dependencies.</strong> Pure <code>fetch</code>; works in Node.js 18+, browsers, and edge runtimes.</p>
 <hr />
-<h3 id="mpcp-merchant-sdk-the-merchant-service-provider-sdk">mpcp-merchant-sdk — the merchant / service provider SDK</h3>
-<p>The merchant SDK is the integration point for <strong>any actor that accepts MPCP-authorized payments</strong>. It provides:</p>
+<h3 id="archived-mpcp-wallet-sdk-and-mpcp-merchant-sdk">Archived: mpcp-wallet-sdk and mpcp-merchant-sdk</h3>
+<p>These SDKs are <strong>archived</strong> (read-only) as of MPCP v1.0 ecosystem consolidation:</p>
 <ul>
-<li><strong>Verification middleware</strong> for Express, Fastify, and Next.js (Edge compatible) — attaches a verified <code>mpcp</code> object to the request; returns structured 402 on failure</li>
-<li><strong>Revocation checking with caching</strong> — automatic HTTP + optional on-chain check; configurable TTL to avoid per-transaction latency</li>
-<li><strong>Spend tracking</strong> — enforces cumulative grant ceiling; idempotency key support for payment deduplication</li>
-<li><strong>Event hooks</strong> — <code>payment.authorized</code>, <code>payment.rejected</code>, <code>grant.revoked</code> events for webhook dispatch and audit systems</li>
+<li><strong><code>mpcp-wallet-sdk</code></strong> — superseded by <code>mpcp-gateway-client</code>. New agent code should use <code>GatewayClient</code> / <code>session.fetch()</code> instead of embedding <code>@mpcp/agent</code> signing or duplicate grant logic. The gateway handles SBA issuance, budget enforcement, and revocation server-side.</li>
+<li><strong><code>mpcp-merchant-sdk</code></strong> — superseded by gateway enforcement. Production merchants verify gateway-issued authorization (<code>X-Mpcp-Sba</code>, receipts, Trust Bundle). For custom standalone verifiers, use <code>mpcp-service</code> primitives directly.</li>
 </ul>
-<p>The merchant SDK wraps <code>mpcp-reference</code> verification — it does not reimplement protocol logic.</p>
+<p>Existing published npm versions continue to resolve; no new features will be added.</p>
 <hr />
 <h2 id="integration-flow">Integration flow</h2>
 <p>The end-to-end flow across all components:</p>
@@ -2448,21 +2447,19 @@
    POST /grants          { policyHash, ... }  → SignedPolicyGrant
         (optional: anchor policy hash on Hedera HCS; XRPL grant liveness via XLS-70 Credentials)
 
-2. WALLET / AGENT  (mpcp-wallet-sdk)
-   parseGrant(signedGrant)                    → display / consent prompt
-   createSession(grant, actorId, signingKey)  → Session
-   session.createSba(amount, currency)        → SignedBudgetAuthorization
+2. AGENT  (mpcp-gateway-client)
+   gw.createSession({ budget, purposes, expiresAt })  → GatewaySession
+   session.fetch(url, { purpose })                     → merchant response
+        internally: gateway issues SBA, enforces budget, handles x402
 
-3. MERCHANT  (mpcp-merchant-sdk)
-   mpcp()(req, res, next)                     → req.mpcp = { valid, grant, amount }
-        internally: verifyPolicyGrant
-                  + verifySba
-                  + checkRevocation (cached)
-                  + trackSpend
+3. TRUST GATEWAY  (mpcp-gateway)
+   Session budget/purpose/velocity checks
+   x402 interception → XRPL Payment submitted with mpcp/grant-id memo
+   Signed receipt returned
 
-4. TRUST GATEWAY  (mpcp-gateway)
-   SBA verified → XRPL Payment submitted with mpcp/grant-id memo
-   txHash returned as settlement receipt
+4. MERCHANT
+   Receives payment via standard x402 or gateway-signed SBA
+   Verifies via Trust Bundle (GET /.well-known/mpcp-trust-bundle.json)
 </code></pre></div>
 <hr />
 <h2 id="what-protocol-neutral-means-in-practice">What "protocol neutral" means in practice</h2>
@@ -2475,24 +2472,34 @@
 <p>This means each SDK has an adapters layer for the platform-specific concerns, while the protocol core remains stable.</p>
 <hr />
 <h2 id="adoption-paths">Adoption paths</h2>
-<h3 id="for-merchant-and-service-provider-teams">For merchant and service provider teams</h3>
+<h3 id="for-ai-agent-and-automation-developers">For AI agent and automation developers</h3>
 <ol>
-<li>Install <code>mpcp-merchant-sdk</code></li>
-<li>Add the middleware: <code>app.use(mpcp({ revocationTtl: 60 }))</code></li>
-<li>Read <code>req.mpcp.grant</code> to get the authorized scope; <code>req.mpcp.amount</code> to confirm payment bounds</li>
-<li>Existing revocation, spend tracking, and settlement recording are handled by the SDK</li>
+<li>Install <code>mpcp-gateway-client</code></li>
+<li>Create a <code>GatewayClient</code> with your gateway URL and API key</li>
+<li>Call <code>gw.createSession({ budget, purposes, expiresAt })</code> to open a bounded session</li>
+<li>Use <code>session.fetch(url)</code> wherever your agent makes paid requests — payments happen automatically</li>
 </ol>
-<p>Estimated integration: a few hours for a standard Express or Fastify backend.</p>
+<p>Estimated integration: minutes. No MPCP protocol knowledge required.</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">GatewayClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;mpcp-gateway-client&quot;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">gw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">GatewayClient</span><span class="p">({</span><span class="w"> </span><span class="nx">gatewayUrl</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;https://gw.example.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">});</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">gw</span><span class="p">.</span><span class="nx">createSession</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">budget</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;80000&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">currency</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;USD&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">purposes</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;travel:hotel&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;travel:flight&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nx">expiresAt</span><span class="o">:</span><span class="w"> </span><span class="kt">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">86</span><span class="nx">_400_000</span><span class="p">).</span><span class="nx">toISOString</span><span class="p">(),</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="s2">&quot;https://api.hotel.com/book&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="kt">JSON.stringify</span><span class="p">({</span><span class="w"> </span><span class="nx">room</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;deluxe&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">nights</span><span class="o">:</span><span class="w"> </span><span class="kt">2</span><span class="w"> </span><span class="p">}),</span>
+<span class="p">});</span>
+</code></pre></div>
 <hr />
-<h3 id="for-wallet-developers-and-ai-agent-platforms">For wallet developers and AI agent platforms</h3>
-<ol>
-<li>Install <code>mpcp-wallet-sdk</code></li>
-<li>Receive a <code>PolicyGrant</code> from the policy authority (delivered out-of-band — via API, QR, deep link)</li>
-<li>Call <code>parseGrant(grant)</code> to display scope and bounds to the user or agent</li>
-<li>Call <code>createSession(grant, actorId, signingKey)</code> to open a payment session</li>
-<li>Call <code>session.createSba(amount, currency)</code> for each transaction — SDK enforces budget and revocation automatically</li>
-</ol>
-<p>Estimated integration: a few hours for a standard agent that already holds signing keys.</p>
+<h3 id="for-merchants-accepting-gateway-routed-payments">For merchants accepting gateway-routed payments</h3>
+<p>Merchants receiving payments via the Trust Gateway need no MPCP SDK. The gateway handles x402 settlement. For independent SBA verification, fetch the gateway's Trust Bundle:</p>
+<div class="highlight"><pre><span></span><code>GET https://gw.example.com/.well-known/mpcp-trust-bundle.json
+</code></pre></div>
+<p>Pass it to <code>mpcp-service</code> verifiers (<code>verifyMpcp</code>, <code>verifyBudgetAuthorization</code>) as <code>{ trustBundles: [bundle] }</code>.</p>
 <hr />
 <h3 id="for-operators-building-a-policy-authority">For operators building a Policy Authority</h3>
 <p>Deploy <code>mpcp-policy-authority</code> as a service (Docker Compose, one command) or integrate <code>mpcp-reference</code> SDK primitives directly into an existing backend. See the <a href="../guides/integration-guide/">Integration Guide</a> for setup details.</p>
@@ -2514,23 +2521,13 @@
 </tr>
 <tr>
 <td><code>mpcp-reference</code></td>
-<td>Complete</td>
-<td>Canonical SDK, verifier, Trust Bundle, on-chain adapters</td>
+<td>Complete (Phase 1–6)</td>
+<td>Canonical SDK, verifier, Trust Bundle, on-chain adapters, conformance badge</td>
 </tr>
 <tr>
 <td><code>mpcp-policy-authority</code></td>
 <td>Complete</td>
 <td>Grant issuance, revocation, Trust Bundle issuance, audit log</td>
-</tr>
-<tr>
-<td><code>mpcp-wallet-sdk</code></td>
-<td>Complete (Node.js)</td>
-<td><code>createSession</code>, SBA signing, budget enforcement, SQLite persistence</td>
-</tr>
-<tr>
-<td><code>mpcp-merchant-sdk</code></td>
-<td>Complete</td>
-<td>Express / Fastify / Next.js / Edge adapters; Trust Bundle key resolution</td>
 </tr>
 <tr>
 <td><code>mpcp-gateway</code></td>
@@ -2539,8 +2536,18 @@
 </tr>
 <tr>
 <td><code>mpcp-gateway-client</code></td>
-<td>Active — P1</td>
-<td>Core client in progress; P2–P4 planned</td>
+<td>Complete (P1–P6)</td>
+<td>Core client, soft limits, framework adapters, React hooks, receipts, Trust Bundle</td>
+</tr>
+<tr>
+<td><code>mpcp-wallet-sdk</code></td>
+<td>Archived</td>
+<td>Superseded by <code>mpcp-gateway-client</code></td>
+</tr>
+<tr>
+<td><code>mpcp-merchant-sdk</code></td>
+<td>Archived</td>
+<td>Superseded by gateway enforcement + <code>mpcp-service</code></td>
 </tr>
 </tbody>
 </table>
