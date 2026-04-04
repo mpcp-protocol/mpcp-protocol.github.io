@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Machine Payment Control Protocol (MPCP)</title>
-  <meta name="description" content="The authorization layer for machine commerce. Verifiable machine-to-service payments with bounded authorization, deterministic verification, and multi-rail settlement.">
+  <meta name="description" content="The authorization layer for machine commerce. Verifiable machine-to-service payments with bounded authorization, deterministic verification, and XRPL settlement.">
   <meta property="og:title" content="Machine Payment Control Protocol (MPCP)">
-  <meta property="og:description" content="The authorization layer for machine commerce. Bounded authorization, deterministic verification, multi-rail settlement.">
+  <meta property="og:description" content="The authorization layer for machine commerce. Bounded authorization, deterministic verification, XRPL settlement.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mpcp-protocol.github.io/">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Machine Payment Control Protocol (MPCP)">
-  <meta name="twitter:description" content="The authorization layer for machine commerce. Bounded authorization, deterministic verification, multi-rail settlement.">
+  <meta name="twitter:description" content="The authorization layer for machine commerce. Bounded authorization, deterministic verification, XRPL settlement.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -315,8 +315,8 @@
       <line x1="675" y1="315" x2="675" y2="355" class="arrow"/>
 
       <rect x="560" y="355" width="230" height="55" class="box" style="stroke:#a78bfa"/>
-      <text x="675" y="379" class="label">Settlement</text>
-      <text x="675" y="397" class="sub-label">XRPL, EVM, Stripe, x402</text>
+      <text x="675" y="379" class="label">XRPL Settlement</text>
+      <text x="675" y="397" class="sub-label">RLUSD, XRP, IOU — txHash receipt</text>
     </svg>
   </section>
 
@@ -328,7 +328,7 @@
 
     <section>
       <h2>How MPCP works</h2>
-      <p>A Policy Authority issues a signed PolicyGrant that defines what a machine can spend — rails, purposes, destinations, and budget ceiling. The machine's wallet signs a per-payment SBA within those bounds. A Trust Gateway verifies the full chain before executing settlement.</p>
+      <p>A Policy Authority issues a signed PolicyGrant that defines what a machine can spend — purposes, destinations, and budget ceiling. The machine's wallet signs a per-payment SBA within those bounds. A Trust Gateway verifies the full chain before submitting the XRPL transaction.</p>
       <p><strong>MPCP is to machine payments what OAuth is to API authorization.</strong></p>
       <a href="/spec/architecture/fleet-ev-reference-flow/" class="dive-in">View the Fleet-EV reference flow →</a>
       <a href="/spec/architecture/human-agent-reference-flow/" class="dive-in">View the Human-Agent reference flow →</a>
@@ -339,7 +339,7 @@
       <ul class="bullets">
         <li><strong>Bounded authorization</strong> — Pre-authorized budgets with purpose, destination, and rail constraints</li>
         <li><strong>Deterministic verification</strong> — Every settlement verifiable against the signed authorization chain</li>
-        <li><strong>Multi-rail</strong> — XRPL, EVM, Stripe, x402 — policies specify which rails are permitted</li>
+        <li><strong>XRPL-native</strong> — Settles on the XRP Ledger; <code>allowedRails: ["xrpl"]</code> is the conformance requirement</li>
         <li><strong>Gateway enforcement</strong> — Trust Gateway validates the full chain before settlement executes</li>
         <li><strong>Offline-capable</strong> — Pre-loaded grants and Trust Bundles enable payments without connectivity</li>
         <li><strong>Policy-first</strong> — All spending derives from PA-signed PolicyGrants with explicit constraints</li>
