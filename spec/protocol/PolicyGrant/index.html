@@ -3726,7 +3726,7 @@ signature = sign(hash, policyAuthorityPrivateKey)
 <hr />
 <h2 id="policy-document-anchoring">Policy Document Anchoring</h2>
 <p>The <code>anchorRef</code> field is an optional pointer to an on-chain record of the policy document that
-produced this grant. Two formats are supported:</p>
+produced this grant. The conforming format is:</p>
 <div class="highlight"><pre><span></span><code>&quot;hcs:{topicId}:{sequenceNumber}&quot;   — Hedera Consensus Service message
 </code></pre></div>
 <p><strong>Verifier behavior:</strong> The MPCP verifier passes <code>anchorRef</code> through without enforcement. It is
