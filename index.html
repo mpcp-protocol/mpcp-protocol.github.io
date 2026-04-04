@@ -4,7 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Machine Payment Control Protocol (MPCP)</title>
-  <meta name="description" content="The authorization layer for machine commerce. Verifiable machine-to-service payments. Bounded authorization, deterministic verification, settlement-agnostic.">
+  <meta name="description" content="The authorization layer for machine commerce. Verifiable machine-to-service payments with bounded authorization, deterministic verification, and XRPL settlement.">
+  <meta property="og:title" content="Machine Payment Control Protocol (MPCP)">
+  <meta property="og:description" content="The authorization layer for machine commerce. Bounded authorization, deterministic verification, XRPL settlement.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mpcp-protocol.github.io/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Machine Payment Control Protocol (MPCP)">
+  <meta name="twitter:description" content="The authorization layer for machine commerce. Bounded authorization, deterministic verification, XRPL settlement.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -199,13 +206,14 @@
     }
 
     .cta {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 1rem;
       margin-top: 2rem;
       padding-top: 2rem;
       border-top: 1px solid var(--border);
     }
+    @media (max-width: 520px) { .cta { grid-template-columns: 1fr; } }
     .cta a {
       display: flex;
       flex-direction: column;
@@ -218,7 +226,6 @@
       color: var(--text);
       font-weight: 500;
       transition: border-color 0.2s, background 0.2s;
-      min-width: 200px;
     }
     .cta a:hover {
       border-color: var(--accent);
@@ -252,16 +259,17 @@
   </nav>
 
   <header>
-    <span class="badge">Protocol v1.0</span>
+    <span class="badge">Open Protocol</span>
     <h1>Machine Payment Control Protocol (MPCP)</h1>
     <p class="tagline">The authorization layer for machine commerce.</p>
   </header>
   <section class="diagram">
-    <svg viewBox="0 0 900 420" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="diagram-title">
+    <svg viewBox="0 0 900 500" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="diagram-title">
       <title id="diagram-title">MPCP authorization chain vs traditional payment flow</title>
       <style>
         .box { fill:#1a2332; stroke:#2d3a4d; stroke-width:1.5; rx:10; }
         .label { fill:#e6edf3; font-family:'DM Sans',sans-serif; font-size:14px; text-anchor:middle; }
+        .sub-label { fill:#8b9cb7; font-family:'DM Sans',sans-serif; font-size:11px; text-anchor:middle; }
         .title { fill:#8b9cb7; font-size:13px; }
         .arrow { stroke:#58a6ff; stroke-width:2; marker-end:url(#arrowhead); }
       </style>
@@ -283,28 +291,32 @@
       <text x="225" y="217" class="label">Payment executed</text>
 
       <!-- Divider -->
-      <line x1="450" y1="60" x2="450" y2="360" stroke="#2d3a4d"/>
+      <line x1="450" y1="60" x2="450" y2="440" stroke="#2d3a4d"/>
 
       <!-- MPCP -->
       <text x="675" y="40" class="label title">MPCP authorization chain</text>
 
-      <rect x="560" y="70" width="230" height="45" class="box"/>
-      <text x="675" y="98" class="label">Policy</text>
+      <rect x="560" y="70" width="230" height="55" class="box"/>
+      <text x="675" y="94" class="label">PolicyGrant</text>
+      <text x="675" y="112" class="sub-label">rails, purposes, budget, expiry</text>
 
-      <line x1="675" y1="115" x2="675" y2="155" class="arrow"/>
+      <line x1="675" y1="125" x2="675" y2="165" class="arrow"/>
 
-      <rect x="560" y="155" width="230" height="45" class="box"/>
-      <text x="675" y="183" class="label">Budget Authorization</text>
+      <rect x="560" y="165" width="230" height="55" class="box"/>
+      <text x="675" y="189" class="label">Signed Budget Auth (SBA)</text>
+      <text x="675" y="207" class="sub-label">per-payment budget + destination</text>
 
-      <line x1="675" y1="200" x2="675" y2="240" class="arrow"/>
+      <line x1="675" y1="220" x2="675" y2="260" class="arrow"/>
 
-      <rect x="560" y="240" width="230" height="45" class="box"/>
-      <text x="675" y="268" class="label">Trust Gateway</text>
+      <rect x="560" y="260" width="230" height="55" class="box" style="stroke:#2dd4bf"/>
+      <text x="675" y="284" class="label">Trust Gateway</text>
+      <text x="675" y="302" class="sub-label">verifies chain, enforces policy</text>
 
-      <line x1="675" y1="285" x2="675" y2="325" class="arrow"/>
+      <line x1="675" y1="315" x2="675" y2="355" class="arrow"/>
 
-      <rect x="560" y="325" width="230" height="45" class="box"/>
-      <text x="675" y="353" class="label">Settlement</text>
+      <rect x="560" y="355" width="230" height="55" class="box" style="stroke:#a78bfa"/>
+      <text x="675" y="379" class="label">XRPL Settlement</text>
+      <text x="675" y="397" class="sub-label">RLUSD, XRP, IOU — txHash receipt</text>
     </svg>
   </section>
 
@@ -316,7 +328,7 @@
 
     <section>
       <h2>How MPCP works</h2>
-      <p>A payment is accepted only if the recipient can verify a chain of signed artifacts. Each step narrows what the machine is allowed to do. As shown above, MPCP flows from policy through budget and payment authorization to settlement.</p>
+      <p>A Policy Authority issues a signed PolicyGrant that defines what a machine can spend — purposes, destinations, and budget ceiling. The machine's wallet signs a per-payment SBA within those bounds. A Trust Gateway verifies the full chain before submitting the XRPL transaction.</p>
       <p><strong>MPCP is to machine payments what OAuth is to API authorization.</strong></p>
       <a href="/spec/architecture/fleet-ev-reference-flow/" class="dive-in">View the Fleet-EV reference flow →</a>
       <a href="/spec/architecture/human-agent-reference-flow/" class="dive-in">View the Human-Agent reference flow →</a>
@@ -325,11 +337,12 @@
     <section>
       <h2>Key characteristics</h2>
       <ul class="bullets">
-        <li><strong>Bounded authorization</strong> — Pre-authorized budgets, not per-transaction approval</li>
-        <li><strong>Deterministic verification</strong> — Every settlement verifiable against the authorization chain</li>
-        <li><strong>Settlement-agnostic</strong> — Works with XRPL, EVM, Stripe, hosted providers</li>
-        <li><strong>Offline-capable</strong> — Payments can complete when the network is unavailable</li>
-        <li><strong>Policy-first</strong> — All spending derives from explicit policy rules</li>
+        <li><strong>Bounded authorization</strong> — Pre-authorized budgets with purpose, destination, and rail constraints</li>
+        <li><strong>Deterministic verification</strong> — Every settlement verifiable against the signed authorization chain</li>
+        <li><strong>XRPL-native</strong> — Settles on the XRP Ledger; <code>allowedRails: ["xrpl"]</code> is the conformance requirement</li>
+        <li><strong>Gateway enforcement</strong> — Trust Gateway validates the full chain before settlement executes</li>
+        <li><strong>Offline-capable</strong> — Pre-loaded grants and Trust Bundles enable payments without connectivity</li>
+        <li><strong>Policy-first</strong> — All spending derives from PA-signed PolicyGrants with explicit constraints</li>
       </ul>
     </section>
 
@@ -338,11 +351,19 @@
       <div class="cta">
         <a href="/spec/" class="spec">
           <strong>Specification</strong>
-          <span>Protocol, architecture, artifacts, guides</span>
+          <span>Protocol, architecture, artifacts, security</span>
         </a>
         <a href="/reference/" class="ref">
-          <strong>Reference implementation</strong>
-          <span>SDK, verifier, CLI, examples</span>
+          <strong>Reference SDK</strong>
+          <span>Create and verify PolicyGrants, SBAs, Trust Bundles</span>
+        </a>
+        <a href="https://github.com/mpcp-protocol/mpcp-gateway">
+          <strong>Trust Gateway</strong>
+          <span>Budget enforcement, x402, signed receipts</span>
+        </a>
+        <a href="https://github.com/mpcp-protocol/mpcp-wallet-sdk">
+          <strong>Wallet SDK</strong>
+          <span>Agent wallet, React hooks, session management</span>
         </a>
       </div>
     </section>
@@ -350,8 +371,10 @@
 
   <footer>
     <a href="https://github.com/mpcp-protocol">GitHub</a> · 
-    <a href="https://github.com/mpcp-protocol/mpcp-spec">mpcp-spec</a> · 
-    <a href="https://github.com/mpcp-protocol/mpcp-reference">mpcp-reference</a>
+    <a href="https://github.com/mpcp-protocol/mpcp-spec">Spec</a> · 
+    <a href="https://github.com/mpcp-protocol/mpcp-reference">Reference</a> · 
+    <a href="https://github.com/mpcp-protocol/mpcp-gateway">Gateway</a> · 
+    <a href="https://github.com/mpcp-protocol/mpcp-wallet-sdk">Wallet SDK</a>
   </footer>
 </body>
 </html>
